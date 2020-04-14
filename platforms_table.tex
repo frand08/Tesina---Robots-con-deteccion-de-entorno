@@ -1,0 +1,25 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}|c|c|c|c|c|c|c|@{}}
+\toprule
+\textbf{Plataforma} & \textbf{Procesador} & \textbf{Sensores} & \textbf{\begin{tabular}[c]{@{}c@{}}Interfaces /\\ Conectividad\end{tabular}} & \textbf{Redundancia} & \textbf{\begin{tabular}[c]{@{}c@{}}Dimensiones \\ (mm)\end{tabular}} & \textbf{Peso (g)} \\ \midrule
+Phoenix Pro & \begin{tabular}[c]{@{}c@{}}Xilinx Zynq\\ 7020\end{tabular} & \begin{tabular}[c]{@{}c@{}}Acelerometro,\\ giroscopo,\\ barómetro,\\ GPS\end{tabular} & \begin{tabular}[c]{@{}c@{}}USB, UART, I2C,\\ CAN, SPI, miniHDMI,\\ Camera Link, LVDS,\\ PWM, telemetria\end{tabular} & - & 73,8*55,8*18 & 64 \\ \midrule
+OcPoc & \begin{tabular}[c]{@{}c@{}}Xilinx Zynq\\ Z-7010\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF\\ (MPU9250),\\ Barometro\\ (MS5611)\end{tabular} & \begin{tabular}[c]{@{}c@{}}I2C, USB-OTG,\\ USB-UART, SPI, \\ CSI, GSI, CAN, \\ ADC, PWM\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU\\ (MPU9250)\end{tabular} & 92*64*21 & 70 \\ \midrule
+PIXHAWK & \begin{tabular}[c]{@{}c@{}}ARM\\ Cortex-M4F\end{tabular} & \begin{tabular}[c]{@{}c@{}}Giroscopo\\ (L3GD20H),\\ acelerometro /\\ magnetometro\\ (LSM303D),\\ barometro\\ (MS5611)\end{tabular} & \begin{tabular}[c]{@{}c@{}}UART, CAN, I2C,\\ SPI, ADC, PWM\end{tabular} & \begin{tabular}[c]{@{}c@{}}Giroscopo /\\ acelerometro \\ (MPU6000)\end{tabular} & 50*15,5*81,5 & 38 \\ \midrule
+PIXHAWK2 & \begin{tabular}[c]{@{}c@{}}ARM\\ Cortex-M4F\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF\\ (MPU9250 /\\ ICM20948 /\\ ICM20648 /\\ L3GD20 +\\ LSM303D), \\ Barometro\\ (MS5611)\end{tabular} & \begin{tabular}[c]{@{}c@{}}S.Bus, I2C, SPI, \\ CAN, Carrier board \\ para Intel\\ Edison, ADC, \\ PWM\end{tabular} & \begin{tabular}[c]{@{}c@{}}2x IMU \\ (MPU9250),\\ Barometro\\ (MS5611)\end{tabular} & \begin{tabular}[c]{@{}c@{}}50*15,5*81,6\\ +35*35 (Cube)\end{tabular} & - \\ \midrule
+FlightCtrl V3.0 & \begin{tabular}[c]{@{}c@{}}ARM\\ Cortex-M4F\end{tabular} & \begin{tabular}[c]{@{}c@{}}Giroscopo,\\ magnetometro,\\ acelerometro,\\ barometro, GPS\end{tabular} & \begin{tabular}[c]{@{}c@{}}UART, I2C, SPI, \\ ADC, PWM, S.Bus, \\ CAN, telemetria\end{tabular} & - & 67*67*- & 32 \\ \midrule
+Paparazzi & STM32F767 & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF\\ (MPU9250),\\ Barometro\\ (MS5611),\\ Sensor de \\ presion\\ (MS4525DO)\end{tabular} & \begin{tabular}[c]{@{}c@{}}UART, I2C, SPI, \\ CAN, USB, PWM,\\ PPM/S.Bus\end{tabular} & - & 89*60*- & - \\ \midrule
+CC3D/Atom & STM32F & \begin{tabular}[c]{@{}c@{}}Giroscopio /\\ acelerometro \\ (MPU6000)\end{tabular} & \begin{tabular}[c]{@{}c@{}}UART, I2C,\\ S.Bus/PPM, PWM\end{tabular} & - & \begin{tabular}[c]{@{}c@{}}36*36*-(CC3D)\\ 15*7*- (Atom)\end{tabular} & \begin{tabular}[c]{@{}c@{}}8 (CC3D)\\ 4 (Atom)\end{tabular} \\ \midrule
+APM & ATMEGA2560 & \begin{tabular}[c]{@{}c@{}}Giroscopo /\\ acelerometro \\ (MPU6000),\\ barometro(MS5611), \\ GPS\end{tabular} & \begin{tabular}[c]{@{}c@{}}I2C, PWM, UART, \\ OSD, telemetria\end{tabular} & - & 142*96*18 & 55 \\ \midrule
+FlyMaple & STM32F103 & \begin{tabular}[c]{@{}c@{}}Giroscopo\\ (ITG-3200),\\ acelerometro\\ (ADXL345),\\ magnetometro\\ (HMC5883L),\\ barometro\\ (BMP085), GPS\end{tabular} & \begin{tabular}[c]{@{}c@{}}PWM, USB, UART, \\ I2C, ADC\end{tabular} & - & 50*50*12 & 15 \\ \midrule
+Erle-Brain 3 & \begin{tabular}[c]{@{}c@{}}ARMv8\\ Quad-Core\\ (Raspberry PI 3)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Giroscopo,\\ magnetometro,\\ acelerometro,\\ barometro, GPS,temperatura\end{tabular} & \begin{tabular}[c]{@{}c@{}}I2C, UART, USB, \\ HDMI, Ethernet, PWM, \\ PPM/S.Bus,ADC, \\ Bluetooth, Audio Jack\end{tabular} & - & 95*70*23,8 & 100 \\ \midrule
+NAVIO2 & \begin{tabular}[c]{@{}c@{}}ARMv8\\ Quad-Core\\ (Raspberry PI 3)\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF \\ (MPU9250), \\ barometro, \\ GPS, RC I/O\end{tabular} & \begin{tabular}[c]{@{}c@{}}I2C, UART,\\ PWM, S.Bus\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF\\ (LSM9DS1)\end{tabular} & 55*65*- (shield) & 23 (shield) \\ \midrule
+Snapdragon & \begin{tabular}[c]{@{}c@{}}Snapdragon\\ 801\end{tabular} & \begin{tabular}[c]{@{}c@{}}IMU 9 DOF\\ (MPU9250),\\ barometro\\ (BMP280),\\ optical flow\\ (OV7251), GPS\end{tabular} & \begin{tabular}[c]{@{}c@{}}Wifi, USB, PWM, \\ UART, I2C\end{tabular} & - & 68*52*- & - \\ \bottomrule
+\end{tabular}%
+}
+\caption{Comparativa entre distintas plataformas disponibles}
+\label{tab:plataformas}
+\end{table}
