@@ -1,7 +1,5 @@
 % Regression analysis o state estimation?
-\section{Estimación de estado}
-La estimación de estado consiste en determinar el estado no medible de un sistema dinámico a partir de las mediciones de entrada y salida de dicho sistema. Lamentablemente, las mediciones no son perfectas, lo que conduce a una inexactitud inherente en el valor de la medición. Para tener en cuenta estos errores, la estimación de estado procesa todas las mediciones disponibles y utiliza un \textit{análisis de regresión} para identificar el estado real probable del sistema.
-
+\section{Análisis de regresión}
 El análisis de regresión es un análisis estadístico para predecir el valor de una variable cuantitativa continua. Basándose en un conjunto de variables independientes, se busca estimar la relación de las mismas con una variable dependiente, mediante la obtención de una curva que mejor se ajuste a los datos disponibles, sin que necesariamente pase por todos ellos. En concreto, el modelo de regresión puede representarse como
 \begin{equation}
     y_i = f(\bm{x}_i; \bm{\beta}) + v_i,
@@ -31,7 +29,7 @@ Con el fin de hallar los parámetros desconocidos, uno de los métodos más util
 \end{equation}
 llamado tambien como el \textit{minimzador global}.
 
-\subsubsection{Cuadrados mínimos ordinario}
+\subsubsection{Método de cuadrados mínimos ordinario}
 Si se quiere, por ejemplo, medir el peso de una bolsa de naranjas, cuyo valor real es $x$, con el uso de una balanza de poca precisión, el valor medido $y$ puede modelarse como el valor real corrompido por ruido, $v$, linealmente mediante la ecuación
 \begin{equation}
     y = x + v
@@ -43,12 +41,11 @@ Para cada una de las mediciones, se define un término escalar de ruido que es i
     e_i = y_i - x
 \end{equation}
 
-Con estos errores definidos, el método de cuadrados mínimos define que la mejor estimación del valor $x$ es la que minimiza el \textit{criterio de error cuadrático},
+Con estos errores definidos, el método de cuadrados mínimos define que la mejor estimación del valor $x$ es la que minimiza el \textit{criterio de error cuadrático}
 \begin{equation}
-    \hat{x}_{LS} = argmin_x(e_1^2+e_2^2+e_3^2+e_4^2+e_5^2) = \mathscr{L}_{LS}(x),
+    \hat{x}_{LS} = argmin_x(e_1^2+e_2^2+e_3^2+...+e_m^2) = \mathscr{L}_{LS}(x),
     \label{eq:squarederrorcriterion}
 \end{equation}
-aunque a veces también llamada \textit{función de coste de error cuadrático} o \textit{función de pérdida}.
 
 % Luego de un set de cinco mediciones realizadas por separado y en forma secuencial, se obtienen los valores que se observan en la Tabla \ref{tab:naranjasbalanza}, junto con sus modelos de medición y errores cuadráticos.
 
@@ -70,7 +67,7 @@ Para poder minimizar la función de coste, suponiendo que fueron tomadas cinco m
     \end{bmatrix}
     x
 \end{align}
-siendo $\bm{H}$ la \textit{matriz Jacobiana}. Dicha matriz tiene las dimensiones de $m\times n$, donde \textit{m} es el número de mediciones y \textit{n} es el número de parámetros que se desean estimar. Por ello, \textit{x} si bien en este caso es un escalar, puede ser un vector en el caso que se tengan múltiples indeterminaciones. En base a esto, se puede redefinir a la función de costo como
+siendo $\bm{H}$ la \textit{matriz Jacobiana} que, para este caso particular, posee valores unitarios. Dicha matriz tiene las dimensiones de $m\times n$, donde \textit{m} es el número de mediciones y \textit{n} es el número de parámetros que se desean estimar. Por ello, \textit{x} si bien en este caso es un escalar, puede ser un vector en el caso que se tengan múltiples indeterminaciones. En base a esto, se puede redefinir a la función de coste como
 
 \begin{align}
     \mathscr{L}_{LS}(x) &= \bm{e}^T\bm{e} \\
@@ -78,7 +75,7 @@ siendo $\bm{H}$ la \textit{matriz Jacobiana}. Dicha matriz tiene las dimensiones
                         &= \bm{y}^T\bm{y} - x^T\bm{H}^T\bm{y} - \bm{y}^T\bm{H}x + x^T\bm{H}^T\bm{H}x
 \end{align}
 
-Para minimizar esta ecuación, se procede a computar la derivada parcial de la función de costo respecto a la incertidumbre $x$ para luego igualarla a cero.
+Para minimizar esta ecuación, se procede a computar la derivada parcial de la función de coste respecto a la incertidumbre $x$ para luego igualarla a cero.
 \begin{align}
     \frac{\partial \mathscr{L}}{\partial x}\bigg\rvert_{x=\hat{x}} = -\bm{y}^T\bm{H} - \bm{y}^T\bm{H} + 2\hat{x}^T\bm{H}^T\bm{H} &= 0 \\
     -2\bm{y}^T\bm{H} + 2\hat{x}^T\bm{H}^T\bm{H} &= 0
@@ -100,7 +97,7 @@ Por lo tanto, para que $(\bm{H}^T\bm{H})^{-1}$ exista es necesario que se dispon
     m \geq n
 \end{equation*}
 
-\subsubsection{Cuadrados mínimos ponderado}
+\subsubsection{Método de cuadrados mínimos ponderado}
 
 Volviendo al ejemplo de la bolsa de naranjas, si se toman mediciones con distintas balanzas, es lógico pensar que mientras mayor sea la precisión de cada una, mayor importancia tendrá su valor indicado para determinar el peso de la bolsa. Si se considera al modelo de medición lineal con \textit{m} mediciones y \textit{n} incertidumbres,
 \begin{align}
@@ -152,13 +149,13 @@ obteniendo entonces las ecuaciones normales ponderadas
     \hat{\bm{x}}_{WLS} = (\bm{H}^T\bm{R}^{-1}\bm{H})^{-1} \bm{H}^T\bm{R}^{-1}\bm{y}
 \end{equation}
 
-\subsubsection{Cuadrados mínimos recursivo}
+\subsubsection{Método de cuadrados mínimos recursivo}
 
 Hasta el momento, todos los datos de las mediciones se encontraban disponibles. Ahora, si lo que se tiene es, por ejemplo, un sensor que entrega datos cada cierto tiempo, con el razonamiento utilizado hasta el momento se tendería a pensar que es necesario correr alguno de los métodos vistos cada vez que llega un dato nuevo con todo el set completo. Se puede apreciar que claramente esto produciría un aumento de costo computacional a medida que transcurre el tiempo, haciendo que en un punto llegue a ser un problema.
 
 Para evitar este problema, lo que se busca es un método recursivo que mantenga un estimador actual del parámetro óptimo para todas las mediciones que se han recolectado hasta ese momento, y luego actualizar dicho estimador dada la medición en el intervalo de tiempo actual. Para lograr esto, se puede utilizar entonces un \textit{estimador lineal recursivo}.
 
-Suponiendo que se tiene un estimador óptimo $\hat{\bm{x}}_{k-1}$ de los parámetros desconocidos en el tiempo $k-1$ con ruido blanco Gaussiano aditivo. Al llegar la nueva medición en el tiempo $k$,
+Suponiendo que se tiene un estimador óptimo $\hat{\bm{x}}_{k-1}$ de los parámetros desconocidos en el tiempo $k-1$ con ruido blanco Gaussiano aditivo, al llegar la nueva medición en el tiempo $k$,
 \begin{equation}
     \bm{y}_k = \bm{H}_k \bm{x} + \bm{v}_k
 \end{equation}
@@ -169,7 +166,6 @@ Un estimador lineal recursivo está dado por
 \begin{equation}
     \hat{\bm{x}}_k = \hat{\bm{x}}_{k-1} + \bm{K}_k (\bm{y}_k - \bm{H}_k \hat{\bm{x}}_{k-1})
 \end{equation}
-
 donde $\bm{K}_k$ es una matriz de ganancia del estimador, el término entre paréntesis se denomina la innovación, y cuantifica que tan bien la medición actual se equipara con el mejor estimador previo. Aún sin conocer la matriz $\bm{K}_k$, en dicha ecuación puede observarse que el nuevo estimador es la suma del estimador anterior y el término correctivo basado en la diferencia entre lo esperado de la medición y lo que acutalmente se midió. Si la innovación fuese igual a cero, se mantendría el estimador anterior.
 
 Finalmente, para el término $\bm{K}_k$, lo que se busca es minimizar el \textit{valor esperado de la suma de errores cuadráticos} del estimador actual en el tiempo \textit{k}. Para un solo parámetro escalar,
@@ -225,12 +221,12 @@ Resumiendo, el algoritmo de los cuadrados mínimos recursivos consta de tres pas
 
 \subsubsection{Método de máxima verosimilitud}
 
-En lugar de escribir una pérdida, puede aproximarse el problema de la estimación de parámetros óptimos al buscar qué parámetro hacen que las mediciones obtenidas sean las más probables. En otras palabras, cuál \textit{x} maximiza la probabilidad condicional de $\bm{y}$
+En lugar de escribir una pérdida, puede aproximarse el problema de la estimación de parámetros óptimos al buscar qué parámetros hacen que las mediciones obtenidas sean las más probables. En otras palabras, cuál \textit{x} maximiza la probabilidad condicional de $\bm{y}$
 \begin{equation}
-    \hat{x} = argmax_x p(y|x)
+    \hat{x} = argmax_x p(\bm{y}|x)
 \end{equation}
 
-Volviendo al ejemplo de la bolsa de naranjas, si se tienen cuatro posibles valores de dicho peso, como se observa en la Figura \ref{fig:mostlikelyproba}, el valor que maximiza la verosimilitud condicional dada la medición $y_med$ corresponde a $x_b$, ya que es la densidad de probabilidad mayor en la ubicación medida.
+Volviendo al ejemplo de la bolsa de naranjas, si se tienen cuatro posibles valores de dicho peso, como se observa en la Figura \ref{fig:mostlikelyproba}, el valor que maximiza la verosimilitud condicional dada la medición $y_{med}$ corresponde a $x_b$, ya que es la densidad de probabilidad mayor en la ubicación medida.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{Img/MostLikelyProba.png}
@@ -242,7 +238,6 @@ Tomando en cuenta el modelo de medición presente en la Ecuación (\ref{eq:linea
 \begin{equation}
     v \sim \mathcal{N}(0,\sigma^2)
 \end{equation}
-
 entonces, el parámetro desconocido, $x$, resulta ser la media de esta densidad, y la varianza corresponde a la varianza de ruido.
 \begin{equation}
     p(y|x) = \mathcal{N}(x,\sigma^2)
@@ -259,13 +254,12 @@ puede expresarse la medición de verosimilitud para una de las mediciones como
            &= \frac{1}{\sqrt{2\pi\sigma^2}} e^{\frac{-(y-x)^2}{2\sigma^2}}
 \end{align}
 
-Si se tienen múltiples mediciones múltiples independientes, entonces
+Si se tienen múltiples mediciones independientes, entonces
 \begin{align}
     p(\bm{y}|x) &\propto \mathscr{N}(y_1;x,\sigma^2)\cdot\mathscr{N}(y_2;x,\sigma^2)\cdot...\cdot\mathscr{N}(y_m;x,\sigma^2) \\
             &= \frac{1}{\sqrt{(2\pi)^m\sigma^{2m}}} \exp\left({\frac{-\sum_{i=1}^m(y_i-x)^2}{2\sigma^2}}\right)
 \end{align}
-
-El estimador de máxima verosimilitud (MLE) está dado por
+y el estimador de máxima verosimilitud (MLE) será
 \begin{equation}
     \hat{x}_{MLE} = argmax_x p(\bm{y}|x)
 \end{equation}
@@ -274,20 +268,18 @@ En lugar de tratar de optimizar el verosímil directamente, puede aplicarse el l
 \begin{align}
     \hat{x}_{MLE} = argmax_x \log p(\bm{y}|x)
 \end{align}
-
-El logaritmo aumenta monotónicamente. Resulta entonces
+y, como la función logaritmo aumenta monotónicamente
 \begin{equation}
     \log p(\bm{y}|x) = -\frac{1}{2\sigma^2}\left((y_1-x)^2+...+(y_m-x)^2\right)+C
 \end{equation}
 
-Esta ecuación es muy parecida a la suma de los errores cuadráticos. La constante $C$ en esta expresión refiere a términos que no son funciones de $x$ y pueden ser ignorados.
+Esta expresión es similar a la suma de los errores cuadráticos, presentada en (\ref{eq:squarederrorcriterion}). La constante $C$ en esta expresión refiere a términos que no son funciones de $x$ y pueden ser ignorados.
 
-Luego, como el argmax de la función f es equivalente al argmin del negativo de dicha función, 
+Luego, como el argumento que maximiza la función $f$ es equivalente al negativo del argumento que minimiza dicha función, o sea,
 \begin{equation}
     argmax_z f(z) = argmin_z \left(-f(z)\right)
 \end{equation}
-
-el problema del verosímil máximo puede ser escrito como
+el problema de la máxima verosimilitud puede ser escrito como
 \begin{align}
     \hat{x}_{MLE} &= argmin_x -\left(\log p(\bm{y}|x)\right) \\
                   &= argmin_x \frac{1}{2\sigma^2}\left((y_1-x)^2+...+(y_m-x)^2\right)
@@ -305,9 +297,9 @@ Resumiendo, en ambos casos, el estimador de máxima verosimilitud para ruido bla
     \hat{x}_{MLE} = \hat{x}_{LS} = argmin_x\mathscr{L}_{LS}(x) = argmin_x\mathscr{L}_{MLE}(x)
 \end{equation}
 
-Esto cobra importancia en sistemas realistas, los cuales presentan una gran cantidad de fuentes de ruido. Recordando el teorema central del límite, que establece que cuando se suman variables aleatorias independientes, su suma normalizada tenedrá a una distribución normal, y teniendo en cuenta que el método de cuadrados mínimos es equivalente a calcular la máxima verosimilitud\footnote{Siempre asumiendo que se está en presencia de ruido blanco Gaussiano aditivo}, es posible calcular el mejor estimador de una forma computacionalmente sencilla.
+Esto cobra importancia en sistemas realistas, los cuales presentan una gran cantidad de fuentes de ruido. Recordando el teorema central del límite, que establece que cuando se suman variables aleatorias independientes, su suma normalizada tenderá a una distribución normal, y teniendo en cuenta que el método de cuadrados mínimos es equivalente a calcular la máxima verosimilitud\footnote{Siempre asumiendo que se está en presencia de ruido blanco Gaussiano aditivo}, es posible calcular el mejor estimador de una forma computacionalmente sencilla.
 
-Sin embargo, una consideración importante a tener en cuenta con el método de cuadrados mínimos es cuando se presenta un valor atípico, esto es, los que se encuentran en las "colas" de la Gaussiana, provocando que el estimador final se aleje del valor verdadero. Por ello es importante cuantificar la distribución de error antes de aplicar ciegamente máxima verosimilitud o cuadrados mínimos.
+Sin embargo, una consideración importante a tener en cuenta con el método de cuadrados mínimos es cuando se presenta un valor atípico, esto es, los que se encuentran en las ''colas'' de la Gaussiana, provocando que el estimador final se aleje del valor verdadero. Por ello es importante cuantificar la distribución de error antes de aplicar ciegamente máxima verosimilitud o cuadrados mínimos.
 
 \subsection{Regresión no lineal}
 
@@ -344,30 +336,30 @@ Desde un punto inicial $\bm{\theta}_0$, el método produce una serie de vectores
     \label{eq:descendingcondition}
 \end{equation}
 
-Esto evita la convergencia a un maximizador y también hace menos probable que se converja hacia un punto de silla\footnote{Punto sobre una superficie en el que la pendiente es cero pero no se trata de un extremo local, sino que la elevación es máxima en una dirección y mínima en la dirección perpendicular.}. Si la función dada tiene varios minimizadores, el resultado dependerá del punto de partida $\theta_0$. No se sabe a priori cuál de los minimizadores se encontrarán, por lo que no es necesariamente el minimizador más cercano a $\theta_0$.
+Esto evita la convergencia a un maximizador y también hace menos probable que se converja hacia un punto de silla\footnote{Punto sobre una superficie en el que la pendiente es cero pero no se trata de un extremo local, sino que la elevación es máxima en una dirección y mínima en la dirección perpendicular.}. Si la función dada tiene varios minimizadores, el resultado dependerá del punto de partida $\bm{\theta}_0$. No se sabe a priori cuál de los minimizadores se encontrarán, por lo que no es necesariamente el minimizador más cercano a $\bm{\theta}_0$.
 
-En muchos casos, el método produce vectores que convergen hacia el minimizador en dos etapas claramente diferentes. Cuando $\theta_0$ está lejos de la solución, se busca que el método produzca iteraciones que se muevan constantemente hacia $\theta^*$. En esta ''etapa global'' de la iteración, es necesario que los errores no aumenten, excepto en los primeros pasos, es decir
+En muchos casos, el método produce vectores que convergen hacia el minimizador en dos etapas claramente diferentes. Cuando $\bm{\theta}_0$ está lejos de la solución, se busca que el método produzca iteraciones que se muevan constantemente hacia $\bm{\theta}^*$. En esta ''etapa global'' de la iteración, es necesario que los errores no aumenten, excepto en los primeros pasos, es decir
 \begin{equation}
-    ||e_{k+1}|| < ||e_k||\hspace{1cm}\text{para}\hspace{1cm}k<K
+    ||\bm{e}_{k+1}|| < ||\bm{e}_k||\hspace{1cm}\text{para}\hspace{1cm}k<K
 \end{equation}
-donde $e_k$ responde a la función de error
+donde $\bm{e}_k$ responde a la función de error
 \begin{equation}
-    e_k = \theta_k - \theta^*
+    \bm{e}_k = \bm{\theta}_k - \bm{\theta}^*
 \end{equation}
 
-En la etapa final de la iteración, donde $\theta_k$ es cercano a $\theta^*$, se quiere una convergencia más rápida. A partir de esto pueden distinguirse tres casos
+En la etapa final de la iteración, donde $\bm{\theta}_k$ es cercano a $\bm{\theta}^*$, se quiere una convergencia más rápida. A partir de esto pueden distinguirse tres casos
 \begin{itemize}
     \item \textit{Convergencia lineal}
     \begin{equation}
-            ||e_{k+1}|| \leq a||e_k||\hspace{1cm}\text{cuando $||e_k||$ es pequeño}\hspace{1cm}0<a<1
+            ||\bm{e}_{k+1}|| \leq a||\bm{e}_k||\hspace{1cm}\text{cuando $||e_k||$ es pequeño}\hspace{1cm}0<a<1
     \end{equation}
     \item \textit{Convergencia cuadrática}
     \begin{equation}
-        ||e_{k+1}||=O(||e_k||^2)\hspace{1cm}\text{cuando $||e_k||$ es pequeño}
+        ||\bm{e}_{k+1}||=O(||\bm{e}_k||^2)\hspace{1cm}\text{cuando $||\bm{e}_k||$ es pequeño}
     \end{equation}
     \item \textit{Convergencia superlineal}
     \begin{equation}
-        \frac{||e_{k+1}||}{||e_k||}\rightarrow 0\hspace{1cm}\text{para $k\rightarrow 0$}
+        \frac{||\bm{e}_{k+1}||}{||\bm{e}_k||}\rightarrow 0\hspace{1cm}\text{para $k\rightarrow 0$}
     \end{equation}
 \end{itemize}
 
@@ -384,7 +376,7 @@ Una forma de hacer esto mediante el proceso llamado \textit{búsqueda de línea}
 
 \subsubsection{Método de descenso de gradiente}
 
-El método de descenso de gradiente es un método de minimización general que actualiza los valores de los parámetros en la dirección de descenso más pronunciada, esto es, la dirección opuesta al gradiente de la función objetivo. El método de descenso de gradiente converge bien para problemas con funciones objetivas simples. Para problemas con muchos parámetros, este método es a veces la única opción viable.
+El método de descenso de gradiente es un método de minimización general que actualiza los valores de los parámetros en la dirección de descenso más pronunciada, esto es, la dirección opuesta al gradiente de la función objetivo. La idea detrás de este método radica en moverse repetidamente en la dirección del gradiente negativo (llamado el \textit{descenso más pronunciado}) hasta que converja. El método de descenso de gradiente converge bien para problemas con funciones objetivas simples. Para problemas con muchos parámetros, este método es a veces la única opción viable.
 
 Volviendo al caso de la Expresión (\ref{eq:generalsquarederrorcriterion}), el gradiente de dicha función con respecto a los parámetros es
 \begin{align}
@@ -392,7 +384,7 @@ Volviendo al caso de la Expresión (\ref{eq:generalsquarederrorcriterion}), el g
     &= -2(\bm{y} - \bm{f}(\hat{\bm{\theta}}))^T \bm{R}^{-1}\left[\frac{\partial \bm{f}(\hat{\bm{\theta}})}{\partial \hat{\bm{\theta}}}\right] \\
     &= -2(\bm{y} - \bm{f}(\hat{\bm{\theta}}))^T \bm{R}^{-1}\bm{J}
 \end{align}
-donde la \textit{matriz Jacobiana} $\bm{J}$ representa la sensibilidad local de la función $\bm{f}$ a variaciones de los parámetros $\hat{\bm{\theta}}$. Tener en cuenta que en los modelos que son lineales en los parámetros, $\bm{f} = \bm{X}\bm{\theta}$, el Jacobiano es la matriz de los vectores base del modelo, $\bm{X}$. La actualización de parámetros $\bm{\delta}$ que mueve los parámetros en la dirección del \textit{descenso más pronunciado} viene dada por
+donde la \textit{matriz Jacobiana} $\bm{J}$ representa la sensibilidad local de la función $\bm{f}$ a variaciones de los parámetros $\hat{\bm{\theta}}$\footnote{Intuitivamente, la matriz Jacobiana indica qué tan rápido está cambiando cada salida de la función a lo largo de cada dimensión de entrada}. Tener en cuenta que en los modelos que son lineales en los parámetros, $\bm{f} = \bm{X}\bm{\theta}$, el Jacobiano es la matriz de los vectores base del modelo, $\bm{X}$. La actualización de parámetros $\bm{\delta}$ que mueve los parámetros en la dirección del descenso más pronunciado viene dada por
 \begin{equation}
     \bm{\delta}_{gd} = \alpha\bm{J}^T\bm{R}^{-1}(\bm{y} - \bm{f}(\hat{\bm{\theta}}))
 \end{equation}
@@ -424,11 +416,13 @@ y las ecuaciones normales resultantes para la actualización de Gauss-Newton son
 \end{equation}
 
 \subsubsection{Método de Levenberg-Marquardt}
-El algoritmo de Levenberg-Marquardt varía adaptativamente las actualizaciones de parámetros entre la actualización de descenso de gradiente y la actualización de Gauss-Newton,
+Aunque el Método de Gauss-Newton converge muy rápido cuando ya está cerca de la solución, puede fallar en dar un paso de descenso válido cuando el optimizador aún está lejos del mínimo buscado.
+
+El algoritmo de Levenberg-Marquardt aborda este problema variando adaptativamente las actualizaciones de parámetros entre la actualización de descenso de gradiente y la actualización de Gauss-Newton,
 \begin{equation}
     \left[\bm{J}^T\bm{R}^{-1}\bm{J} + \lambda\bm{I}\right]\bm{\delta}_{lm} = \bm{J}^T\bm{R}^{-1}\left(\bm{y} - \bm{f}(\bm{\theta}\right)
 \end{equation}{}
-donde pequeños valores del \textit{parámetro de amortiguación} $\lambda$ resultan en una actualización de Gauss-Newton, mientras que valores grandes de $\lambda$ llevan a una actualización de descenso de gradiente. El parámetro de amortiguación $\lambda$ se inicializa para que sea grande, de modo que las primeras actualizaciones sean pequeños pasos en la dirección de descenso más pronunciada. Si alguna iteración resulta en una peor aproximación $(\mathscr{S}(\bm{\theta} + \bm{\delta}_{lm}) > \mathscr{S}({\bm{\theta}}))$, entonces $\lambda$ se aumenta. De lo contrario, a medida que la solución mejora, $\lambda$ disminuye, haciendo que el método de Levenberg-Marquardt se aproxima al método de Gauss-Newton, y la solución generalmente se acelera al mínimo local.
+donde pequeños valores del \textit{parámetro de amortiguación} $\lambda$ resultan en una actualización de Gauss-Newton, mientras que valores grandes de $\lambda$ llevan a una actualización de descenso de gradiente. El parámetro de amortiguación $\lambda$ se inicializa para que sea grande, de modo que las primeras actualizaciones sean pequeños pasos en la dirección de descenso más pronunciada. Si alguna iteración resulta en una peor aproximación $(\mathscr{S}(\bm{\theta} + \bm{\delta}_{lm}) > \mathscr{S}({\bm{\theta}}))$, entonces $\lambda$ aumenta. De lo contrario, a medida que la solución mejora, $\lambda$ disminuye, haciendo que el método de Levenberg-Marquardt se aproxima al método de Gauss-Newton, y la solución generalmente se acelera al mínimo local.
 
 En la relación de actualización de Marquardt
 \begin{equation}
@@ -436,6 +430,6 @@ En la relación de actualización de Marquardt
 \end{equation}{}
 los valores de $\lambda$ se normalizan a los valores de $\bm{J}^T\bm{R}^{-1}\bm{J}$.
 
-En sistemas donde solo hay un mínimo, el método de Levenberg-Marquardt convergerá al mínimo global incluso si la suposición inicial es arbitraria. En cambio, en sistemas con mínimos múltiples, es más probable que el método encuentre el mínimo global si la suposición inicial ya está cerca de la solución. Sin embargo, el mismo permite que la selección de valores iniciales esté más lejos de la solución que el método de Gauss-Newton.
+En sistemas donde solo hay un mínimo, el método de Levenberg-Marquardt convergerá al mínimo global incluso si la suposición inicial es arbitraria. En cambio, en sistemas con mínimos múltiples, es más probable que el método encuentre el mínimo global si la suposición inicial se encuentra próxima a la solución. Sin embargo, el mismo permite que la selección de valores iniciales esté más lejos de la solución que el método de Gauss-Newton.
 
 Si bien existen numerosas implementaciones de este método, se presentará a continuación la solución propuesta por la \textit{librería Eigen}.
