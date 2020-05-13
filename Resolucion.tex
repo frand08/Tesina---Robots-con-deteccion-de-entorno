@@ -1,0 +1,49 @@
+\section{Resolución}
+\subsection{Calibración de la unidad incercial}
+\subsubsection{Calibración del giróscopo}
+\textbf{ALLAN}
+Para poder conocer el tamaño adecuado que permita obtener el \textit{bias} del giróscopo en el instante inicial, se utiliza la \textit{varianza de Allan}[20][8] $\sigma_{Allan}$, la cual mide la varianza de la diferencia entre promedios de intervalos consecutivos, siendo entonces
+\begin{align}
+    \sigma_{Allan} &= \frac{1}{2} E[(x(\tilde{t},k) - x(\tilde{t},k-1))^2] \\
+    &= \frac{1}{2K}\sum_{k=1}^K(x(\tilde{t},k) - x(\tilde{t},k-1))^2
+\end{align}
+donde $x(\tilde{t},k)$ es el \textit{k}-ésimo intervalo promedio que abarca $\tilde{t}$ segundos, y K es el número de intervalos en que se segmenta el tiempo total considerado. Se computa la varianza de Allan para los tres ejes, y en el intervalo de tiempo en el que los tres convergen a un valor pequeño representa una buena elección para elegir el período de inicialización, $T_{init}$.
+
+\textbf{INTEGRACION}
+Resolver esta ecuación diferencial implica poder integrarla. Si bien existen varios métodos para hacerlo, ...
+
+
+Esta función, en concreto, requiere de una integración de la velocidad angular en un tiempo discreto. Si bien existen diferentes métodos de integración numérica, es necesario que el mismo sea robusto y estable para mejorar la exactitud de la calibración. Por eso, el \textit{Runge-Kutta} $4^th$ \textit{order normalized method} (RK4n)[19] es el elegido.
+
+Si la ecuación diferencial que describe a la cinemática del cuaternión se define como
+\begin{equation}
+    \bm{f}(\bm{q},t) = \dot{\bm{q}} = \frac{1}{2}\bm{\Omega}(\bm{\omega}(t))\bm{q}
+\end{equation}
+donde $\bm{\Omega}(\bm{\omega}(t))$ es el operador que convierte la velocidad angular tridimensional considerada en la representación de la matriz simétrica oblicua real, esto es,
+\begin{equation}
+    \bm{\Omega}(\bm{w}) = 
+    \begin{bmatrix}
+        0 & -w_x & -w_y & -w_z \\
+        w_x & 0 & w_z & -w_y \\
+        w_y & -w_z & 0 & w_x \\
+        w_z & w_y & -w_x & 0
+    \end{bmatrix}
+\end{equation}
+El algoritmo de integración RK4n es
+\begin{align}
+    \bm{q}_{k+1} &= \bm{q}_k + \Delta t\frac{1}{6}(\bm{k}_1 +\bm{k}_2 + \bm{k}_3 + \bm{k}_4) \\
+    \bm{k}_i &= \bm{f}(\bm{q}^{(i)},t_k+c_i\Delta t) \\
+    \bm{q}^{(i)} &= \bm{q}_k &&\text{para} &&&i=1 \\
+    \bm{q}^{(i)} &= \bm{q}_k + \Delta t\sum_{j=1}^{i-1}a_{ij}\bm{k}_j &&\text{para} &&&i>1
+\end{align}
+donde todos los coeficientes necesarios, $c_i$ y $a_{ij}$ son
+\begin{align*}
+    c_1 &= 0,\ c_2 = \frac{1}{2},\ c_3 = \frac{1}{2},\ c_4 = 1 \\
+    &a_{21} = \frac{1}{2},\ a_{31} = 0,\ a_{41} = 0, \\
+    &a_{32} = \frac{1}{2},\ a_{42} = 0,\ a_{43} = 1
+\end{align*}
+
+Finalmente, en cada paso, es necesario normalizar el cuaternión $(k+1)$-ésimo, ya que puede derivar de la longitud de la unidad
+\begin{equation}
+    \bm{q}_{k+1} \rightarrow \frac{\bm{q}_{k+1}}{||\bm{q}_{k+1}||}
+\end{equation}

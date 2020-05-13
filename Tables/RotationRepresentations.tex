@@ -1,0 +1,16 @@
+\begin{table}[!ht]
+\centering
+\begin{tabular}{c|c|c|c}
+                        & \textbf{\begin{tabular}[c]{@{}c@{}}Matriz \\ de rotación\end{tabular}} &  \textbf{\begin{tabular}[c]{@{}c@{}}Ángulos \\ de Euler\end{tabular}} & \textbf{Cuaterniones} \\ \hline \hline
+\textit{Expresión}      & $\bm{C}$   & $\{\theta_3,\theta_2,\theta_1\}$     & $\bm{q} = 
+    \begin{bmatrix}
+        \cos{\frac{\phi}{2}} \\
+        \hat{\bm{u}}\sin{\frac{\phi}{2}}
+    \end{bmatrix}$  \\ \hline
+\textit{Parámetros}     & 9          & 3                  & 4                                             \\ \hline 
+\textit{Restricciones}  & $\bm{C}\bm{C}^T = \bm{1}$ &    No & $||\bm{q}|| = 1$                        \\ \hline 
+\textit{Singularidades} & No             & Si                       
+              & No                   \end{tabular}
+\caption{Resumen de las representaciones de rotaciones vistas}
+\label{tab:rotationrepresentations}
+\end{table}

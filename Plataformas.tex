@@ -7,7 +7,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     \item \textbf{Phenix Pro DevKit:} está diseñado sobre un System on Chip (SoC) por RobSense Tech, es reconfigurable. El controlador de vuelo (Fig. \ref{fig:fpga_based}.a) incluye el sistema operativo en tiempo real basado en FreeRTOS (UOS) y un Robot Operating System (ROS) basado en Linux. Esta plataforma soporta mas de 20 interfaces incluyendo sensores on-board, mmWave radar, Lidar, entre otros. Permite visión artificial y aplicaciones de algoritmos de Deep Neural Networks \cite{shah2017}.
     
     \item \textbf{Octagonal Pilot on Chip (OcPoc):} desarrollado por Aerotenna Company (Fig. \ref{fig:fpga_based}.b), expande sus capacidades entradas y salidas al incluir pines completamente programables de PWM, PPM y GPIO para integrar con un gran número de diferentes sensores adicionales. Incluye además otros conectores estándar para periféricos tales como GPS y tarjeta SD. El mismo corre la plataforma de software Autopilot \cite{autopilot} e implementa un procesamiento simultáneo, en tiempo real, de los datos de los sensores.
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.95\textwidth]{Img/fpga_based}
         \caption{Controlador de vuelo: (a) Phoenix Pro DevKit, (b) OcPoc}
@@ -20,7 +20,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     \item \textbf{Pixhawk:} consiste en un controlador PX4-Flight Management Unit (FMU) y una PX4-IO integrada en una misma placa con IO adicionales, memoria y otras características (Fig. \ref{fig:pixhawks}.a). Se encuentra dentro del proyecto DroneCode [REF DRONECODE].
     \item \textbf{Pixhawk 2:} Es un cubo pequeño que cuenta con tres IMUs redundantes y hasta tres módulos GPS (Fig. \ref{fig:pixhawks}.b) (Ardupilot). Toda la conección IO del cubo se encuentra en un conector DF17. Su placa portadora posee una interfaz con Intel Edison.
     
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.95\textwidth]{Img/pixhawks}
         \caption{Controlador de vuelo: (a) Pixhawk, (b) Pixhawk 2}
@@ -31,7 +31,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     \item \textbf{Paparazzi:} Es el primer proyecto de software y hardware open-source para drones [Brisset]. En marzo de 2017 salió el nuevo autopilot del mismo llamado Chimera (Fig. \ref{fig:flypaparazzi}.b) el cual está basado en el microcontrolador STM32F7.
     \item \textbf{FlyMaple:} basada en el Maple Project, el cual es un procesador Arduino ARM, consiste en una placa controladora para cuadricópteros (Fig. \ref{fig:flypaparazzi}.c). La misma cuenta como aplicaciones típícas las de robots balancines, plataformas móbiles, helicópteros y cuadricópteros que requieren IMUs y controladores en tiempo real de alto rendimiento.
     
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.95\textwidth]{Img/flypaparazzi}
         \caption{Controlador de vuelo: (a) FlightCtrl v3.0, (b) Paparazzi Chimera, (c) FlyMaple}
@@ -42,7 +42,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     
     \item \textbf{Ardupilot Mega (APM):} Desarrollada por la comunidad DIY Drones como una mejora de la controladora de vuelo Autopilot, consiste en una plataforma basada en  el Arduino Mega (Fig. \ref{fig:apmatom}.c). Puede controlar multicópteros autónomos, helicópteros tradicionales, entre otros.
 
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.95\textwidth]{Img/flypaparazzi}
         \caption{Controlador de vuelo: (a) CC3D, (b) Atom, (c) Ardupilot Mega 2.8}
@@ -55,7 +55,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     \item \textbf{Erle-Brain 3:} Consiste en un open pilot para drones basado en Linux desarrollado por Erle Robotics (Fig. \ref{fig:raspi}.a) (Erle-Robotics). Combina una Raspberry Pi junto a PXFmini, contando esta última con sensores, IO y alimentación. Está diseñado sobre el proyecto DroneCode.
     \item \textbf{NAVIO2 Autopilot:} Es una integración de sensores, GPS y alimentación apareado con una Raspberry Pi. Cuenta con doble IMU para mejorar el desempeño y conseguir redundancia (Fig. \ref{fig:raspi}.b).
     
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.95\textwidth]{Img/raspi}
         \caption{Controlador de vuelo: (a) Erle-Brain 3 Autopilot, (b) NAVIO2 Autopilot}
@@ -66,7 +66,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
 \subsection{Plataformas basadas en Qualcomm}
 \begin{itemize}
     \item \textbf{Snapdragon Autopilot:} la plataforma Snapdragon Flight (Fig. \ref{fig:snapdragon}) es un piloto automático de gama alta que puede ejecutar el plan de vuelo sobre un sistema operativo en tiempo real DSP utilizando la API DSPAL para la compatibilidad con POSIX. El mismo cuenta con un SoC Snapdragon 801. En comparación con la Pixhawk, sus características incluyen potencia de procesamiento avanzada, control de vuelo en tiempo real en Hexagon DSP, Wi-Fi, conectividad Bluetooth, GPS automotriz, una cámara de flujo óptico y una cámara de video de resolución 4K.    
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=.55\textwidth]{Img/snapdragon}
         \caption{Snapdragon Flight}
@@ -95,7 +95,7 @@ PC/104 es una familia de estándares de computadoras embebidas que definen tanto
 
 Las placas PC/104 se apilan unas sobre otras como bloques de construcción. La especificación PC/104 define cuatro orificios de montaje en las esquinas de cada módulo, lo que permite que las tablas se sujeten entre sí mediante separadores. El tamaño de la placa compacta contribuye aún más a la robustez del factor de forma al reducir la posibilidad de flexión de PCB bajo impacto y vibración.
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{Img/pci104threebank}
     \caption{Board Layouts de PCI/104-Express y PCIe/104}
@@ -114,7 +114,7 @@ Las estructuras de buses definidos son los que dan lugar a las familias de está
 
 El factor de forma 104 define el tamaño de la placa (90 * 96 mm), con orificios de montaje en las cuatro esquinas de la placa. Las especificaciones también permiten un área de 0.5 pulgadas (13 mm) más allá del borde de la PCB para los conectores de entrada y salida. La especificación PCI/104-Express y PCIe/104 introdujo el nombre ''104'' para distinguir el factor de forma del bus PC/104 heredado. A su vez, dichas especificaciones aceptan las opciones de uno (Fig. \ref{fig:pci104threebank}) o tres (Fig. \ref{fig:pci104onebank}) \textit{bancos}, agregando mayor flexibilidad al diseñador \cite{pci104express}.
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{Img/pci104onebank}
     \caption{Board Layouts de PCI/104-Express y PCIe/104 con conector OneBank}

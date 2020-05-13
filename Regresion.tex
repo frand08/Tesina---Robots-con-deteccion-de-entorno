@@ -1,13 +1,14 @@
 % Regression analysis o state estimation?
 \section{Análisis de regresión}
+\label{sec:regressionanalysis}
 El análisis de regresión es un análisis estadístico para predecir el valor de una variable cuantitativa continua. Basándose en un conjunto de variables independientes, se busca estimar la relación de las mismas con una variable dependiente, mediante la obtención de una curva que mejor se ajuste a los datos disponibles, sin que necesariamente pase por todos ellos. En concreto, el modelo de regresión puede representarse como
 \begin{equation}
     y_i = f(\bm{x}_i; \bm{\beta}) + v_i,
     \label{eq:regressionmodel}
 \end{equation}
-donde la variable $y_i$ corresponde a la respuesta o medición para el caso $i$, con $i = 1, 2, ..., m$, $\bm{x}_i = (x_{i1}, x_{i2}, ..., x_{in})$ corresponde al conjunto de valores, fijos o aleatorios, utilizados para explicar o predecir el comportamiento de $y_i$, conocidos como las \textit{variables regresivas} o independientes, $\bm{\beta} = (\beta_1, \beta_2, ..., \beta_n)$ a los parámetros desconocidos\footnote{A diferencia de un estado, el que se define como una magnitud física que varía a través del tiempo, el parámetro es constante a través del tiempo.} a estimar, y $v_i$ a la componente de ruido propia para ese caso.
+donde la variable $y_i$ corresponde a la respuesta o medición para el caso $i$, con $i = 1, 2, ..., m$, $\bm{x}_i = (x_{i1}, x_{i2}, ..., x_{in})$ corresponde al conjunto de valores, fijos o aleatorios, utilizados para explicar o predecir el comportamiento de $y_i$, conocidas como las \textit{variables regresivas} o \textit{independientes}, $\bm{\beta} = (\beta_1, \beta_2, ..., \beta_n)$ a los parámetros desconocidos\footnote{A diferencia de un estado, el que se define como una magnitud física que varía a través del tiempo, el parámetro es constante a través del tiempo.} a estimar, y $v_i$ a la componente de ruido propia para ese caso.
 
-En base a esto, lo que se busca es estimar la función $f$ que mejor se ajuste a los datos, conocida como \textit{función de expectativa} para el modelo de regresión. Para ello, primero lo que debe hacerse es determinar la forma de dicha función. En base a la forma que adquiera la misma, se puede clasificar en \textit{regresión lineal} y \textit{regresión no lineal}.
+En base a esto, lo que se busca es estimar la función $f$ que mejor se ajuste a los datos, conocida como \textit{función de expectativa} para el modelo de regresión. Para ello, primero lo que debe hacerse es determinar la forma de dicha función que, en base a esta, se puede clasificar en \textit{regresión lineal} y \textit{regresión no lineal}.
 
 Existen diferentes métodos dentro del análisis de regresión para poder estimar los parámetros desconocidos $\beta$, por lo que en las siguientes subsecciones se presentarán algunos de ellos, los cuales son de relevancia para el seguimiento de la tesis.
 
@@ -22,14 +23,14 @@ En regresión lineal, la variable $y$ \textit{es una combinación lineal} de los
       &= \bm{x}_i \bm{\beta} + v_i
 \end{align}
 
-Con el fin de hallar los parámetros desconocidos, uno de los métodos más utilizados corresponde al \textit{método de cuadrados mínimos}, el cual plantea que el valor más probable de los parámetros desconocidos será aquel que minimiza la suma de los errores cuadráticos entre lo que se observa y lo que se espera. Este método es una variante especial del problema más general, en el que dada una función $f:\mathbb{R}^n\rightarrow\mathbb{R}$ se busca un argumento de $f$ que de el mínimo valor de la llamada \textit{función de coste}
+\subsubsection{Método de cuadrados mínimos ordinario (OLS)}
+Con el fin de hallar los parámetros desconocidos, uno de los métodos más utilizados corresponde al \textit{método de cuadrados mínimos}, el cual plantea que el valor más probable de dichos parámetros será aquel que minimiza la suma de los errores cuadráticos entre lo que se observa y lo que se espera. Este método es una variante especial del problema más general, en el que dada una función $f:\mathbb{R}^n\rightarrow\mathbb{R}$ se busca un argumento de $f$ que de el mínimo valor de la llamada \textit{función de coste}
 \begin{equation}
     \hat{x} = argmin_x f(x)
     \label{eq:globalminimizer}
 \end{equation}
 llamado tambien como el \textit{minimzador global}.
 
-\subsubsection{Método de cuadrados mínimos ordinario}
 Si se quiere, por ejemplo, medir el peso de una bolsa de naranjas, cuyo valor real es $x$, con el uso de una balanza de poca precisión, el valor medido $y$ puede modelarse como el valor real corrompido por ruido, $v$, linealmente mediante la ecuación
 \begin{equation}
     y = x + v
@@ -43,7 +44,7 @@ Para cada una de las mediciones, se define un término escalar de ruido que es i
 
 Con estos errores definidos, el método de cuadrados mínimos define que la mejor estimación del valor $x$ es la que minimiza el \textit{criterio de error cuadrático}
 \begin{equation}
-    \hat{x}_{LS} = argmin_x(e_1^2+e_2^2+e_3^2+...+e_m^2) = \mathscr{L}_{LS}(x),
+    \hat{x}_{OLS} = argmin_x(e_1^2+e_2^2+e_3^2+...+e_m^2) = \mathscr{L}_{OLS}(x),
     \label{eq:squarederrorcriterion}
 \end{equation}
 
@@ -67,10 +68,10 @@ Para poder minimizar la función de coste, suponiendo que fueron tomadas cinco m
     \end{bmatrix}
     x
 \end{align}
-siendo $\bm{H}$ la \textit{matriz Jacobiana} que, para este caso particular, posee valores unitarios. Dicha matriz tiene las dimensiones de $m\times n$, donde \textit{m} es el número de mediciones y \textit{n} es el número de parámetros que se desean estimar. Por ello, \textit{x} si bien en este caso es un escalar, puede ser un vector en el caso que se tengan múltiples indeterminaciones. En base a esto, se puede redefinir a la función de coste como
+con $\bm{H}$ la \textit{matriz Jacobiana} que, para este caso particular, posee valores unitarios. Dicha matriz tiene las dimensiones de $m\times n$, donde \textit{m} es el número de mediciones y \textit{n} es el número de parámetros que se desean estimar. Por ello, \textit{x} si bien en este caso es un escalar, puede ser un vector en el caso que se tengan múltiples indeterminaciones. En base a esto, se puede redefinir a la función de coste como
 
 \begin{align}
-    \mathscr{L}_{LS}(x) &= \bm{e}^T\bm{e} \\
+    \mathscr{L}_{OLS}(x) &= \bm{e}^T\bm{e} \\
                         &= (\bm{y} - \bm{H}x)^T(\bm{y} - \bm{H}x) \\
                         &= \bm{y}^T\bm{y} - x^T\bm{H}^T\bm{y} - \bm{y}^T\bm{H}x + x^T\bm{H}^T\bm{H}x
 \end{align}
@@ -83,7 +84,7 @@ Para minimizar esta ecuación, se procede a computar la derivada parcial de la f
 
 Despejando, se llega al valor del peso de la bolsa de naranjas que minimiza el criterio de error cuadrático
 \begin{equation}
-    \hat{x}_{LS} = (\bm{H}^T\bm{H})^{-1}\bm{H}^T\bm{y}
+    \hat{x}_{OLS} = (\bm{H}^T\bm{H})^{-1}\bm{H}^T\bm{y}
 \end{equation}
 
 Esta expresión tiene solución si y solo si existe $(\bm{H}^T\bm{H})^{-1}$, o sea, si la matriz tiene inversa. Si tenemos \textit{m} mediciones y \textit{n} parámetros,
@@ -97,7 +98,7 @@ Por lo tanto, para que $(\bm{H}^T\bm{H})^{-1}$ exista es necesario que se dispon
     m \geq n
 \end{equation*}
 
-\subsubsection{Método de cuadrados mínimos ponderado}
+\subsubsection{Método de cuadrados mínimos ponderado (WLS)}
 
 Volviendo al ejemplo de la bolsa de naranjas, si se toman mediciones con distintas balanzas, es lógico pensar que mientras mayor sea la precisión de cada una, mayor importancia tendrá su valor indicado para determinar el peso de la bolsa. Si se considera al modelo de medición lineal con \textit{m} mediciones y \textit{n} incertidumbres,
 \begin{align}
@@ -149,7 +150,7 @@ obteniendo entonces las ecuaciones normales ponderadas
     \hat{\bm{x}}_{WLS} = (\bm{H}^T\bm{R}^{-1}\bm{H})^{-1} \bm{H}^T\bm{R}^{-1}\bm{y}
 \end{equation}
 
-\subsubsection{Método de cuadrados mínimos recursivo}
+\subsubsection{Método de cuadrados mínimos recursivo (RLS)}
 
 Hasta el momento, todos los datos de las mediciones se encontraban disponibles. Ahora, si lo que se tiene es, por ejemplo, un sensor que entrega datos cada cierto tiempo, con el razonamiento utilizado hasta el momento se tendería a pensar que es necesario correr alguno de los métodos vistos cada vez que llega un dato nuevo con todo el set completo. Se puede apreciar que claramente esto produciría un aumento de costo computacional a medida que transcurre el tiempo, haciendo que en un punto llegue a ser un problema.
 
@@ -219,15 +220,16 @@ Resumiendo, el algoritmo de los cuadrados mínimos recursivos consta de tres pas
         \end{align}
 \end{enumerate}
 
-\subsubsection{Método de máxima verosimilitud}
+\subsubsection{Método de máxima verosimilitud (MLE)}
 
-En lugar de escribir una pérdida, puede aproximarse el problema de la estimación de parámetros óptimos al buscar qué parámetros hacen que las mediciones obtenidas sean las más probables. En otras palabras, cuál \textit{x} maximiza la probabilidad condicional de $\bm{y}$
+En lugar de escribir una pérdida tal como se realiza en cuadrados mínimos, puede aproximarse el problema de la estimación de parámetros óptimos al buscar qué parámetros hacen que las mediciones obtenidas sean las más probables. En otras palabras, cuál \textit{x} maximiza la probabilidad condicional de $\bm{y}$
 \begin{equation}
     \hat{x} = argmax_x p(\bm{y}|x)
+    \label{eq:maxlikelihood}
 \end{equation}
 
 Volviendo al ejemplo de la bolsa de naranjas, si se tienen cuatro posibles valores de dicho peso, como se observa en la Figura \ref{fig:mostlikelyproba}, el valor que maximiza la verosimilitud condicional dada la medición $y_{med}$ corresponde a $x_b$, ya que es la densidad de probabilidad mayor en la ubicación medida.
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{Img/MostLikelyProba.png}
     \caption{Posibles valores del peso de la bolsa de naranjas y su valor real $y_{med}$}
@@ -267,6 +269,7 @@ y el estimador de máxima verosimilitud (MLE) será
 En lugar de tratar de optimizar el verosímil directamente, puede aplicarse el logaritmo
 \begin{align}
     \hat{x}_{MLE} = argmax_x \log p(\bm{y}|x)
+    \label{eq:mlewithlog}
 \end{align}
 y, como la función logaritmo aumenta monotónicamente
 \begin{equation}
@@ -289,21 +292,38 @@ Por lo tanto, es posible realizar la maximización de la verosimilitud mediante 
 
 Finalmente, si se asume que cada medición tiene una varianza distinta, se llega al mismo criterio que en cuadrados mínimos ponderados
 \begin{equation}
-    \hat{x}_{MLE} = argmin_x \frac{1}{2}\left(\frac{(y_1-x)^2}{\sigma_1^2}+...+\frac{(y_m-x)^2}{\sigma_m^2}\right)
+    \hat{x}_{MLE} = argmin_x \frac{1}{2}\left(\frac{(y_1-x)^2}{\sigma_1^2}+...+\frac{(y_m-x)^2}{\sigma_m^2}\right) =\frac{1}{2} \bm{e}^T\bm{R}^{-1}\bm{e}
+    \label{eq:mlewls}
 \end{equation}
 
 Resumiendo, en ambos casos, el estimador de máxima verosimilitud para ruido blanco Gaussiano es equivalente a las soluciones de los cuadrados mínimos ordinarios o ponderados.
 \begin{equation}
-    \hat{x}_{MLE} = \hat{x}_{LS} = argmin_x\mathscr{L}_{LS}(x) = argmin_x\mathscr{L}_{MLE}(x)
+    \hat{x}_{MLE} = \hat{x}_{OLS} = argmin_x\mathscr{L}_{OLS}(x) = argmin_x\mathscr{L}_{MLE}(x)
 \end{equation}
 
 Esto cobra importancia en sistemas realistas, los cuales presentan una gran cantidad de fuentes de ruido. Recordando el teorema central del límite, que establece que cuando se suman variables aleatorias independientes, su suma normalizada tenderá a una distribución normal, y teniendo en cuenta que el método de cuadrados mínimos es equivalente a calcular la máxima verosimilitud\footnote{Siempre asumiendo que se está en presencia de ruido blanco Gaussiano aditivo}, es posible calcular el mejor estimador de una forma computacionalmente sencilla.
 
 Sin embargo, una consideración importante a tener en cuenta con el método de cuadrados mínimos es cuando se presenta un valor atípico, esto es, los que se encuentran en las ''colas'' de la Gaussiana, provocando que el estimador final se aleje del valor verdadero. Por ello es importante cuantificar la distribución de error antes de aplicar ciegamente máxima verosimilitud o cuadrados mínimos.
 
+\subsubsection{Método de máximo a posteriori (MAP)}
+En lugar de buscar las mediciones más probables como en el método de máxima verosimilitud, puede buscarse el \textit{posterior}, el cual está asociado a la probabilidad condicional que es asignada luego de tomar en cuenta la medición, esto es, $p(x|\bm{y})$. Mediante el uso de la regla de Bayes, el posterior puede expresarse como
+\begin{align}
+    p(x|\bm{y}) &= \frac{p(\bm{y}|x)p(x)}{p(\bm{y})} \\
+    &\propto p(\bm{y}|x)p(x)
+\end{align}
+
+Reemplazando en la Expresión (\ref{eq:maxlikelihood}) por el posterior, entonces
+\begin{align}
+    \hat{x}_{MAP} &= argmax_x\ p(\bm{y}|x)p(x) \\
+                  &= argmax_x\ \log p(\bm{y}|x) + \log p(x)
+\end{align}
+se obtiene la \textit{expresión del máximo a posteriori}. A diferencia del método de máxima verosimilitud, en el máximo a posteriori se incluye a la probabilidad previa (o \textit{prior}) $p(x)$. Lo que significa es que, la probabilidad ahora está ponderada con algo de peso proveniente del prior.
+
+Puede entonces decirse que el método de máxima verosimilitud es un caso especial del máximo a posteriori, donde la probabilidad previa es uniforme.
+
 \subsection{Regresión no lineal}
 
-La regresión lineal es un método poderoso para analizar los datos descriptos por modelos que son lineales en los parámetros. Sin embargo, muchas veces las formas de las curvas que mejor ajustan a los datos obtenidos son no lineales en los parámetros. En estos casos, el modelo de regresión sigue siendo de la misma forma que el de la Expresión (\ref{eq:regressionmodel}), a diferencia de que al menos una de las derivadas de la función de expectativa con respecto a los parámetros depende de al menos uno de los parámetros\footnote{Por ejemplo, si derivo $\theta_1 \theta_2 x_1$ respecto a cualquiera de esos dos parámetros, dicha derivada parcial dependerá del parámetro no derivado}.
+La regresión lineal es un método muy utilizado para analizar los datos descriptos por modelos que son lineales en los parámetros. Sin embargo, muchas veces las formas de las curvas que mejor ajustan a los datos obtenidos son no lineales en los parámetros. En estos casos, el modelo de regresión sigue siendo de la misma forma que el de la Expresión (\ref{eq:regressionmodel}), a diferencia de que al menos una de las derivadas de la función de expectativa con respecto a los parámetros depende de al menos uno de los parámetros\footnote{Por ejemplo, si derivo $\theta_1 \theta_2 x_1$ respecto a cualquiera de esos dos parámetros, dicha derivada parcial dependerá del parámetro no derivado}.
 
 Para diferenciar entre modelos lineales y no lineales, los parámetros para este último caso se definen con $\bm{\theta}$,
 \begin{equation}
