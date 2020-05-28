@@ -506,6 +506,11 @@ Además de esto, pueden realizarse matrices de transformación compuestas
 \end{equation}
 lo que facilita encadenar un número arbitrario de cambios de pose juntos.
 
+\subsubsection{Transformaciones en ROS}
+Si, por ejemplo, se tiene un robot móvil dispuesto con un LIDAR y una unidad inercial, cada uno de estos sensores estarán en una cierta ubicación dentro del robot, la cual no necesariamente será en el centro del mismo, o en el punto \textit{base} elegido como centro de coordenadas del robot. Para poder relacionarlos, a cada uno de los sensores y componentes involucrados se les asocia un marco de referencia. Por ello, para poder asociar los datos de cada uno de estos sensores, es importante conocer la pose del marco de referencia de los mismos respecto a un punto o referencia en común como, por ejemplo, la base del robot.
+
+Hay muchas formas de administrar marcos de coordenadas y transformaciones entre ellos. En ROS, continuando con la filosofía de mantener las cosas pequeñas y modulares, se trata de un enfoque distribuido, utilizando tópicos de ROS para compartir datos de transformación. Cualquier nodo puede ser la autoridad que publica la información actual para algunas transformaciones, y cualquier nodo puede suscribirse para transformar datos, obteniendo de todas las diversas autoridades una imagen completa del robot. Este sistema se implementa en el paquete \texttt{tf}\footnote{\url{http://wiki.ros.org/tf}}. Este paquete es relativamente complejo, y hay una variedad de formas en que las cosas pueden salir mal. En consecuencia, hay una serie de herramientas de depuración e introspección específicas de tf para ayudarlo a comprender lo que está sucediendo, desde imprimir una sola transformación en la consola hasta representar una vista gráfica de toda la jerarquía de transformación.
+
 \subsection{Marcos de referencia}
 
 \begin{figure}

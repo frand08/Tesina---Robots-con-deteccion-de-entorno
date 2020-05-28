@@ -52,6 +52,40 @@
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
+% Para poner codigo
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Código} % Para que aparezca en español
+
+% Para que no tire overflow hbox porque el texttt no corta
+% \usepackage{microtype}
+
+% Para meter PDFs
+\usepackage{pdfpages}
+
 \begin{document}
 \begin{titlepage}
 \centering
@@ -61,11 +95,11 @@
     \vspace{0.5cm}
 \end{figure}%
 	{\LARGE Proyecto Final\par}
-    {\LARGE 2018\par}
+    {\LARGE 2020\par}
 	\vspace{1cm}
 	{\huge\bfseries Robots con detección de entorno\par}
 	\vspace{1cm}
-    {\LARGE Tesina\par}
+    {\LARGE Trabajo final de carrera\par}
     \vspace{1cm}
 	{\Large\itshape Domínguez, Francisco\par}
 	\vfill
@@ -89,13 +123,16 @@
 \input{Introduccion.tex}
 
 \newpage
+\input{ROS}
+
+\newpage
+\input{Geometria}
+
+\newpage
 \input{Regresion}
 
 \newpage
 \input{EstimacionEstado}
-
-\newpage
-\input{Geometria}
 
 \newpage
 \input{Sensores}
@@ -107,134 +144,14 @@
 \input{Plataformas.tex}
 
 \newpage
-\input{desarrollo.tex}
-
-\newpage
 \input{Resolucion}
 
 \newpage
 \include{conclusiones.tex}
 
 \newpage
-\section{Referencias}
-\label{sec:6_refs}
+\input{Bibliografia}
 
 \newpage
-\section{Bibliografía}
-\label{sec:7_biblio}
-
-\begin{thebibliography}{9}
-\bibitem{engel2012}
-    J. Engel, J. Sturm, and D. Cremers,
-    \textit{''Camera-based navigation of a low-cost quadrocopter''}.
-    Conference on Intelligent Robots and Systems (IROS),
-    2012.
-    
-\bibitem{engel2014}
-    J. Engel, J. Sturm, and D. Cremers,
-    ''\textit{Scale-aware navigation of a low-cost quadrocopter with a monocular camera''}.
-    Robotics and Autonomous Systems, 
-    2014.
-
-\bibitem{hausman2016}
-    K. Hausman, S. Weiss, R. Brockers, L. Matthies, and G.S. Sukhatme,
-    \textit{''Self-calibrating multi-sensor fusion with probabilistic measurement validation for seamless sensor switching on a UAV''}.
-    IEEE International Conference on Robotics and Automation (ICRA),
-    2016.
-
-\bibitem{qi2009}
-    J. Qi, D. Song, L. Dai and J. Han,
-    ''\textit{Design, Implement and Testing of a Rotorcraft UAV System''}.
-    Aerial Vehicles, 
-    January 2009.
-
-\bibitem{delrosario2016}
-    Del Rosario M, Lovell N, Redmond S,
-    \textit{''Quaternion-based Complementary Filter for Attitude Determination of a Smartphone''}.
-    IEEE Sensors Journal,
-    Jun 2016.
-
-\bibitem{caron2006}
-    Caron F, Duflos E, Pomorski D, Vanheeghe P,
-    \textit{''GPS/IMU data fusion using multisensor Kalman filtering: introduction of contextual aspects''}.
-    Information Fusion,
-    2006 Jun 30,
-    7(2):221-30.
-    
-\bibitem{mirzaei2008}
-    Mirzaei FM, Roumeliotis S,
-    \textit{''A Kalman filter-based algorithm for IMU-camera calibration: Observability analysis and performance evaluation''}.
-    Robotics, IEEE Transactions,
-    2008 Oct,
-    24(5):1143-56.
-
-\bibitem{hesch2009}
-    Hesch J, Mirzaei FM, Mariottini GL, Roumeliotis S,
-    \textit{''A 3d pose estimator for the visually impaired''}.
-    IEEE/RSJ International Conference,
-    2009 Oct 10,
-    (pp. 2716-2723),
-    IEEE.
-    
-\bibitem{chambers2014}
-    Chambers A, Scherer S, Yoder L, Jain S, Nuske S, Singh S,
-    \textit{''Robust multi-sensor fusion for micro aerial vehicle navigation in GPS-degraded/denied environments''}.
-    InAmerican Control Conference (ACC),
-    2014 Jun 4, 
-    pp. 1892-1899, IEEE.
-
-\bibitem{hesch2013}
-    Hesch JA, Kottas DG, Bowman SL, Roumeliotis SI,
-    \textit{''Camera-IMU-based localization: Observability analysis and consistency improvement''}.
-    The International Journal of Robotics Research,
-    2013.
-
-\bibitem{lee2016}
-    S. Lee, D. Har, and D. Kum,
-    \textit{''Drone-Assisted Disaster Management: Finding Victims via Infrared Camera and Lidar Sensor Fusion''}.
-    3rd Asia-Pacific World Congress on Computer Science and Engineering, 
-    2016.
-
-\bibitem{shah2017}
-    M. Shah, R. Kapdi,
-    \textit{''Object detection using deep neural networks''}.
-     International Conference on Intelligent Computing and Control Systems (ICICCS),
-     2017.
-     
-\bibitem{autopilot}
-    Aautopilot Project,
-    \url{https://autopilot-project.eu/}.
-    Última vez accedido el 03-08-2018.
-
-\bibitem{pc104}
-    PC/104 Embedded Consortium,
-    \textit{''PC/104 Specification''}.
-    Version 2.6,
-    October 13, 2008.
-
-\bibitem{pci104express}
-    PC/104 Consortium,
-    \textit{''PCI/104-Express \& PCIe/104 Specification''}.
-    Version 3.0,
-    February 17, 2015
-    
-\end{thebibliography}
-
-
-\newpage
-\section{Apéndices}
-\label{sec:8_apendix}
-
-\subsection{Circuitos electricos}
-\label{sec:9_circ}
-
-\subsection{Hojas de Datos}
-\label{sec:10_hd}
-
-\subsection{Programas Fuente}
-\label{sec:11_soft}
-
-\subsection{Layout PCB}
-\label{sec:12_pcblay}
-
+\input{Apendice}
 \end{document}

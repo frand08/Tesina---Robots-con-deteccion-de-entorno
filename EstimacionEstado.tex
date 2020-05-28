@@ -309,6 +309,13 @@ A diferencia del filtro de Kalman extendido ordinario y el de error de estado, e
 
 Si bien este filtro presentado suele presentar un mejor rendimiento, el costo computacional es levemente superior al resto de los desarrollados debido a la transformada que realiza.
 
+\subsection{Filtro de Kalman en ROS}
+Como el filtro de Kalman (en cualquiera de sus versiones) es de gran utilidad a la hora de la fusión sensorial, el mismo, entre otras aplicaciones, suele ser utilizado en ROS para determinar la pose del robot en base a los datos de sus sensores. Dentro de los paquetes que pueden realizar esto, caben destacar a
+\begin{itemize}
+    \item \textit{robot\_pose\_ekf}\footnote{\url{http://wiki.ros.org/robot_pose_ekf}}, el cual utiliza un Filtro de Kalman extendido para realizar el cálculo de la pose. Presenta como desventaja que sólo puede tener dos datos de odometría y uno de una unidad inercial, aunque suele ser suficiente en gran parte de las aplicaciones.
+    \item \textit{robot\_localization}\footnote{\url{http://wiki.ros.org/robot_localization}}, el cual da la opción de calcular la pose mediante un Filtro de Kalman extendido o un Filtro de Kalman unscented. El mismo, a diferencia del robot\_pose\_ekf, permite cualquier número de odometrías y datos de unidades sensoriales distintas, además de contar con una mayor flexibilidad y personalización que el mencionado anteriormente.
+\end{itemize}
+
 \subsection{Filtro de partículas}
 \textbf{[QUE SE YO, MIRAR TULSYAN, 2016 Y VER QUE HACER O QUE NO, YA ME SUPERO]}
 
@@ -337,3 +344,6 @@ siendo $w_k^{(i)}$ los \textit{pesos de importancia} asociados a $x_k^{(i)}$, es
 basado en las observaciones realizadas.
 
 Un problema común con el filtro de partículas SIS es el fenómeno de la degeneración, donde después de unos pocos estados, todas las partículas menos una tendrán un peso insignificante [1,4,8-18]. Esta degeneración implica que se dedica un gran esfuerzo computacional a actualizar las partículas cuya contribución a la aproximación de la función de densidad posterior es casi cero. Este problema se puede superar aumentando el número de partículas, o más eficientemente seleccionando adecuadamente la densidad de importancia como la densidad anterior. Además, se recomienda el uso de la técnica de remuestreo para evitar la degeneración de las partículas.
+
+\subsection{Filtro de Partículas en ROS}
+Los filtros de partículas (en sus distintas versiones) suelen utilizarse para aplicaciones de mapeo 2D, en el que involucran un LIDAR 2D y, en ciertos casos, sensores adicionales. Como ejemplos de esto pueden destacarse los paquetes \textit{amcl}\footnote{\url{http://wiki.ros.org/amcl}} y \textit{hector\_slam}\footnote{\url{http://wiki.ros.org/hector_slam}}.

@@ -1,4 +1,5 @@
 \section{Sensores}
+\label{sec:sensors}
 Para navegar de manera robusta a través de entornos desconocidos y no estructurados, los robots deben poder percibir y modelar su entorno. Es por esto que lo que se busca es construir mapas precisos y ubicarse en los mismos utilizando solo sensores a bordo. Dentro de los mismos pueden diferenciarse dos grandes grupos
 \begin{itemize}
     \item En primer lugar, los sensores necesarios para obtener información de los \textit{alrededores} del robot, como pueden ser el LIDAR y la cámara. Estos se los denominan \textit{sensores exteroceptivos}. Un sistema SLAM mínimo requiere al menos de uno de ellos para poder realizar dicha tarea.
@@ -6,9 +7,9 @@ Para navegar de manera robusta a través de entornos desconocidos y no estructur
 \end{itemize}
 
 \subsection{LiDAR}
-Light Detection And Ranging, conocido como LiDAR, es una tecnología que tiene su origen en la fusión de la tecnología láser junto con la tecnología RADAR (Radio Detection And Ranging), lo cual ha permitido mejorar en gran medida la precisión de los sistemas de detección, dando lugar a nuevas aplicaciones. Los sensores LIDAR son actualmente una de las opciones más confiables para SLAM robótico tanto en ambientes interiores como exteriores. Los mismos exhibien fuentes y tipos de ruido similares que pueden modelarse libremente como Gaussianos [133].
+Light Detection And Ranging, conocido como LiDAR, es una tecnología que tiene su origen en la fusión de la tecnología láser junto con la tecnología RADAR (Radio Detection And Ranging), lo cual ha permitido mejorar en gran medida la precisión de los sistemas de detección, dando lugar a nuevas aplicaciones. Los sensores LIDAR son actualmente una de las opciones más confiables para SLAM robótico tanto en ambientes interiores como exteriores. Los mismos exhibien fuentes y tipos de ruido similares que pueden modelarse libremente como Gaussianos \textbf{[133]}.
 
-Muchos investigadores tienen sensores LiDAR de exploración servo-montados en configuraciones de cabeceo [116, 117] o de barrido [118] (Figura \ref{fig:lidars}.a) para producir exploraciones tanto planares como 3D, aunque para este último caso el mismo entrega escaneos cada 1Hz o menos. Este campo de visión, sobre todo el 3D, tiene el costo de una mayor complejidad (sincronización servo temporal) y una menor cobertura en direcciones críticas.
+Muchos investigadores tienen sensores LiDAR de exploración servo-montados en configuraciones de cabeceo \textbf{[116, 117]} o de barrido \textbf{[118]} (Figura \ref{fig:lidars}.a) para producir exploraciones tanto planares como 3D, aunque para este último caso el mismo entrega escaneos cada 1Hz o menos. Este campo de visión, sobre todo el 3D, tiene el costo de una mayor complejidad (sincronización servo temporal) y una menor cobertura en direcciones críticas.
 \textbf{[pfingsthron2012] [newman2006] [bosse2009]}
 
 Con el fin de aumentar la frecuencia de recolección de datos, existen sensores que integran múltiples LiDAR en una sola unidad de escaneo (Figura \ref{fig:lidars}.b), de modo que se pueden obtener escaneados en 3D completos a altas velocidades.
@@ -38,14 +39,14 @@ Algunas de las fuentes de ruido que afectan a la medición del LIDAR son
 \end{itemize}
 
 \subsubsection{Calibración}
-MIRAR
+La calibración de los LIDAR puede realizarse mediante el uso de planos conocidos \textbf{(Habib, 2010)}, aunque también mediante el uso de sensores adicionales, siendo el más común la cámara, ya que de la misma pueden asociarse los puntos relacionados entre ambos sensores \textbf{(An, 2020)}, e incluso con el agregado de sensores adicionales \textbf{(Domhof, 2019)}. Sin embargo, la ubicación en la que se encuentra cada sensor exactamente puede ser una tarea complicada, pero existen en la literatura diferentes enfoques para realizarlo \textbf{(Kim, 2020)}.
 
 \subsection{Cámara}
 Las cámaras en su versión más simple tienen la característica de ser más económicas y sencillas de montar respecto al resto de los sensores utilizados para el SLAM (tal como el LiDAR), además de no emitir señales al entorno para obtener las características del mismo. A la hora de realizar el SLAM. el modelo de sensado de las cámaras consiste básicamente en un mapeo entre el entorno tridimencional y el plano de la imagen bidimensional. Dependiendo del tipo de cámara (monocular, estéreo, omnidireccional, RGB-D, entre otras), es posible utilizar diferentes modelos matemáticos que permitan relacionar puntos del mundo con su respectiva representación en la imagen.
 
 Para las cámaras monoculares, la línea de base entre las imágenes debe estimarse a partir de la odometría, lo que da lugar al problema de SLAM monocular bien estudiado [124, 125]. Otra forma de realizarlo es mediante la percepción de alto nivel, donde se pueden utilizar señales como el tamaño relativo de un objeto para estimar la escala de la imagen y, por lo tanto, la profundidad [126].
 
-En cambio, para las cámaras RGB-D (\textit{D: Depth} - Profundidad) (Figura \ref{fig:camaras}.b), uno de los métodos presentados en la literatura para la realización del SLAM a partir de las mismas [ENDERS2012] consiste en primero extraer características visuales de las imágenes de color entrantes. Luego, se comparan estas características con las características de imágenes anteriores. Al evaluar las imágenes de profundidad en las ubicaciones de estos puntos de características, se obtienen un conjunto de correspondencias 3D puntuales entre dos cuadros cualquiera. Basándose en estas correspondencias, se estima la transformación relativa entre los marcos utilizando RANSAC [TRIVEDI2013].
+En cambio, para las cámaras RGB-D (\textit{D: Depth} - Profundidad) (Figura \ref{fig:camaras}.b), uno de los métodos presentados en la literatura para la realización del SLAM a partir de las mismas [ENDERS2012] consiste en primero extraer características visuales de las imágenes de color entrantes. Luego, se comparan estas características con las características de imágenes anteriores. Al evaluar las imágenes de profundidad en las ubicaciones de estos puntos de características, se obtienen un conjunto de correspondencias 3D puntuales entre dos cuadros cualquiera. Basándose en estas correspondencias, se estima la transformación relativa entre los marcos utilizando RANSAC \textbf{[Trivedi,2013]}.
 
 Por otro lado, las técnicas de visión estéreo utilizan dos cámaras con una separación entre las mismas fija y conocida (Figura \ref{fig:camaras}.a). Las correspondencias de características de la imagen se identifican entre las imágenes mediante la geometría epipolar[REF DE CASTRO] [111], y los rangos se calculan cuando se han medido las disparidades de imagen. Los enfoques pasivos sufren desde muchos modos de falla, desde agujeros de profundidad en áreas de imagen sin características visuales, hasta escenas que crean ambigüedades [123].
 
@@ -55,6 +56,200 @@ Por otro lado, las técnicas de visión estéreo utilizan dos cámaras con una s
     \caption{Cámaras: (a) Bumblebee 2, (b) Kinect}
     \label{fig:camaras}
 \end{figure}
+
+\subsubsection{Visión artificial}
+La visión artificial consiste en la transformación de la información de una cámara quieta o de video en una decisión o una nueva representación. La decisión puede ser la detección de un patrón en la imagen, mientras que una nueva representación podría ser convertir una imagen en color a una en escala de grises.
+
+\subsubsection{OpenCV}
+OpenCV\footnote{http://opencv.org} es una librería open source multiplataforma que busca brindar una infraestructura de visión artificial fácil de usar y que pueda utilizarse para aplicaciones de tiempo real, por lo que hace hincapié en la optimización. Para ello, OpenCV cuenta con un set de más de 500 funciones\textbf{[Asano, 2012]} que abarcan muchas áreas en visión, tales como calibración de cámaras, visión estéreo y robótica.
+
+\subsubsection{Cámara monocular}
+La visión comienza con la detección de luz del ambiente. La geometría del viaje de los rayos de un objeto a través de la lente de la cámara, y el generador de imágenes es de particular importancia en visión artificial.
+
+
+\paragraph{Modelo de la cámara}
+Comenzando con el modelo ideal de la cámara, el cual es el agujero de alfiler (o \textit{pinhole}), aunque también llamada cámara estenopeica, como se observa en la Figura \ref{fig:pinholecamera} \textbf{REEMPLAZAR 1 POR $f$}. En la realidad, el plano de la imagen se encuentra detrás del pinhole, pero se muestra en el frente para evitar trabajar con imagenes giradas. Este es el denominado \textit{modelo de proyección frontal}. El eje $\undervec{\bm{s}}_3$ de $\undervec{\bm{\mathcal{F}}}_s$, llamado el \textit{eje 
+óptico}, es ortogonal al plano de la imagen, y la distancia entre el pinhole, $S$, y el centro de plano de imagen, $C$,  se denomina la \textit{distancia focal}, $f$.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Img/PinholeCamera.png}
+    \caption{Modelo de la cámara estenopeica}
+    \label{fig:pinholecamera}
+\end{figure}
+
+Como los píxeles individuales de un generador de imágenes de bajo costo son rectangulares en lugar de ser cuadrados, las distancias focales para cada eje serán distintas. Por ejemplo, la distancia focal $f_x$ es el producto entre la distancia focal física del lente y el tamaño $s_x$ de los elementos individuales del generador de imágenes. De forma análoga, puede plantearse $f_y$.
+
+Si las coordenadas de $P$ en $\undervec{\bm{\mathcal{F}}}_s$ son
+\begin{equation}
+    \bm{\rho} = \bm{r}_s^{ps} = 
+    \begin{bmatrix}
+        x \\
+        y \\
+        z
+    \end{bmatrix}
+\end{equation}
+con el eje $\undervec{s}_3$ ortogonal al plano de la imagen, luego las coordenadas de $O$ en el plano de la imagen son
+\begin{align}
+    x_n = f_x \frac{x}{z} \\
+    y_n = f_y \frac{y}{z}
+\end{align}
+denominadas las \textit{coordenadas de imagen normalizadas} \textbf{(ES POR EL $w=1$ O POR EL $f=1$ QUE ES NORMALIZADO?)}, y suelen representarse en la forma homogénea como
+\begin{equation}
+    \bm{p} =
+    \begin{bmatrix}
+        x_n \\
+        y_n \\
+        1
+        \label{eq:homogeneousnormalizedimagecoordinates}
+    \end{bmatrix}
+\end{equation}
+
+Sin embargo, el centro del generador de imágenes no se encuentra usualmente en el eje óptico. Para tener en cuenta este corrimiento, se introducen $c_x$ y $c_y$. En consecuencia, las coordenadas normalizadas de la imagen resultan
+\begin{align}
+    x_n = f_x \frac{x}{z} + c_x
+    \label{eq:x_n}
+    \\
+    y_n = f_y \frac{y}{z} + c_y
+    \label{eq:y_n}
+\end{align}
+
+Teniendo en cuenta estas últimas Expresiones, puede representarse al punto $P$ en la pantalla de proyección $O$ con coordenadas $(x_i,y_i)$ mediante una multiplicación matricial
+\begin{equation}
+    \bm{o}=
+    \begin{bmatrix}
+        x_i \\
+        y_i \\
+        w_i
+    \end{bmatrix}
+    =\bm{M}\bm{\rho}
+\end{equation}
+donde $\bm{M}$ es denominada la \textit{matriz intrínseca de la cámara}
+\begin{equation}
+    \bm{M} = 
+    \begin{bmatrix}
+        f_x & 0 & c_x \\
+        0 & f_y & c_y \\
+        0 & 0 & 1
+    \end{bmatrix}
+\end{equation}
+Nótese que si se dividen a $\bm{o}$ por $w_i$, se llega entonces a la Expresión (\ref{eq:homogeneousnormalizedimagecoordinates}).
+
+\paragraph{Distorsiones de la lente}
+Las lentes, debido a problemas en la fabricación, en la realidad no son perfectas. Dichos problemas pueden clasificarse en
+\begin{itemize}
+    \item \textit{Distorsión radial}: surge como un resultado de la forma del lente, produciendo que los píxeles cerca de los bordes del generador de imágenes se distorsionen (conocido como el efecto ''ojo de pez''). En la práctica, esta distorsión es pequeña y puede caracterizarse por los primeros términos de la serie de Taylor alrededor del radio $r=0$. Para cámaras económicas suelen utilizarse los dos primeros términos, $k_1$ y $k_2$. Para cámaras muy distorsionadas, puede utilizarse un tercer término de distorsión radial, $k_3$. En concreto, la ubicación radial de un punto en el generador de imágenes se reescala mediante
+        \begin{align}
+            x_{corr} &= x_i (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) \\
+            y_{corr} & = y_i  (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) 
+        \end{align}
+    \item \textit{Distorsión tangencial}: surge del proceso de ensamblaje de la cámara en su conjunto. Esta distorsión se caracteriza mínimamente con dos parámetros adicionales, $p_1$ y $p_2$, tales que
+        \begin{align}
+            x_{corr} &= x + \left[2p_1xy + p_x(r^2 + 2x^2)\right] \\
+            y_{corr} &= y + \left[p_1(r^2+2y^2) + 2p_2xy\right]
+        \end{align}
+\end{itemize}
+
+Por lo tanto, en total se cuentan con cinco coeficientes de distorsión. A partir de esto, se denomina al \textit{vector de distorsión} como
+\begin{equation}
+    \bm{D} = 
+    \begin{bmatrix}
+    k_1 & k_2 & p_1 & p_2 & k_3
+    \end{bmatrix}
+    \label{eq:distortionvector}
+\end{equation}
+
+\paragraph{Calibración}
+La calibración de la cámara es importante para relacionar las mediciones de la misma con las mediciones del mundo real. Este proceso de calibración pretende calcular tanto la matriz intrínseca de la cámara, $\bm{M}$, como el vector de distorsión, $\bm{D}$. Para ello, la librería de OpenCV dispone de la función \texttt{cv::calibrateCamera()}, del que necesita de una estructura que tiene una cierta cantidad de puntos identificables e individuales, tal como puede ser un tablero de ajedrez (o \textit{chessboard}), como el observado en la Figura \ref{fig:chessboardcalibration}.a. Al observar esta estructura desde distintos ángulos, puede computarse la ubicación relativa y orientación de la cámara en el momento de cada imagen, así como los parámetros intrínsecos de la misma. Para proveer con vistas múltiples, suele rotarse y trasladarse el objeto, tomando las diferentes imágenes del mismo en cada uno de estas posiciones, como se observa en la Figura \ref{fig:chessboardcalibration}.b, mediante el uso de diversas funciones de OpenCV útiles para el caso\textbf{(Asano, 2012)}
+
+\begin{figure}
+    \centering
+    \subfloat[Tablero de ajedrez de 8x6 utilizado para la calibración de cámaras]{{\includegraphics[width=0.45\textwidth]{Img/Chessboard.png}}}%
+    \qquad
+    \subfloat[Distintas posiciones del tablero de ajedrez]{{\includegraphics[width=0.35\textwidth]{Img/ChessboardVariousOrientations.png}}}%
+    \caption{Tablero de ajedrez utilizado para la calibración de cámaras junto a sus distintas posiciones}
+    \label{fig:chessboardcalibration}
+\end{figure}
+
+Como las dimensiones del objeto deben ser conocidas, para el caso del tablero suelen definirse el tamaño de los cuadrados y las intersecciones internas del mismo. Por ello, en la Figura \ref{fig:chessboardcalibration}.a el mismo es de 8x6.
+
+\subparagraph{Calibración mediante ROS}
+Para calibrar cámaras monoculares mediante ROS, se encuentra el paquete disponible \textit{camera calibration}\footnote{\url{http://wiki.ros.org/camera_calibration}}, el cual utiliza funciones de OpenCV para realizar dicha calibración, necesitando únicamente las dimensión del lado de los cuadrados del tablero utilizado (por ejemplo, 0.108 metros) y la dimensión del mismo (por ejemplo, 8x6). Una vez con dichos datos, se ejecuta el paquete, obteniéndose una pantalla como puede verse en la Figura \ref{fig:monocularcameracalibration}, y se procede a la recolección de datos en las distintas posiciones, indicando como se muestra dicha Figura cuando se detecta una posición nueva. Cuando haya suficiente de ellas, se habilitará la opción de calibración (botón \textit{Calibrate}), finalizando el proceso con un archivo YAML del que se obtienen los datos de disparidad e intrínsecos de la cámara, como por ejemplo en el Código \ref{lst:monocularyaml}. En el mismo, el campo \texttt{camera\_matrix} corresponde a la matriz intrínseca $\bm{M}$, mientras que \texttt{distortion\_coefficients} corresponde a al vector de distorsión $\bm{D}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Img/MonocularCameraCalibration.png}
+    \caption{Menú de calibración ROS para cámras monoculares}
+    \label{fig:monocularcameracalibration}
+\end{figure}
+
+\input{Listings/MonocularYAML}
+
+\subsubsection{Cámara estéreo}
+\textbf{REVISAR TODO ESTO}
+Con el fin de poder simular el efecto de la percepción humana, las cámaras estéreo se ubican separadas una distancia fija y, por lo general, alineadas horizontalmente, como se observa en la Figura \ref{fig:stereocamerarig}. Al tener dos fuentes de imágenes distintas y ubicadas en una posición relativa conocida, es posible a partir de las mismas determinar la profundidad en la que se encuentran los objetos que ven entre ambas. 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{Img/StereoCameraRig.png}
+    \caption{Equipo de cámara estéreo observando un objeto}
+    \label{fig:stereocamerarig}
+\end{figure}
+
+Si bien esto es posible realizarlo con una cámara monocular, el mismo cuenta de una mayor complejidad y con ciertas restricciones\footnote{Por ejemplo, sería necesario conocer una cierta cantidad de puntos claves del objeto para que, estando el mismo en una pose distinta a la analizada a priori, sea posible determinar la pose del objeto mediante estos puntos claves.}, aunque puede solventarse mediante el agregado de sensores que utilicen otro principio de medición\footnote{Las cámaras RGB-D, por ejemplo, cuentan con una cámara y sensores de distancia para determinar la ubicación de determinados píxeles.}.
+
+Para poder conseguir una imagen estéreo mediante el uso de dos cámaras, deben seguirse una serie de pasos\textbf{(Asano, 2012)}
+\begin{enumerate}
+    \item Remover las distorsiones de la lente, proceso conocido como \textit{undistortion}\textbf{(QUE PONGO POR UNDISTORTION?)}, explicado anteriormente.
+    \item Ajustar las distancias y ángulos entre las cámaras, conocido como \textit{rectificación}.
+    \item Encontrar las mismas características en ambas cámaras, proceso conocido como \textit{correspondencia}. A partir de este se consigue un \textit{mapa de disparidad} (o \textit{disparity map}), donde las disparidades son las diferencias en la coordenada x de los planos de la imagen de la misma característica vista en las cámaras izquierda y dercha.
+    \item Si se conoce el arreglo geométrico de las cámaras, puede cambiarse el mapa de disparidad en distancias por \textit{triangulación}. Este paso es denominado \textit{proyección}, y el resultado es un mapa de profundidad.
+\end{enumerate}
+
+Para obtener buenos resultados, es necesario que las cámaras estén sincronizadas, caso contrario los objetos en movimiento serán un problema.
+
+\paragraph{Matrices características}
+Para conocer el arreglo de las cámaras, se utilizan dos matrices características en cámaras estéreo: la \textit{matriz escencial} $E$ y la \textit{matriz fundamental} $F$. La matriz esencial es puramente geométrica, relacionando la ubicación en coordenadas físicas, esto es, rotación y traslación, como se ve en la Figura \ref{fig:essentialgeometry}, del punto $P$ como visto por la cámara izquierda a la ubicación del mismo punto visto por la cámara derecha. En cambio, la matriz fundamental tiene los mismos datos que la matriz esencial, además de relacionar los puntos en el plano de la imagen de una de las cámaras en la otra en coordenadas de imagen.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Img/EssentialGeometry.png}
+    \caption{Geometría esencial de la imagen estéreo, recolectada por la matriz esencial $E$}
+    \label{fig:essentialgeometry}
+\end{figure}
+
+\paragraph{Calibración}
+La calibración estéreo depende de hallar la matriz de rotación y la traslación entre las dos cámaras, lo que puede realizarse mediante la función de OpenCV \texttt{cv::stereoCalibrate()}, similar a la función \texttt{cv::cameraCalibrate()} vista anteriormente. En el mismo, se busca una sola matriz de rotación y un vector de traslación que relacione la cámara derecha con la cámara izquierda
+\subparagraph{Calibración estéreo mediante ROS}
+Para la calibración en ROS puede utilizarse al igual que en cámaras monoculares el paquete \texttt{camera\_calibration}, el cual en este caso recibirá parámetros distintos. La interfaz gráfica para la calibración será similar al de cámaras monoculares, con la diferencia que en este caso aparecen ambas cámaras, aunque el principio de calibración del lado usuario es prácticamente la misma, teniendo en cuenta que ahora en ambas cámaras debe verse el patrón buscado, tal como se observa en la Figura \ref{fig:stereocalibrationchessboard}.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Img/StereoCalibrationChessboard.png}
+    \caption{Calibración estéreo mediante ROS}
+    \label{fig:stereocalibrationchessboard}
+\end{figure}
+
+En este caso, se obtienen dos archivos YAML, uno para cada cámara, como en el caso de la cámara monocular, aunque las matrices de rectificación y de proyección cobran importancia. La matriz de rectificación es una matriz de rotación que alinea el sistema de coordenadas de la cámara con el plano de imagen estéreo ideal para que las líneas epipolares \textbf{(HABLAR DE EPILOLARES)} en ambas imágenes estéreo sean paralelas. La matriz de proyección
+
+\paragraph{Rectificación estéreo}
+Si los planos de ambas cámaras no se encuentran perfectamente alineados, la disparidad estéreo aumenta su complejidad. Para poder mitigar este problema, lo que se busca es reproyectar los planos de la imagen de ambas camaras para que residan en el mismo plano, conocido como \textit{rectificación estéreo}. Dentro de OpenCV, existen numerosas formas de obtenerlo, como pueden ser los algoritmos de Hartley o de Bouguet. El algoritmo de Hartley permite evitar la calibración de la cámara, en cambio para el segundo es necesaria.
+
+Una vez que se obtengan los términos de la calibración estéreo, se pueden calcular previamente los mapas de rectificación izquierda y derecha por separado utilizando para cada uno \texttt{cv::initUndistortRectifyMap()}. El proceso de rectificación estéreo que realiza dicha función puede observarse en la Figura \ref{fig:stereorectification}. Estos pueden luego ser aplicados a cada una de las imágenes mediante un \texttt{cv::remap()}.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Img/StereoRectification.png}
+    \caption{Rectificación estéreo: Para las cámaras izquierda y derecha, la imagen original (a) se undistorted\textbf{(CHINGAWHAT?!?)} (b) y rectifica (c) y finalmente recortada (d) para enfocarse en áreas superpuestas entre las dos cámaras; el cálculo de rectificación funciona en realidad al revés, o sea, de (c) a (a).}
+    \label{fig:stereorectification}
+\end{figure}
+
+\subparagraph{Rectificación mediante ROS}
+En ROS, el paquete utilizado para dicha tarea es el denominado \texttt{stereo\_image\_proc}\footnote{\url{http://wiki.ros.org/stereo_image_proc}}, que permite obtener un mapa de profundidades.
+
+\paragraph{Correspondencia estéreo}
+La correspondencia estéreo, esto es, coincidir un punto tridimensional en las vistas de ambas cámaras, requiere que estos puntos de ambas cámaras se solapen. Para ello, OpenCV implementa dos algoritmos distintos para correspondencias, convirtiendo dos imágenes (izquierda y derecha) en una sola imagen de profundidad
+\begin{itemize}
+    \item \textit{Block matching (BM) algorithm}, implementada mediante \texttt{cv::StereoBM()}, el cual es rápido y efectivo, aunque en escenas de baja textura presenta problemas. 
+    \item \textit{Semi-global block matching (SGBM)}, implementada mediante \texttt{cv::StereoSGBM()}, el cual presenta una mayor exactitud que el BM, pero es computacionalmente más demandante.
+\end{itemize}
+\subparagraph{Correspondencia utilizando ROS}
+Para el caso de ROS, dentro del paquete \texttt{stereo\_image\_proc} se encuentra el ejecutable \texttt{dynamic\_reconfigure}\footnote{\url{http://wiki.ros.org/stereo_image_proc/Tutorials/ChoosingGoodStereoParameters}}, el que permite modificar dinámicamente los parámetros de correspondencia, además de elegir el algoritmo a utilizar mediante una interfaz gráfica.
 
 \subsection{Sensores Inerciales}
 El término sensor inercial se usa para denotar la combinación de un acelerómetro de tres ejes y un giroscopio de tres ejes. Los dispositivos que contienen estos sensores se denominan comúnmente unidades de medición inercial (IMU, por \textit{intertial measurement unit}), los cuales en muchos casos incluyen también un magnetómetro de tres ejes. Estas unidades sensoriales suelen ser usadas para determinar la orientación y posición de objetos a los cuales se encuentran integrados, permitiendo así la incorporación de los mismos en gran número de aplicaciones [7, 59, 109, 156] [DE KOK2017].
@@ -106,7 +301,7 @@ siendo
     \end{bmatrix}
 \end{equation}
 
-Debido al error de conversión, ambos sensores se encuentran afectados por errores de \textit{scaling}
+Debido al error en la conversión, ambos sensores se encuentran afectados por errores de \textit{scaling}
 \begin{align}
     \bm{K}_a &=
     \begin{bmatrix}
@@ -149,6 +344,7 @@ con $\bm{v}_i$ correspondiendo a los ruidos de medición de cada uno.
 En concreto, para cada uno de los sensores se tendrán parámetros a estimar. Para el caso del acelerómetro
 \begin{equation}
     \bm{\epsilon}_{a} = [\alpha_{12},\alpha_{13},\alpha_{23},sa_x,sa_y,sa_z,ba_x,ba_y,ba_z]
+    \label{eq:accelcalibrationparams}
 \end{equation}
 
 Al aplicarse un promediado a cada intervalo de la calibración del acelerómetro, esto permite olvidar el ruido de la medición, y definir entonces
@@ -159,12 +355,14 @@ Al aplicarse un promediado a cada intervalo de la calibración del acelerómetro
 Como en [7], se mueve a la IMU un set de $M$ rotaciones independientes y temporalmente estables, obteniendo entonces $M$ aceleraciones $\bm{a}^s_k$, las cuales son promediadas en cada uno de estos intervalos estáticos. La función de coste para minimizar los parámetros este caso es
 \begin{equation}
     \mathscr{S}(\bm{\epsilon}_{a}) = \sum_{k=1}^M(||\bm{g}||^2-||h(\bm{a}^s_k,\bm{\epsilon}_{a})||^2)^2
+    \label{eq:generalaccelcostfunction}
 \end{equation}
-donde $||g||^2$ es la magnitud actual del vector de gravedad local, obtenido de tablas específicas. Al tratarse de una regresión no lineal, la misma puede minimizarse utilizando el algoritmo de \textit{Levenberg-Marquardt}.
+donde $||g||^2$ es la magnitud actual del vector de gravedad local, obtenido de tablas específicas.
 
 Para calibrar la triada del giróscopo, puede asumirse al mismo libre de \textit{bias} ya que este sesgo puede obtenerse promediando sobre una cantidad de datos consecutivos de tamaño conveniente en el instante inicial estacionario. Por ello, el vector de parámetro desconocidos resulta
 \begin{equation}
     \bm{\epsilon}_{g} = \left[\gamma_{12},\ \gamma_{13},\ \gamma_{21},\ \gamma_{23},\ \gamma_{31},\ \gamma_{32},\ sg_x,\ sg_y,\ sg_z\right]
+    \label{eq:gyrocalibrationparams}
 \end{equation}
 
 Una vez definido el \textit{bias}, como para la calibración del giróscopo se toma al acelerómetro como referencia conocida, se requiere convertir los datos de dicho giróscopo en un vector de aceleraciones. Para ello, se define el operador $\psi$, 
@@ -172,12 +370,11 @@ Una vez definido el \textit{bias}, como para la calibración del giróscopo se t
     \bm{u}_{g,k} = \psi\left[\bm{\omega}_i^s,\bm{u}_{a,k-1}\right]
 \end{equation}
 que toma como entrada una secuencia de $n$ lecturas del giróscopo $\bm{\omega}_i^s$ y el versor de gravedad inicial $\bm{u}_{a,k-1}$ obtenido del acelerómetro ya calibrado, y retorna el versor de gravidad final $\bm{u}_{g,k}$. 
-
 Una vez obtenido $\bm{u}_{g,k}$, para el caso del giróscopo, la función de coste será entonces
 \begin{equation}
     \mathscr{S}(\bm{\epsilon}_{g}) = \sum_{k=2}^M ||\bm{u}_{a,k} - \bm{u}_{g,k}||^2
 \end{equation}
-siendo $M$ el número de los intervalos estáticos, $\bm{u}_{a,k}$ es el versor de la aceleración medido promediando en la ventana temporal obtenida en el $k$-ésimo intervalo estático, y $\bm{u}_{g,k}$ corresponde al versor de aceleración en base a los datos del giróscopo computada anteriormente. Se obtiene, entonces, $\bm{\epsilon}_{g}$ minimizando la Expresión anterior utilizando, por ejemplo, el algoritmo de Levenberg-Marquardt.
+siendo $M$ el número de los intervalos estáticos, $\bm{u}_{a,k}$ es el versor de la aceleración medido promediando en la ventana temporal obtenida en el $k$-ésimo intervalo estático, y $\bm{u}_{g,k}$ corresponde al versor de aceleración en base a los datos del giróscopo computada anteriormente. Se obtiene, entonces, $\bm{\epsilon}_{g}$ minimizando la Expresión anterior..
 
 \subparagraph{Ecuación diferencial ordinaria de la velocidad angular}
 Si se tiene un vector $\bm{r}$ de longitud constante, la velocidad angular del mismo en base a las leyes físicas puede obtenerse realizando la derivada del mismo
@@ -224,8 +421,9 @@ donde dicha Expresión tiene la forma de la operación conmutador $\left[\bm{p},
     \left[\dot{\bm{q}}\otimes\bm{q}^{-1},\bm{r}\right] &= \bm{\omega}\otimes\bm{r} \\
     2\dot{\bm{q}}\otimes\bm{q}^{-1}\otimes\bm{r} &= \bm{\omega}\otimes\bm{r} \\
     \dot{\bm{q}} &= \frac{1}{2}\bm{\omega}\otimes\bm{q}
+    \label{eq:quaternionedoglobalframe}
 \end{align}
-donde $\bm{\omega}(t)$ es la velocidad angular en el marco fijo global. En muchos casos es útil expresar la Expresión () en base a la velocidad angular en el marco del sensor. La velocidad angular en este marco es la velocidad angular global rotada en el marco del cuerpo, dado por la Expresión (\ref{eq:quaternionvectorrotation}). En consecuencia,
+donde $\bm{\omega}(t)$ es la velocidad angular en el marco fijo global\textbf{(Sola, 2017)}. En muchos casos es útil formular la Expresión (\ref{eq:quaternionedoglobalframe}) en base a la velocidad angular en el marco del sensor. La velocidad angular en este marco es la velocidad angular global rotada en el marco del cuerpo, dado por la Expresión (\ref{eq:quaternionvectorrotation}). En consecuencia,
 \begin{equation}
     \dot{\bm{q}} = \frac{1}{2}\bm{q}\otimes\bm{\omega}^s\otimes\bm{q}^{-1}\otimes\bm{q}
 \end{equation}
