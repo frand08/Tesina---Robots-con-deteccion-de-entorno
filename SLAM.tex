@@ -109,6 +109,8 @@ Los grafos de pose representan la trayectoria del robot como una estructura graf
 
 Si bien los landmarks explícitos u otra información sobre el medio ambiente no son parte del grafo de pose en sí, dicha información se puede adjuntar a los nodos en el grafo, lo que permite que el grafo de pose exprese occupancy grids en 2D o 3D o mapas de características y cualquier combinación de ellos.
 
+\ifimagenes
+\else
 \subsection{Algoritmos de SLAM}
 Puede decirse que un algoritmo de SLAM consiste en tres operaciones básicas, las cuales se repiten en cada paso de tiempo
 \begin{itemize}
@@ -169,3 +171,8 @@ que, aplicando el logaritmo como en la Expresión (\ref{eq:mlewithlog}), y tenie
 \end{align}
 siendo $||a-b||^2_{\bm{O}} = (a - b)^T\bm{O}^{-1}(a-b)$ la definición de la distancia Mahalanobis. Esta puede minimizarse con algunas de las regresiones vistas en la Sección \ref{sec:regressionanalysis}, dependiendo de la morfología de la señal $f$.
 
+\begin{huge}
+ESTE ES QUE EL QUE USO!!!
+\end{huge}
+
+\fi

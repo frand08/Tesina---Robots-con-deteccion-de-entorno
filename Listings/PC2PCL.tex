@@ -1,0 +1,13 @@
+\begin{lstlisting}[caption=Conversión de mensaje ROS a PCL, label=lst:pc2pcl]
+  // ROS PointCloud2
+  sensor_msgs::PointCloud2 &pc2;
+  
+  // Output Cloud
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_out(new pcl::PointCloud<pcl::PointXYZRGB>);
+  // PCL PointCloud2
+  pcl::PCLPointCloud2 pcl_pc2;   
+
+  // Convert from ROS message to PCL data
+  pcl_conversions::toPCL(pc2, pcl_pc2);
+  pcl::fromPCLPointCloud2(pcl_pc2, *cloud_out);
+\end{lstlisting}

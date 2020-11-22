@@ -1,4 +1,21 @@
+%% Para elegir si hacer el informe de imagenes o no
+\newif\ifimagenes
+%% Este, a su vez, es para ver si es el paper o no
+\newif\ifimagenespaper
+
+% \imagenestrue % comment out to hide imagenes
+% \imagenespapertrue
+
+\ifimagenes
+\ifimagenespaper
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\else
 \documentclass[a4paper,10pt]{article}
+\fi
+\else
+\documentclass[a4paper,10pt]{article}
+\fi
 
 \usepackage{subfig} % en lugar de subcaption
 % Paquetes
@@ -45,12 +62,17 @@
 % Para minipage
 \usepackage{sidecap}
 
+\ifimagenes
+\ifimagenespaper
+\else
 % Para que paragraph sea subsubsub
 \setcounter{secnumdepth}{4}
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\fi
+\fi
 
 % Para poner codigo
 \usepackage{listings}
@@ -86,7 +108,38 @@
 % Para meter PDFs
 \usepackage{pdfpages}
 
+
+% Para comentar codigo
+\usepackage{comment}
+
+% Para bibliografia
+\usepackage[nottoc]{tocbibind}
+
+
+
 \begin{document}
+
+\ifimagenes
+\ifimagenespaper
+\title{SLAM 3D basado en una cámara RGB-D y PCL}
+
+\author{{Francisco Domínguez}\\
+{\textit{Universidad Tecnológica Nacional}\\
+Buenos Aires, Argentina \\
+fdominguez@est.frba.utn.edu.ar}
+}
+\date{}
+\maketitle
+
+
+\input{abstract}
+\input{Introduccion}
+\input{Reconstruccion3D}
+\input{Resolucion}
+\input{Conclusiones}
+\bibliographystyle{unsrt}
+\bibliography{thebibliography}
+\else
 \begin{titlepage}
 \centering
 \begin{figure}[t]
@@ -94,27 +147,35 @@
 	\includegraphics[scale=0.15]{utn.jpg}
     \vspace{0.5cm}
 \end{figure}%
+\ifimagenes
+	{\LARGE Procesamiento digital de imágenes\par}
+    {\LARGE 2020\par}
+	\vspace{1cm}
+	{\huge\bfseries SLAM 3D basado en cámara RGB-D y PCL\par}
+\else
 	{\LARGE Proyecto Final\par}
     {\LARGE 2020\par}
 	\vspace{1cm}
 	{\huge\bfseries Robots con detección de entorno\par}
 	\vspace{1cm}
     {\LARGE Trabajo final de carrera\par}
+\fi
     \vspace{1cm}
 	{\Large\itshape Domínguez, Francisco\par}
 	\vfill
 \end{titlepage}
 
-
 \tableofcontents
 
 \newpage
 \listoffigures
+\ifimagenes
+\else
 \newpage
 \listoftables
-
 \newpage
 \input{objeto.tex}
+\fi
 
 \newpage
 \input{abstract.tex}
@@ -125,33 +186,49 @@
 \newpage
 \input{ROS}
 
+\ifimagenes
+\else
 \newpage
 \input{Geometria}
-
 \newpage
 \input{Regresion}
-
 \newpage
 \input{EstimacionEstado}
 
 \newpage
 \input{Sensores}
+\fi
 
+\newpage
+\input{Reconstruccion3D}
+
+
+\ifimagenes
+\else
 \newpage
 \input{SLAM.tex}
-
 \newpage
 \input{Plataformas.tex}
+\fi
 
 \newpage
 \input{Resolucion}
 
 \newpage
-\include{conclusiones.tex}
+\input{Conclusiones}
 
 \newpage
-\input{Bibliografia}
+% \input{Bibliografia}
+\bibliographystyle{unsrt}
+\bibliography{thebibliography}
 
+\ifimagenes
+% \input{Sensores}
+\else
 \newpage
 \input{Apendice}
+\fi
+
+\fi
+
 \end{document}

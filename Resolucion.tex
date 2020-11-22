@@ -1,4 +1,7 @@
-\section{Resolución}
+\section{Experimentos}
+\ifimagenes
+A continuación, se presentan los experimentos realizados en base a los datos de una cámara estéreo que se dispuso físicamente, mencionando los inconvenientes de la misma para poder obtener los resultados esperados. Luego, se describe el pipeline utilizado para el registro de nube de puntos y, finalmente, se presentan los resultados obtenidos a partir de una simulación, mediante sets de datos previamente validados.
+\else
 \subsection{Plataforma de Hardware base desarrollada}
 A partir del relevamiento realizado en la Sección \ref{sec:platforms}, se desarrolló la plataforma observada en la Figura \ref{fig:baseboardv2_1}, con el propósito de que la misma pueda utilizarse no sólo para la realización del trabajo, sino también para un gran número de aplicaciones dentro del area de la robótica. En el Apéndice \textbf{(MONGO)} puede encontrarse el esquemático completo del mismo.
 
@@ -300,12 +303,71 @@ la cual se minimiza utilizando el algoritmo de Levenberg-Marquandt. Del mismo, s
 asdasdsa
 
 \subsection{Calibración de la cámara estéreo}
-Siguiendo la metodología explicada en la Sección \ref{sec:sensors}, para la calibración de la cámara Minoru se utilizó un chessboard de 8x6, con cuadrículas de 10,8cm de lado, tal como la matriz presentada en el tutorial de calibración estéreo del paquete \texttt{camera\_calibration}\footnote{\url{http://wiki.ros.org/camera_calibration/Tutorials/StereoCalibration}}. Siendo que tanto en ROS como en OpenCV los extremos se buscan horizontalmente, es recomendable presentar el chessboard con la mayor cantidad de bordes de manera horizontal, tal como se observa en las calibraciones instantáneas de la Figura .
+Siguiendo la metodología explicada en la Sección \ref{sec:sensors}, para la calibración de la cámara Minoru se utilizó un chessboard de 8x6, con cuadrículas de 10,8cm de lado, tal como la matriz presentada en el tutorial de calibración estéreo del paquete \texttt{camera\_calibration}\footnote{\url{http://wiki.ros.org/camera_calibration/Tutorials/StereoCalibration}}. Siendo que tanto en ROS como en OpenCV los extremos se buscan horizontalmente, es recomendable presentar el chessboard con la mayor cantidad de bordes de manera horizontal, tal como se observa en las calibraciones instantáneas de la Figura \ref{fig:minorurightleft}.
+
+\begin{figure}[!ht]
+    \centering
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Img/MinoruLeft.png}}}%
+    \qquad
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Img/MinoruRight.png}}}%
+    \caption{Imágenes izquierda y derecha de la calibración de la cámara Minoru}
+    \label{fig:minorurightleft}
+\end{figure}
 
 Por razones de ancho de banda de USB 2.0, se configuraron las cámaras para trabajar en la resolución 320x240 a 30fps, consiguiendo entonces una imagen fluída, pero con una resolución limitada. A su vez, como la cámara utilizada no se encuentra sincronizada, es necesario realizar una aproximación entre ambas cámaras para tener mejores resultados en la calibración. Luego de un set de mediciones, se obtuvieron los datos de calibración de cada cámara, todos expuestos en dos archivos YAML, uno para la cámara derecha (Código \ref{lst:rightcamerayaml}) y otro para la cámara izquierda (Código \ref{lst:leftcamerayaml}).
 \input{Listings/RightCameraYAML}
 \input{Listings/LeftCameraYAML}
 
+\fi
+
+\ifimagenes
+\subsection{Experimentación con cámara estéreo}
+Con el fin de utilizar datos reales, en principio se optó por usar la cámara estéreo Minoru 3D Webcam, la cual puede observarse en la Figura \ref{fig:minoru3dwebcam}. La misma cuenta con una interfaz USB 2.0 y una resolución de hasta 640x480, pudiendo además proporcionar hasta 30fps.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.2\textwidth]{Img/Minoru.jpeg}
+    \caption{Cámara estéreo Minoru 3D Webcam}
+    \label{fig:minoru3dwebcam}
+\end{figure}
+
+A pesar de estas especificaciones mencionadas anteriormente, no podría obtenerse una resolución de 640x480 a 30fps, debido a la limitación propia del USB 2.0. Por eso, se optó por trabajar con una resolución de 320x240 para poder mantener los fps.
+
+\subsubsection{Calibración de la cámara}
+Como la Minoru presenta la posibilidad de cambiar el enfoque de cada una de las cámaras monoculares, es necesario realizar una calibración de la misma cada vez que se realice un ajuste en dichos focos. Como en primera instancia se desconocía la calibración actual de dicha cámara, se optó por elegir un enfoque dado para luego calibrarla mediante el paquete de ROS \texttt{camera\_calibration}, presentado en la Sección \ref{sec:marcoteorico}. Para esto, se utilizó un chessboard de 8x6 con cuadrículas de 10,8cm de lado. Siendo que tanto en ROS como en OpenCV los extremos se buscan horizontalmente, es recomendable presentar el chessboard con la mayor cantidad de bordes de manera horizontal.
+
+Luego de mover a la cámara en distintas orientaciones y consiguiendo por ende una buena cantidad de correlaciones entre las imágenes observadas en distintos patrones, se procede a la calibración de los datos obtenidos. Además de proveer con los archivos de calibración correspondientes, el paquete de ROS otorga las imágenes que fue tomando en cada caso (tanto izquierda como derecha) para cada una de las correspondencias que encontró en las imágenes. Por ejemplo, en la Figura \ref{fig:minorurightleft} puede observarse las vistas izquierda y derecha de cuando el algoritmo encontró una correspondencia entre ambas imágenes.
+
+\begin{figure}[!ht]
+    \centering
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Img/MinoruLeft.png}}}%
+    \qquad
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Img/MinoruRight.png}}}%
+    \caption{Imágenes izquierda y derecha de la calibración de la cámara Minoru}
+    \label{fig:minorurightleft}
+\end{figure}
+
+\subsubsection{Nube de puntos obtenida}
+Luego de la calibración, con el paquete de ROS \texttt{stereo\_image\_proc} se puede obtener el mapa de profundidades de la cámara. Además, como se mencionaba anteriormente, dicho paquete cuenta con una opción gráfica para poder configurar los parámetros de las correspondencias estéreo, facilitando la configuración del mismo. Finalmente, con dichos ajustes se obtiene la nube de puntos observada en la Figura \ref{fig:minorupointcloud}, donde en se encuentran las imágenes en crudo de las cámaras izquierda y derecha, la nube de disparidad calculada, y la nube de puntos final obtenida.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Img/MinoruPointCloud.png}
+    \caption{Imágenes izquierda y derecha, disparidades y nube de puntos conseguida a partir de la cámara Minoru}
+    \label{fig:minorupointcloud}
+\end{figure}
+
+Si bien la nube de puntos adquirida por el sensor presenta discontinuidades, con el procesamiento adecuado puede mitigarse este problema. Sin embargo, como las cámaras no están sincronizadas por hardware entre sí, y sumado a que al mover a la misma se aprecia una demora entre la imágen izquierda y derecha, la nube de puntos generada en movimiento no puede tomarse como válida, debido a no poder obtener una representación significativa del entorno con la misma.
+% Si bien los resultados no sean ideales, a la hora de mover la cámara la misma presenta una demora, haciendo que lleguen retrasadas las imágenes izquierda y derecha y, por lo tanto, desincronizadas. Luego de llegar a este punto, se estudió el caso de la Minoru en particular y ambas cámaras no están sincronizadas por hardware, haciendo que el proceso sea complejo de realizarse en aplicaciones que requieran a un robot en movimiento.
+
+\subsection{Registro de las nubes de puntos}
+En base a datos de simulaciones en Gazebo, y tomando de base el Rosbot 3.0, se obtuvieron un set de grabaciones, en base a los datos arrojados por la Microsoft Kinect del mismo. Debido a que es una simulación, se tomó directamente la nube de profundidades dada por dicho 
+\ifimagenespaper
+modelo.
+\else
+modelo, aunque puede realizarse un proceso similar al descripto en el anexo del documento para obtener dicha nube de puntos de profundidad 3D.
+\fi
+
+\else
 \subsection{Algoritmo SLAM propuesto}
 Como los sensores exteroceptivos utilizados (LIDAR 2D y cámara estéreo) pueden generar mapas diferentes (aunque relacionados), para la implementación del algoritmo SLAM se propone el diagrama visible en la Figura \ref{fig:slamalgorithmblockdiagram}, donde se plantea un filtro de Kalman ''integrador'' para calcular la pose del vehículo, tomando en la etapa de predicción los datos de sensores propioceptivos, mientras que para la etapa de corrección utiliza cada estimación proporcionada por los sensores exteroceptivos (calculada en conjunto con sensores propioceptivos y el estado anterior estimado). Esta etapa de corrección se realiza cada vez que alguno de estos sensores exteroceptivos tiene una nueva estimación de la pose del vehículo.
 \begin{figure}
@@ -320,3 +382,67 @@ A continuación se presentarán los distintos algoritmos utilizados, al principi
 \subsubsection{SLAM 2D}
 
 \subsubsection{SLAM 3D}
+\fi
+Una vez con las nubes de puntos de profundidad provenientes de la cámara, el próximo paso refiere a la generación del mapa y la localización del robot en el entorno, utilizando el denominado \textit{registration pipeline} (presentado en la Sección \ref{sec:marcoteorico}). A continuación, se desarrollan los pasos realizados a estas nubes de puntos, los cuales pueden verse en la Figura \ref{fig:3dalgorithmblockdiagram}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.45]{Img/3DAlgorithmBlockDiagram.png}
+    \caption{Diagrama en bloques del pipeline realizado para el registro de nube de puntos tridimensionales y su posterior actualización del mapa 3D}
+    \label{fig:3dalgorithmblockdiagram}
+\end{figure}
+
+\subsubsection{Etapa de selección de datos}
+Debido a que se utiliza una resolución de 640x480, hay una gran cantidad de puntos, haciendo que el costo computacional sea muy alto por cada corrida del algoritmo. Para ello, lo primero que se hace es un filtrado de dichos datos. Tal como se menciona en \cite{holz2015}, es importante conservar los bordes, por lo que el filtro bilateral es una buena opción. En PCL es implementado mediante \lstinline{pcl::FastBilateralFilter}.
+
+Como vimos en la Sección \ref{sec:marcoteorico}, las normales de los puntos ayudan no solo en la etapa de rechazo de correspondencias, sino también puede ser útil en la etapa de filtrado, como es el caso de \textit{normal space sampling}. Debido a que los datos originales son del tipo \lstinline{pcl::PointXYZRGB}, es necesario calcular dichas normales. Un método rápido para hacer esto es mediante el uso de imágenes integrales \cite{holzer2012}. La ventaja de este método es que solo requiere una etapa de preprocesamiento lineal al tiempo que permite calcular los vectores medios y las normas dentro de un área rectangular de la imagen en tiempo constante. Por lo tanto, en primera instancia mediante la implementación de PCL \lstinline{pcl::IntegralImageNormalEstimation} se calculan las normales, para luego realizar el \textit{normal space sampling}.
+
+Como el algoritmo de \textit{normal space sampling} requiere de una nube de puntos ordenada, luego de este proceso se procede a la remoción de los datos inválidos de las nubes de puntos, mediante la implementación de PCL \lstinline{pcl::removeNaNFromPointCloud}.
+
+\subsubsection{Estimación de correspondencias}
+Una vez obtenidos los puntos filtrados y con sus respectivas normales (dando lugar entonces a puntos del tipo \lstinline{pcl::PointXYZRGBNormal}), se procede al cálculo de las correspondencias entre las nubes de puntos.
+
+\subsubsection{Rechazo de correspondencias}
+Como se tienen tanto los datos de la posición como de la normal de cada punto, se emplean dos filtros de correspondencias
+\begin{itemize}
+    \item uno para filtrar la distancia mediante el uso de la mediana, dando lugar al \lstinline{pcl::registration::CorrespondenceRejectorMedianDistance}, y
+    \item  un segundo filtro en base a las superficies normales, esto es, \lstinline{pcl::registration::CorrespondenceRejectorSurfaceNormal}, asignando un peso a las correspondencias en base al error que presentan las cámaras RGB-D \cite{nguyen2012}, el cual puede generalizarse al modelo presente en la Ecuación \ref{eq:weightcorrespondences}, considerando dos puntos $\bm{p}$ y $\bm{q}$
+    \begin{align}
+        w(\bm{p},\bm{q}) &= max(\sigma_z({\bm{p}_z}), \sigma_z(\bm{q}_z))
+        \label{eq:weightcorrespondences} \\
+        \text{con }\sigma_z(z) &= 0.0012+0.0019\cdot (z-0.4)^2
+    \end{align}
+\end{itemize}
+
+En concreto, primero se realiza el filtro de mediana, y luego el filtro en base a la información de las normales.
+
+\subsubsection{Alineación}
+Finalmente, con las correspondencias restantes se procede al cálculo de la transformación que responde a las dos nubes de puntos. Para ello, se utiliza el principio de punto a plano, debido a su rápida convergencia y buena precisión comparado con el método de punto a punto. Por ello, utilizando la función de PCL \lstinline{pcl::registration::TransformationEstimationPointToPlaneWeighted} se llega a la transformación que describe en una primera instancia el movimiento realizado por el robot.
+
+\subsubsection{Refinamiento y actualización}
+Debido a los posibles mínimos locales encontrados en lugar del mínimo global, para poder encontrar la transformación adecuada, se itera en los pasos de estimación de correspondencias, el rechazo de las mismas y el cálculo de la transformada, realizando la transformación de la nube de puntos fuente (filtrada y con sus respectivas normales) en base al resultado anterior, para luego calcular dichos valores nuevamente.
+
+Finalmente, con la tranformación calculada se aplica la misma a la nube de puntos fuente para, luego de un nuevo filtrado para reducir su tamaño, agregarla al mapa generado en base a las nubes de puntos previas. En PCL, haciendo simplemente una suma de dicha nube de puntos transformada con el mapa se consigue el objetivo.
+
+\subsection{Resultados}
+Debido a los problemas mencionados de la cámara Minoru para generar los mapas, sumado a que no se dispone del dato real de la trayectoria del robot para poder contrastarla con el algoritmo desarrollado, se cambió el enfoque del trabajo y se optó por obtener los datos en base a un entorno de simulación que, como se mencionó anteriormente, fue Gazebo el elegido. 
+
+Dentro de los modelos que se encuentran disponibles, se tomó el modelo del robot terrestre  \textit{Rosbot 3.0}\footnote{https://github.com/husarion/rosbot\_description} para realizar las simulaciones, el cual cuenta con una Microsoft Kinect, además de contar con un LIDAR 2D, IMU y encoders. A su vez, el mismo fabricante proporciona mapas simulados para la realización de pruebas, y con el agregado de los mapas presentes en el robot \textit{Turtlebot3}\footnote{https://github.com/ROBOTIS-GIT/turtlebot3} se consiguen una suficiente cantidad de entornos para ensayar el algoritmo descripto. A continuación, se detallan los resultados en base a uno de los mapas y el \textit{Rosbot 3.0}.
+
+Para el caso, se evaluó el mapa \textit{turtlebot3 world}, que se observa en la Figura \ref{fig:turtlebotworldoriginalmap}, además de observarse también el modelo simulado del Rosbot 3.0. A partir de dicha simulación, se movió al robot sin un patrón específico, tratando de que pueda mapearse todo el lugar, guardando los tópicos de interés en un contenedor de ROS (\textit{rosbag}) para luego poder procesar y evaluar la misma información con el fin de poder ajustar el algoritmo. En base a esto, se fue construyendo el mapa con cada una de las nubes de puntos entrantes, comparado a cada una con la nube de puntos anterior y sumando entonces la nueva nube transformada al mapa generado, mediante el \textit{registration pipeline} descrito anteriormente. En base a esto, se consiguieron los resultados que se observan en la Figura \ref{fig:turtlebotworldestimatedmap}, donde la traza roja representa a la trayectoria real del robot (dato proporcionado por la simulación), mientras que la trayectoria azul se trata de la trayectoria estimada por el algoritmo realizado.
+\begin{figure}[!ht]
+    \centering
+    {\includegraphics[width=\linewidth]{Img/TurtleBotWorldMap3D.png}}
+    \caption{Entorno simulado \textit{turtlebot3 world}}
+    \label{fig:turtlebotworldoriginalmap}
+\end{figure}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Img/TurtleBotWorldMap3DEstimated.png}%
+    \caption{Mapa reconstruido en base a la cámara RGB-D del entorno simulado, junto a la trayectoria real y estimada por el algoritmo}
+    \label{fig:turtlebotworldestimatedmap}
+\end{figure}
+Como el tiempo de procesamiento en una computadora de 4 núcleos (2.0 GHz) ronda el segundo, se redujo la tasa de ejecución del contenedor de ROS para poder procesar todas las nubes de puntos, ya que se consiguen datos cada medio segundo. 
+
+
+Como se pretende realizar luego una fusión sensorial, combinando un LIDAR 2D y una IMU, una opción para que pueda llevarse al tiempo real es procesando cada cierto tiempo las nubes, ignorando entonces parte de ellas. Como el LIDAR 2D da información respecto a la pose del vehículo, se conseguirían entonces resultados aproximados, ya que para cada paso del algoritmo se partiría de la última transformación estimada, ya sea de la cámara, del LIDAR o de un algoritmo externo, como puede ser el filtro de Kalman.

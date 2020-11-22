@@ -1,6 +1,27 @@
+\ifimagenes
+\ifimagenespaper
+\begin{abstract}
+\else
+\section*{Abstract}
+\fi
+Para un robot móvil que explora un entorno estático desconocido, localizarse y construir un mapa al mismo tiempo es el problema conocido como localización y mapeo simultáneos (SLAM). Con el fin de poder resolver este problema, en el presente trabajo se desarrolla un enfoque de la odometría visual a partir de imágenes en colores con mapa de profundidad (RGB-D) de una cámara Microsoft Kinect bajo el entorno de simulación Gazebo. Con este fin, se propone un \textit{pipeline de registro} que tiene como objetivo encontrar la mejor estimación de movimiento de cuerpo rígido para mapear una imagen de profundidad en otra, asumiendo una escena estática tomada por una cámara en movimiento. 
+
+El pipeline propuesto se basa en nubes de puntos organizadas, esto es, que dichas nubes se presenten como matrices 2D, tal como la estructura que presentan las cámara monoculares. Aprovechando esto, se emplea una técnica la cual asegura que la nube de puntos resultante tenga un número reducido de muestras extraídas en base a las distintas orientaciones superficiales que presenta la nube, llamada \textit{normal space sampling}, aumentando la probabilidad de que el registro converja al mínimo global. Los resultados obtenidos se asemejan a la trayectoria real simulada por el robot.
+\ifimagenespaper
+\end{abstract}
+
+\begin{IEEEkeywords}
+RGB-D, PCL, SLAM3D, SLAM, Gazebo
+\end{IEEEkeywords}
+\else
+\fi
+
+\else
 \section*{Abstract}
 \label{sec:1_abstract}
 
 En los últimos años, los robots han recibido una mayor atención de la comunidad de investigación, en especial debido a la aparición de los vehículos aéreos no tripulados.
 
 El presente trabajo describe el desarrollo de una plataforma de control de robots. Dicha plataforma cuenta con la posibilidad de expandir sus funcionalidades gracias al estándar de hardware PC/104 presente en la industria, logrando así poder desarrollar a partir de la misma tanto vehículos aéreos no tripulados (UAV) como robots terrestres, entre otros. En base a la misma, se desarrollará un robot capaz de estimar tanto su posición como el contorno del mapa en el cual se encuentra.
+\fi
+
