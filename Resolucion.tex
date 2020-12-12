@@ -1,7 +1,8 @@
-\section{Experimentos}
 \ifimagenes
+\section{Experimentos}
 A continuación, se presentan los experimentos realizados en base a los datos de una cámara estéreo que se dispuso físicamente, mencionando los inconvenientes de la misma para poder obtener los resultados esperados. Luego, se describe el pipeline utilizado para el registro de nube de puntos y, finalmente, se presentan los resultados obtenidos a partir de una simulación, mediante sets de datos previamente validados.
 \else
+\section{Resolución}
 \subsection{Plataforma de Hardware base desarrollada}
 A partir del relevamiento realizado en la Sección \ref{sec:platforms}, se desarrolló la plataforma observada en la Figura \ref{fig:baseboardv2_1}, con el propósito de que la misma pueda utilizarse no sólo para la realización del trabajo, sino también para un gran número de aplicaciones dentro del area de la robótica. En el Apéndice \textbf{(MONGO)} puede encontrarse el esquemático completo del mismo.
 
@@ -135,10 +136,9 @@ Para la calibración de la unidad inercial presente en el robot, esto es, el MPU
 \end{figure}
 
 
-\subsubsection{Calibración del acelerómetro y giróscopo}
 Tal como se desarrolló en la Sección \ref{sec:sensors}, la calibración del giróscopo se encuentra ligada a la calibración del acelerómetro, por lo que una mala calibración del acelerómetro hará llevará a una calibración inexacta del giróscopo. Además, como se pretende utilizar el mismo dataset para calibrar a ambos sensores, es necesario poder estimar todas las variables previas necesarias para tal fin.
 
-\paragraph{Varianza de Allan para el cálculo de $T_{init}$}
+\subsubsection{Varianza de Allan para el cálculo del tiempo inicial}
 Para poder conocer el tamaño adecuado que permita obtener el \textit{bias} del giróscopo en el instante inicial, se utiliza la \textit{varianza de Allan}[20][8] $\sigma_{Allan}$, la cual mide la varianza de la diferencia entre promedios de intervalos consecutivos, siendo entonces
 \begin{align}
     \sigma_{Allan} &= \frac{1}{2} E[(x(\tilde{t},k) - x(\tilde{t},k-1))^2] \\
@@ -158,7 +158,7 @@ siendo este entonces el elegido.
     \label{fig:imugyrovariance}
 \end{figure}
 
-\paragraph{Detector estático}
+\subsubsection{Detector estático}
 Como lo que se busca es promediar los datos del acelerómetro cuando el mismo permanece estático, es necesario poder entonces determinar en que momento el banco de pruebas se encuentra inmóvil. Tal como en \textbf{(Tedaldi, 2014)}, se propone el uso de un detector estático basado en la varianza de la aceleración, promediando cada un cierto tiempo $t_p$
 \begin{equation}
     \xi(t) = \sqrt{(var_{t_p}\ a_x(t))^2 + (var_{t_p}\ a_y(t))^2 + (var_{t_p}\ a_z(t))^2}
@@ -174,7 +174,7 @@ Si bien el tiempo estático en que puede estar el banco para la calibración del
     t_p = 1 s
 \end{equation}
 
-\paragraph{Calibración del acelerómetro}
+\subsubsection{Calibración del acelerómetro}
 En base a todos los parámetros calculados anteriormente, se tomaron las mediciones de la unidad inercial de medición, dejándola primero estática por aproximadamente $T_{init}$, y luego ubicándola en diferentes rotaciones con intervalos estáticos entre las mismas de menos de $T_{init}$. Como se tienen nueve parámetros para poder calibrar tanto el acelerómetro como el giróscopo (detallados en la Expresiones (\ref{eq:accelcalibrationparams}) y (\ref{eq:gyrocalibrationparams})\footnote{Mínimamente se necesitan la misma cantidad de mediciones que de incógnitas, aunque mientras más mediciones haya, mejor será la estimación}), se realizan un gran número de posiciones, obteniendo entonces las aceleraciones observadas en la Figura \ref{fig:imugyroaccelcal}. Junto a dichos datos, se representa el detector de estáticos, ajustado con un
 \begin{equation}
     k = 2.0
@@ -215,7 +215,7 @@ minimizándola mediante el algoritmo de Levenbeg-Marquandt, en base a los interv
     \end{bmatrix}
 \end{align}
 
-\paragraph{Integración de la velocidad angular}
+\subsubsection{Integración de la velocidad angular}
 Como se desarrolló en la Sección \ref{sec:sensors}, la integración de la velocidad angular utilizando cuaterniones no es una tarea sencilla.
 Esta función, en concreto, requiere de una integración de la velocidad angular en un tiempo discreto. Si bien existen diferentes métodos de integración numérica, es necesario que el mismo sea robusto y estable para mejorar la exactitud de la calibración. Por eso, el \textit{Runge-Kutta} $4^{th}$ \textit{order normalized method} (RK4n)\textbf{(Vojtesek, 2014)} es el elegido, aunque existen otros métodos que pueden utilizarse para este fin \textbf{(Andrle, 2013)}.
 
@@ -252,7 +252,7 @@ Finalmente, en cada paso, es necesario normalizar el cuaternión \textit{(k+1)-�
     \bm{q}_{k+1} \rightarrow \frac{\bm{q}_{k+1}}{||\bm{q}_{k+1}||}
 \end{equation}
 
-\paragraph{Calibración del giróscopo}
+\subsubsection{Calibración del giróscopo}
 \textbf{REVISAR LOS k y k+1!!!!!!!!}
 Una vez calibrado el acelerómetro, se procede a la calibración del giróscopo utilizando el mismo dataset. Para ello, en primer lugar se obtiene el bias de giróscopo mediante el promedio de cada eje en el instante inicial $T_{init}$, obteniendo entonces
 \begin{equation}
@@ -298,12 +298,22 @@ la cual se minimiza utilizando el algoritmo de Levenberg-Marquandt. Del mismo, s
         0 & 0 & 1.0037
     \end{bmatrix}
 \end{align}
+\subsection{Experimentación con LIDAR}
+En base a la plataforma descripta en el comienzo de esta Sección, el LIDAR 2D que se dispuso físicamente fue el Scanse Sweep, el cual cuenta con 
+\begin{itemize}
+    \item 1000 muestras por segundo,
+    \item rango de hasta 40 metros,
+    \item frecuencia de 1 a 10 Hz,
+    \item campo de visión de 360\textdegree, con una resolución de 0.5\textdegree
+\end{itemize}
 
-\subsubsection{Calibración del magnetómetro}
-asdasdsa
+Tomando estas especificaciones, debido a la resolución y el campo de visión, se necesitarían 720 muestras para poder obtener el mapa bidimensional completo, por lo que el escáner estaría limitado a una frecuencia poco más de 1Hz si lo que se pretende es obtener todas las nubes de puntos. Esto trae como inconveniente que, en ese caso, el robot tendría que moverse a una velocidad muy baja, para poder asegurar que tome todos los puntos en prácticamente la misma pose.
 
-\subsection{Calibración de la cámara estéreo}
-Siguiendo la metodología explicada en la Sección \ref{sec:sensors}, para la calibración de la cámara Minoru se utilizó un chessboard de 8x6, con cuadrículas de 10,8cm de lado, tal como la matriz presentada en el tutorial de calibración estéreo del paquete \texttt{camera\_calibration}\footnote{\url{http://wiki.ros.org/camera_calibration/Tutorials/StereoCalibration}}. Siendo que tanto en ROS como en OpenCV los extremos se buscan horizontalmente, es recomendable presentar el chessboard con la mayor cantidad de bordes de manera horizontal, tal como se observa en las calibraciones instantáneas de la Figura \ref{fig:minorurightleft}.
+\subsection{Experimentación con cámara estéreo}
+Como se mencionaba anteriormente, en principio se optó por usar la cámara estéreo Minoru 3D Webcam. La misma cuenta con una interfaz USB 2.0 y una resolución de hasta 640x480, pudiendo además proporcionar hasta 30fps.
+
+\paragraph{Calibración de la cámara estéreo}
+como la Minoru presenta la posibilidad de cambiar el enfoque de cada una de las cámaras monoculares, es necesario realizar una calibración de la misma cada vez que se realice un ajuste en dichos focos. Luego de determinar un foco dado, y siguiendo la metodología explicada en la Sección \ref{sec:sensors}, se realizó la calibración actual de dicha cámara, mediante el uso de un chessboard de 8x6, con cuadrículas de 10,8cm de lado, tal como la matriz presentada en el tutorial de calibración estéreo del paquete \texttt{camera\_calibration}\footnote{\url{http://wiki.ros.org/camera_calibration/Tutorials/StereoCalibration}}. Siendo que tanto en ROS como en OpenCV los extremos se buscan horizontalmente, es recomendable presentar el chessboard con la mayor cantidad de bordes de manera horizontal, tal como se observa en las calibraciones instantáneas de la Figura \ref{fig:minorurightleft}.
 
 \begin{figure}[!ht]
     \centering
@@ -325,7 +335,7 @@ Por razones de ancho de banda de USB 2.0, se configuraron las cámaras para trab
 Con el fin de utilizar datos reales, en principio se optó por usar la cámara estéreo Minoru 3D Webcam, la cual puede observarse en la Figura \ref{fig:minoru3dwebcam}. La misma cuenta con una interfaz USB 2.0 y una resolución de hasta 640x480, pudiendo además proporcionar hasta 30fps.
 \begin{figure}
     \centering
-    \includegraphics[width=0.2\textwidth]{Img/Minoru.jpeg}
+    \includegraphics[width=0.5\textwidth]{Img/Minoru.jpeg}
     \caption{Cámara estéreo Minoru 3D Webcam}
     \label{fig:minoru3dwebcam}
 \end{figure}
@@ -347,6 +357,9 @@ Luego de mover a la cámara en distintas orientaciones y consiguiendo por ende u
 \end{figure}
 
 \subsubsection{Nube de puntos obtenida}
+\else
+\paragraph{Nube de puntos obtenida}
+\fi
 Luego de la calibración, con el paquete de ROS \texttt{stereo\_image\_proc} se puede obtener el mapa de profundidades de la cámara. Además, como se mencionaba anteriormente, dicho paquete cuenta con una opción gráfica para poder configurar los parámetros de las correspondencias estéreo, facilitando la configuración del mismo. Finalmente, con dichos ajustes se obtiene la nube de puntos observada en la Figura \ref{fig:minorupointcloud}, donde en se encuentran las imágenes en crudo de las cámaras izquierda y derecha, la nube de disparidad calculada, y la nube de puntos final obtenida.
 
 \begin{figure}[!ht]
@@ -358,16 +371,34 @@ Luego de la calibración, con el paquete de ROS \texttt{stereo\_image\_proc} se 
 
 Si bien la nube de puntos adquirida por el sensor presenta discontinuidades, con el procesamiento adecuado puede mitigarse este problema. Sin embargo, como las cámaras no están sincronizadas por hardware entre sí, y sumado a que al mover a la misma se aprecia una demora entre la imágen izquierda y derecha, la nube de puntos generada en movimiento no puede tomarse como válida, debido a no poder obtener una representación significativa del entorno con la misma.
 % Si bien los resultados no sean ideales, a la hora de mover la cámara la misma presenta una demora, haciendo que lleguen retrasadas las imágenes izquierda y derecha y, por lo tanto, desincronizadas. Luego de llegar a este punto, se estudió el caso de la Minoru en particular y ambas cámaras no están sincronizadas por hardware, haciendo que el proceso sea complejo de realizarse en aplicaciones que requieran a un robot en movimiento.
-
+\ifimagenes
 \subsection{Registro de las nubes de puntos}
 En base a datos de simulaciones en Gazebo, y tomando de base el Rosbot 3.0, se obtuvieron un set de grabaciones, en base a los datos arrojados por la Microsoft Kinect del mismo. Debido a que es una simulación, se tomó directamente la nube de profundidades dada por dicho 
-\ifimagenespaper
+    \ifimagenespaper
 modelo.
-\else
+    \else
 modelo, aunque puede realizarse un proceso similar al descripto en el anexo del documento para obtener dicha nube de puntos de profundidad 3D.
-\fi
+    \fi
 
 \else
+\subsection{Problemas con las mediciones reales}
+Si bien se tienen a los sensores necesarios para poder realizar el SLAM tanto 3D como 2D, el problema de no poder conocer la pose verdadera del robot en cada instante de tiempo (conocida como el \textit{ground truth}), dificulta entonces la verificación de los datos obtenidos, ya que no podrían compararse con un patrón. A su vez, como se mencionaba anteriormente, los datos tanto del Scanse Sweep como los provenientes de la Minoru no cuentan con una cantidad suficiente de puntos, complejizando aún más el algoritmo a realizar.
+
+Para poder abordar estos problema, se optó por realizar las pruebas de los algoritmos en el entorno de simulación Gazebo, basándose en el modelo de un robot terrestre conocido, siendo este el ROSbot 2.0, el cual puede observarse en la Figura \ref{fig:rosbot2_0}. El mismo cuenta, entre otras cosas, con una IMU 9DOF, un LIDAR 2D y una cámara RGB-D, esto es, todos los componentes necesarios para la realización del presente trabajo.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale=1]{Img/ROSbot2_0.jpg}
+    \caption{ROSbot 2.0}
+    \label{fig:rosbot2_0}
+\end{figure}
+
+La ventaja que presenta este robot simulado es que pueden obtenerse los datos puros de los sensores, así como también para le caso de la cámara RGB-D se puede obtener la nube de puntos procesada de la misma, permitiendo entonces el desarrollo únicamente del algoritmo de SLAM, aunque si se quiere conseguir dicha nube de puntos pueden aplicarse los métodos mencionados anteriormente en el presente trabajo.
+
+% En lo que resta de la Sección, se mencionarán los algoritmos desarrollados, junto con los entornos elegidos para cada uno al momento de realizar la simulación.
+
+
+\ifslamext
 \subsection{Algoritmo SLAM propuesto}
 Como los sensores exteroceptivos utilizados (LIDAR 2D y cámara estéreo) pueden generar mapas diferentes (aunque relacionados), para la implementación del algoritmo SLAM se propone el diagrama visible en la Figura \ref{fig:slamalgorithmblockdiagram}, donde se plantea un filtro de Kalman ''integrador'' para calcular la pose del vehículo, tomando en la etapa de predicción los datos de sensores propioceptivos, mientras que para la etapa de corrección utiliza cada estimación proporcionada por los sensores exteroceptivos (calculada en conjunto con sensores propioceptivos y el estado anterior estimado). Esta etapa de corrección se realiza cada vez que alguno de estos sensores exteroceptivos tiene una nueva estimación de la pose del vehículo.
 \begin{figure}
@@ -383,6 +414,9 @@ A continuación se presentarán los distintos algoritmos utilizados, al principi
 
 \subsubsection{SLAM 3D}
 \fi
+\subsection{SLAM 3D}
+\fi
+
 Una vez con las nubes de puntos de profundidad provenientes de la cámara, el próximo paso refiere a la generación del mapa y la localización del robot en el entorno, utilizando el denominado \textit{registration pipeline} (presentado en la Sección \ref{sec:marcoteorico}). A continuación, se desarrollan los pasos realizados a estas nubes de puntos, los cuales pueden verse en la Figura \ref{fig:3dalgorithmblockdiagram}.
 
 \begin{figure}
@@ -424,7 +458,16 @@ Debido a los posibles mínimos locales encontrados en lugar del mínimo global, 
 
 Finalmente, con la tranformación calculada se aplica la misma a la nube de puntos fuente para, luego de un nuevo filtrado para reducir su tamaño, agregarla al mapa generado en base a las nubes de puntos previas. En PCL, haciendo simplemente una suma de dicha nube de puntos transformada con el mapa se consigue el objetivo.
 
+\subsection{SLAM 2D}
+Como se mencionaba en la Sección \ref{sec:marcoteorico}, una vez obtenidos los datos del LIDAR luego hay que filtrarlos. Para ello, poniendo un umbral del doble de la resolución del mapa se extraen los distintos puntos de interés.
+
+Luego, para poder estimar la transformación, una forma de hacerlo es mediante fuerza bruta en un mapa que cuente con una buena resolución como para discernir entre los distintos puntos. Como mientras más denso es el mapa, mayor es el costo computacional que requiere, para agilizar la búsqueda de la transformación que mejor se adapte al movimiento se plantea un mapa multi resolución \textbf{(Olson,2015)}, donde primero se determina la mejor transformación obtenida mediante fuerza bruta para el mapa de menor resolución, y a partir de dicha transformación obtenida se busca la que mejor responda al mapa siguiente en resolución. Esto se hace hasta llegar al último mapa, o sea, al de mayor resolución, consiguiendo así reducir los tiempos del algoritmo y a su vez conseguir un resultado robusto.
+
+Una vez obtenida la transformación óptima, se procede a la actualización del mapa mediante la Expresión \ref{eq:logitupdatemap}.
+
 \subsection{Resultados}
+
+\subsubsection{SLAM 3D}
 Debido a los problemas mencionados de la cámara Minoru para generar los mapas, sumado a que no se dispone del dato real de la trayectoria del robot para poder contrastarla con el algoritmo desarrollado, se cambió el enfoque del trabajo y se optó por obtener los datos en base a un entorno de simulación que, como se mencionó anteriormente, fue Gazebo el elegido. 
 
 Dentro de los modelos que se encuentran disponibles, se tomó el modelo del robot terrestre  \textit{Rosbot 3.0}\footnote{https://github.com/husarion/rosbot\_description} para realizar las simulaciones, el cual cuenta con una Microsoft Kinect, además de contar con un LIDAR 2D, IMU y encoders. A su vez, el mismo fabricante proporciona mapas simulados para la realización de pruebas, y con el agregado de los mapas presentes en el robot \textit{Turtlebot3}\footnote{https://github.com/ROBOTIS-GIT/turtlebot3} se consiguen una suficiente cantidad de entornos para ensayar el algoritmo descripto. A continuación, se detallan los resultados en base a uno de los mapas y el \textit{Rosbot 3.0}.
@@ -444,5 +487,24 @@ Para el caso, se evaluó el mapa \textit{turtlebot3 world}, que se observa en la
 \end{figure}
 Como el tiempo de procesamiento en una computadora de 4 núcleos (2.0 GHz) ronda el segundo, se redujo la tasa de ejecución del contenedor de ROS para poder procesar todas las nubes de puntos, ya que se consiguen datos cada medio segundo. 
 
-
+\ifimagenes
 Como se pretende realizar luego una fusión sensorial, combinando un LIDAR 2D y una IMU, una opción para que pueda llevarse al tiempo real es procesando cada cierto tiempo las nubes, ignorando entonces parte de ellas. Como el LIDAR 2D da información respecto a la pose del vehículo, se conseguirían entonces resultados aproximados, ya que para cada paso del algoritmo se partiría de la última transformación estimada, ya sea de la cámara, del LIDAR o de un algoritmo externo, como puede ser el filtro de Kalman.
+\fi
+
+\subsubsection{SLAM 2D}
+Utilizando un mapa tipo laberinto, el cual puede observarse en la Figura \ref{fig:lidar2dmaporiginal}, se lograron los resultados que se ven en la Figura \ref{fig:lidar2dmapgenerated}, donde al igual que en el SLAM3D, se observa que hay un corrimiento de la pose estimada (azul) respecto al ground truth (rojo), el cual puede mitigarse con el agregado del cierre de ciclo.
+
+\begin{figure}[!ht]
+    \centering
+    {\includegraphics[width=\linewidth]{Img/LIDAR2DMapOriginal.png}}
+    \caption{Entorno simulado \textit{turtlebot3 maze}}
+    \label{fig:lidar2dmaporiginal}
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    {\includegraphics[width=\linewidth]{Img/LIDAR2DMapGenerated.png}}
+    \caption{Mapa obtenido en base al entorno simulado \textit{turtlebot3 maze}, mediante el uso del LIDAR 2D}
+    \label{fig:lidar2dmapgenerated}
+\end{figure}

@@ -1,6 +1,6 @@
-
 \section{Simultaneous Localization And Mapping}
-Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores.
+\label{sec:slam}
+Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores. Si se quiere profundizar más en el tema se recomienda consultar \textbf{(Suenderhauf, 2012)(Reid, 2016)}.
 
 \subsection{Introducción al SLAM}
 El problema de localización y mapeo simultáneos (SLAM) se basa en el proceso de un robot que construye un mapa de su entorno desconocido (\textit{mapping}) mientras este lo explora conociendo su ubicación en el mismo (\textit{localization}). Dicho problema puede ser expresado como el dilema del huevo o la gallina, ya que para conocer la ubicación del robot, es necesario determinar el mapa que lo rodea, sin embargo, para que el mismo pueda estimar el mapa en el cual se encuentra, necesita primero conocer su ubicación dentro de ese entorno. 
@@ -57,9 +57,10 @@ Si bien lo que se busca es evitar errores principalmente de localización, debid
     \label{fig:poseloopclcorr}
 \end{figure}
 
+% \ifslamext
 \subsection{Mapas}
 \textbf{DE Suenderhauf 2012}
-En base a los sensores extereoceptivos utilizados además del entorno en el que se encuentran los robots y tareas que tengan que realizar, los mapas creados pueden variar considerablemente. \textbf{THRUN 2002, SICILIANO 2008, THRUN 2005}
+En base a los sensores extereoceptivos utilizados además del entorno en el que se encuentran los robots y tareas que tengan que realizar, los mapas creados pueden variar considerablemente. \textbf{THRUN 2002, SICILIANO 2008, THRUN 2005} A continuación, se presentan dos tipos de mapas que pueden encontrarse en la literatura.
 
 \subsubsection{Occupancy Grid Maps}
 El concepto de esta técnica es la de discretizar el ambiente a mapear, utilizando pequeñas celdas o regiones discretas $m_i$, como puede observarse en la Figura \ref{fig:occupancygridmaps}.a. A cada una de estas celdas se le asocia un valor que expresa la probabilidad
@@ -98,16 +99,16 @@ A diferencia de los Occupancy Grid Maps, los cuales generan un mapa denso del am
     \label{fig:landmarktypes}
 \end{figure}
 
-\subsubsection{Grafos de pose}
-Los grafos de pose representan la trayectoria del robot como una estructura grafos donde los nodos representan las poses del robot y los bordes entre los nodos representan las conexiones espaciales entre estas poses. Los bordes contienen, por ejemplo, información de odometría o expresan cierres de ciclo. En la Figura puede verse el esquema de un grafo de pose, donde la trayectoria del robot es representada por los grafos donde los nodos son las poses del robot en un punto concreto de tiempo.
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{Img/PoseGraphStructure.png}
-    \caption{Esquema de un grafo de pose}
-    \label{fig:posegraphstructure}
-\end{figure}
+% \subsubsection{Grafos de pose}
+% Los grafos de pose representan la trayectoria del robot como una estructura grafos donde los nodos representan las poses del robot y los bordes entre los nodos representan las conexiones espaciales entre estas poses. Los bordes contienen, por ejemplo, información de odometría o expresan cierres de ciclo. En la Figura puede verse el esquema de un grafo de pose, donde la trayectoria del robot es representada por los grafos donde los nodos son las poses del robot en un punto concreto de tiempo.
+% \begin{figure}[!ht]
+%     \centering
+%     \includegraphics[width=\textwidth]{Img/PoseGraphStructure.png}
+%     \caption{Esquema de un grafo de pose}
+%     \label{fig:posegraphstructure}
+% \end{figure}
 
-Si bien los landmarks explícitos u otra información sobre el medio ambiente no son parte del grafo de pose en sí, dicha información se puede adjuntar a los nodos en el grafo, lo que permite que el grafo de pose exprese occupancy grids en 2D o 3D o mapas de características y cualquier combinación de ellos.
+% Si bien los landmarks explícitos u otra información sobre el medio ambiente no son parte del grafo de pose en sí, dicha información se puede adjuntar a los nodos en el grafo, lo que permite que el grafo de pose exprese occupancy grids en 2D o 3D o mapas de características y cualquier combinación de ellos.
 
 \ifimagenes
 \else
@@ -119,7 +120,7 @@ Puede decirse que un algoritmo de SLAM consiste en tres operaciones básicas, la
     \item El robot observa el mapa que fue mapeado anteriormente y lo utiliza para corregir tanto la localización de dicho landmark como la del propio robot.
 \end{itemize}
 
-Si bien existen numerosos algoritmos para realizar el problema de SLAM, a continuación se describen algunos de los enfoques principales que se encuentran en la literatura respecto al tema en cuestión.
+Si bien existen numerosos algoritmos para realizar el problema de SLAM, a continuación se describen dos de los enfoques que se encuentran en la literatura respecto al tema en cuestión.
 
 \subsubsection{EKF-SLAM}
 El enfoque del EKF para solucionar el problema de SLAM se trata de un problema orientado al online SLAM mediante el uso de datos de sensores recopilados a partir del movimiento y la rotación del robot. Esto se puede hacer, por ejemplo, utilizando encoders y una IMU. Además, también es necesario recopilar información del entorno mediante, por ejemplo, el uso de un LIDAR. Con estos datos, el algoritmo realiza un seguimiento del lugar donde probablemente se ubica el robot dentro de un mapa, así como un seguimiento de los puntos de referencia específicos observados. Es por esto que se utiliza un mapa de características para este caso.
@@ -137,7 +138,7 @@ donde $\bm{p}$ corresponde a la pose del robot\footnote{Por lo general se suele 
 Además de la complejidad cuadrática, este filtro cuando se aplica al problema SLAM tiene como desventaja sustancial \textbf{[Csorba 1997 DE SU - FAST-SLAM]}
 la sensibilidad a fallas que presenta en las asociaciones de datos. Este problema con el EKF se aplica en situaciones en las que se desconocen las asociaciones de datos. El EKF mantiene una única hipótesis de asociación de datos por observación, típicamente elegida usando una heurística de máxima verosimilitud. Si la asociación de datos elegida por esta heurística es incorrecta, el efecto de incorporar esta observación en el EKF nunca se puede eliminar.
 
-\subsubsection{FastSLAM}
+% \subsubsection{FastSLAM}
 
 
 \subsubsection{GraphSLAM}
@@ -171,8 +172,9 @@ que, aplicando el logaritmo como en la Expresión (\ref{eq:mlewithlog}), y tenie
 \end{align}
 siendo $||a-b||^2_{\bm{O}} = (a - b)^T\bm{O}^{-1}(a-b)$ la definición de la distancia Mahalanobis. Esta puede minimizarse con algunas de las regresiones vistas en la Sección \ref{sec:regressionanalysis}, dependiendo de la morfología de la señal $f$.
 
-\begin{huge}
-ESTE ES QUE EL QUE USO!!!
-\end{huge}
-
 \fi
+
+% \fi
+
+\subsection{Resumen}
+En esta Sección se presentaron algunos conceptos importantes referidos a SLAM, los cuales serán abordados en secciones posteriores.

@@ -1,25 +1,33 @@
+\ifimagenes
 \section{Marco teórico}
+\else
+\section{Reconstrucción del entorno}
+\fi
 \label{sec:marcoteorico}
 En esta sección se presentan distintos métodos para poder realizar una reconstrucción del entorno en base a las nubes de puntos, además de dar una introducción a la librería de nube de puntos (PCL) y su vínculo con ROS, utilizados para el desarrollo del trabajo.
 
+\ifimagenes
 \subsection{Reconstrucción del entorno}
+\else
+\fi
 En base a los datos provistos por los sensores exteroceptivos (LIDAR, cámaras, entre otros), el objetivo principal del trabajo consiste en recolectar dicha información para poder reconstruir el entorno en el cual se encuentra sumergido el robot, además de poder estimar su posición. Sin embargo, estos tipos de sensores proveen un campo de visión limitado, por lo que no es posible describir el mundo real como un todo en base a una sola medición de estos sensores, sino que solo puede mencionarse a una pequeña porción del mismo, denominada \textit{escena}.
 
 A su vez, el tipo de dato que se tome de la escena dependerá del tipo de sensor extereoceptivo que los provea. Por ejemplo, una cámara monocular es capaz de otorgar imágenes 2D, mientras que con una cámara estéreo se consigue una nube de puntos 
 \ifimagenes
-\ifimagenespaper
+    \ifimagenespaper
 tridimensional.
-\else
+    \else
 tridimensional, tal como se describe en el apéndice.
+    \fi
 \fi
 
 \subsection{Point cloud}
-Una \textit{nube de puntos}, o de su terminología en inglés, \textit{point cloud}, se utiliza para describir a un conjunto de puntos de datos en un espacio dado. Las nubes de puntos 3D, por ejemplo, se tratan de un conjunto de puntos tridimensionales que se caracterizan por tener principalmente cordenadas espaciales XYZ, y opcionalmente pueden dar información de intensidad, color, entre otras.
+Una \textit{nube de puntos}, o de su terminología en inglés, \textit{point cloud}, se utiliza para describir a un conjunto de puntos de datos en un espacio dado. Las nubes de puntos 3D, por ejemplo, se tratan de un conjunto de puntos tridimensionales que se caracterizan por tener principalmente coordenadas espaciales XYZ, y opcionalmente pueden dar información de intensidad, color, entre otras.
 
 Como se mencionaba anteriormente, la nube de puntos de la escena adquirida dependerá del principio de medición del sensor utilizado. En concreto, puede categorizarse en: \cite{weinmann2016}
 \begin{itemize}
     \item \textit{Técnicas pasivas}, donde la luz ambiental se encuentra presente, permitiendo utilizar sensores como cámaras estéreo para obtener las imágenes propias del entorno.
-    \item \textit{Técnicas activas} donde los sensores emiten radiaciones electromagnéticas, tal como es el caso de los LIDAR o las cámaras infrarrojas.
+    \item \textit{Técnicas activas} donde los sensores emiten radiaciones electromagnéticas, tal como es el caso de los LIDAR 3D o las cámaras infrarrojas.
 \end{itemize}
 
 Dependiendo de la técnica de adquisición involucrada y el dispositivo utilizado, los datos de la nube de puntos adquiridos pueden corromperse con más o menos ruido y, además de la información espacial en forma de coordenadas XYZ, los atributos de los puntos respectivos, como la información de color o intensidad también puede adquirirse, como se mencionaba anteriormente.
@@ -38,10 +46,10 @@ En general, PCL contiene una estructura de datos muy importante, que es $pcl::Po
 Debido al gran número de tipos de puntos que existen en la librería, cada algoritmo implementado en la misma refiere a una clase perteneciente a una jerarquía de clases con puntos en común específicos. Gracias a ello, dichos algoritmos pueden ser parametrizados en base a lo que necesite el usuario. 
 
 \ifimagenes
-\ifimagenespaper
-\else
-\subparagraph{Interfaz con ROS}
-\fi
+    \ifimagenespaper
+    \else
+    \subparagraph{Interfaz con ROS}
+    \fi
 \fi
 La interfaz PCL para ROS proporciona los medios necesarios para comunicar las estructuras de datos PCL a través del sistema de comunicación basado en mensajes proporcionado por ROS. Para hacerlo, hay varios tipos de mensajes definidos para contener nubes de puntos, así como otros productos de datos de los algoritmos PCL. En combinación con estos tipos de mensajes, también se proporciona un conjunto de funciones de conversión para convertir de tipos de datos PCL nativos en mensajes. Uno de los más importantes tipos de mensajes de ROS es el $sensor_msgs::PointCloud2$, el cual contiene una colección de puntos N-dimensionales, que pueden contener información adicional como normales, intensidad, entre otros.
 
@@ -51,7 +59,9 @@ Para relacionar ambos mundos, ROS cuenta con el paquete \textit{pcl\_conversions
 
 
 \subsection{Adquisición de la nube de puntos}
-Como se menciona en el documento, dependiendo del sensor utilizado para obtener los datos, se conseguirán las nubes de puntos asociadas dependiendo del principio de medición. A continuación se menciona en primera instancia una librería usada comúnmente en este tipo de aplicaciones (OpenCV), además de los sensores utilizados generalmente en este tipo de aplicaciones.
+Como se menciona en el documento, dependiendo del sensor utilizado para obtener los datos, se conseguirán las nubes de puntos asociadas dependiendo del principio de 
+\ifimagenes
+medición. A continuación se menciona en primera instancia una librería usada comúnmente en este tipo de aplicaciones (OpenCV), además de los sensores utilizados generalmente en este tipo de aplicaciones.
 
 \subsubsection{OpenCV}
 OpenCV\footnote{http://opencv.org} es una librería open source multiplataforma que busca brindar una infraestructura de visión artificial fácil de usar y que pueda utilizarse para aplicaciones de tiempo real, por lo que hace hincapié en la optimización. Para ello, OpenCV cuenta con un set de más de 500 funciones \cite{kaehler2017} que abarcan muchas áreas en visión, tales como calibración de cámaras, visión estéreo y robótica.
@@ -110,9 +120,11 @@ Para el caso de ROS, dentro del paquete \texttt{stereo\_image\_proc} se encuentr
 
 \subsubsection{Cámara RGB-D}
 Las cámaras RGB-D\cite{hogman2011} en lugar de poseer dos cámaras monoculares presentan una cámara monocular con la ayuda de sensores infrarrojos para determinar la ubicación de determinados píxeles, siendo un ejemplo conocido de las mismas es la Microsoft Kinect, la cual se observa en la Figura \ref{fig:stereoandrgbdcameras}.b. Para que el mismo pueda obtener la nube de puntos, primero el sensor de distancia proyecta un patrón de moteado infrarrojo. El patrón proyectado es luego capturado por una cámara de infrarrojos en el sensor y comparado parte por parte con patrones de referencia almacenados en el dispositivo. Estos patrones fueron capturados previamente a profundidades conocidas en el proceso de calibración de los mismos. A continuación, el sensor estima la profundidad por píxel en función de los patrones de referencia con los que el patrón proyectado coincide mejor. Los datos de profundidad proporcionados por el sensor de infrarrojos se correlacionan luego con una cámara RGB calibrada. Esto produce una imagen RGB con una profundidad asociada a cada píxel. Una representación unificada popular de estos datos es una nube de puntos: una colección de puntos en un espacio tridimensional, donde cada punto puede tener características adicionales asociadas. Con un sensor RGB-D, el color puede ser una de esas características. Además, las normales de superficie aproximadas también se almacenan a menudo con cada punto en la nube de puntos resultante.
-
+\else
+medición, tal como se desarrolló en la Sección \ref{sec:sensors}.
+\fi
 \subsection{Point cloud registration}
-Si bien un primer paso es obtener la nube de puntos en base al sensor utilizado, uno de los principales enfoques utilizados en robots móviles con los mismos es el llamado \textit{registro de nube de puntos} o, de su terminología en inglés, \textit{point cloud registration}. Dicho proceso responde a encontrar una transformación espacial que alinee dos nubes de puntos generalmente contiguas en el tiempo.
+Si bien un primer paso es obtener la nube de puntos en base al sensor utilizado, uno de los principales enfoques utilizados en robots móviles con los mismos es el llamado \textit{registro de nube de puntos} o, de su terminología en inglés, \textit{point cloud registration}. Dicho proceso responde a encontrar una transformación espacial que alinee dos nubes de puntos generalmente contiguas en el tiempo. Los sensores que utilizan normalmente este enfoque son las cámaras estéreo y RGB-D.
 
 En concreto, dada una nube de puntos fuente (tambíen llamada \textit{input} o \textit{source}) $P$ con puntos $p \in P$, y una nube de puntos objetivo $Q$ (llamada \textit{target}) con puntos $q \in Q$, el problema del registro se basa en encontrar correspondencias entre $P$ y $Q$, y estimar una transformación $T$ que, cuando se aplica a $P$, se alinea todos los pares de puntos correspondientes ($p_i \in P$, $q_j \in Q$). Un problema fundamental del registro es que estas correspondencias generalmente no se conocen y deben ser determinadas por el algoritmo de registro. Dadas las correspondencias correctas, hay diferentes formas de calcular la transformación óptima con respecto a la métrica de error utilizada, como se detalla a continuación.
 
@@ -133,27 +145,27 @@ En el proceso descripto anteriormente, normalmente una gran proporción de las c
 
 Finalmente, con las correspondencias filtradas, se busca la transformación que se ajusta mejor a ambas nubes de puntos mediante un proceso conocido como \textit{alineación}.
 
-\ifimagenes
-\else
-%% VA O NO VA?????
-A partir de la clasificación anterior, pueden diferenciarse dos tipos de algoritmos de registro, el \textit{registro basado en características (features)}, y los \textit{algoritmos de registro iterativos}, que se observan en la Figura \ref{fig:registrationprocess} y se detallan a continuación.
-\begin{itemize}
-    \item \textit{Registro basado en características (features)}, para calcular alineaciones iniciales, y
-    \item \textit{Algoritmos de registro iterativos}, siguiendo el principio del algoritmo ICP para iterativamente registrar nube de puntos (que ya se encuentran relativamente alineadas).
-\end{itemize}
+% \ifimagenes
+% \else
+% %% VA O NO VA?????
+% A partir de la clasificación anterior, pueden diferenciarse dos tipos de algoritmos de registro, el \textit{registro basado en características (features)}, y los \textit{algoritmos de registro iterativos}, que se observan en la Figura \ref{fig:registrationprocess} y se detallan a continuación.
+% \begin{itemize}
+%     \item \textit{Registro basado en características (features)}, para calcular alineaciones iniciales, y
+%     \item \textit{Algoritmos de registro iterativos}, siguiendo el principio del algoritmo ICP para iterativamente registrar nube de puntos (que ya se encuentran relativamente alineadas).
+% \end{itemize}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{Img/RegistrationProcess.png}
-    \caption{Registration process}
-    \label{fig:registrationprocess}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%     \includegraphics[width=\linewidth]{Img/RegistrationProcess.png}
+%     \caption{Registration process}
+%     \label{fig:registrationprocess}
+% \end{figure}
 
-Para el registro basado en características, los descriptores de características geométricas se calculan y combinan en algún espacio de alta dimensión. Cuanto más descriptivos, únicos y persistentes sean estos descriptores, mayor será la probabilidad de que todas las \textit{coincidencias} (o \textit{correspondencias}) encontradas sean pares de puntos que realmente se correspondan entre sí.
+% Para el registro basado en características, los descriptores de características geométricas se calculan y combinan en algún espacio de alta dimensión. Cuanto más descriptivos, únicos y persistentes sean estos descriptores, mayor será la probabilidad de que todas las \textit{coincidencias} (o \textit{correspondencias}) encontradas sean pares de puntos que realmente se correspondan entre sí.
 
-En el algoritmo ICP de Besl y McKay \cite{besl1992} no se calculan descriptores de características, sino que se considera que los puntos más cercanos en el espacio cartesiano se corresponden entre sí. Se estima una transformación que minimiza las distancias euclidianas entre pares encontrados de puntos más cercanos en el sentido de mínimos cuadrados. El proceso de determinar los puntos correspondientes en los dos conjuntos de datos y calcular la transformación que los alinea se repite iterativamente. Se espera que el conjunto de puntos de origen converja hacia el conjunto de destino a medida que las correspondencias sean cada vez mejores. Simultáneamente, Chen y Medioni \cite{chen1992} formularon un algoritmo similar, pero en lugar de minimizar las distancias euclidianas al cuadrado entre los puntos correspondientes, aplicaron una métrica de error de punto a plano.
-%%%%%
-\fi
+% En el algoritmo ICP de Besl y McKay \cite{besl1992} no se calculan descriptores de características, sino que se considera que los puntos más cercanos en el espacio cartesiano se corresponden entre sí. Se estima una transformación que minimiza las distancias euclidianas entre pares encontrados de puntos más cercanos en el sentido de mínimos cuadrados. El proceso de determinar los puntos correspondientes en los dos conjuntos de datos y calcular la transformación que los alinea se repite iterativamente. Se espera que el conjunto de puntos de origen converja hacia el conjunto de destino a medida que las correspondencias sean cada vez mejores. Simultáneamente, Chen y Medioni \cite{chen1992} formularon un algoritmo similar, pero en lugar de minimizar las distancias euclidianas al cuadrado entre los puntos correspondientes, aplicaron una métrica de error de punto a plano.
+% %%%%%
+% \fi
 A continuación, se desarrollan los pasos nombrados anteriormente.
 
 \subsubsection{Selección}
@@ -229,3 +241,112 @@ A lo largo de los años, ha habido numerosos enfoques matemáticos para resolver
     \item \textit{Métrica de error punto-a-plano ponderada}: Asignar un peso diferente a cada correspondencia puede mejorar la convergencia. La ponderación de los pares de puntos puede verse como un rechazo de correspondencia suave, ajustando la influencia de los puntos correspondientes ruidosos en el proceso de minimización. La ponderación puede ser una función de la distancia punto a punto o punto a plano entre los puntos, una función del ángulo entre las normales correspondientes a los puntos, o una función del modelo de ruido del sensor que se ha usado. Un ejemplo de PCL puede ser \lstinline{pcl::registration::TransformationEstimationPointToPlaneWeighted}.
 \end{itemize}
 
+\subsection{Point Cloud 2D}
+Si bien las nubes de puntos tridimensionales son una generalización de aquellas que refieren a dos dimensiones, el hecho de tener información sólo de un plano reduce drásticamente la cantidad de puntos a analizar. Este caso sucede en sensores como los LIDAR 2D, donde midiendo el tiempo de vuelo de la señal láser se logran conocer la distancia de distintos puntos de los objetos respecto al sensor. Es por esto que el enfoque de reconstrucción del entorno no suele ser el mismo que el descripto anteriormente.
+
+\subsubsection{Algoritmo para LIDAR 2D}
+Al igual que con el método descripto anteriormente, en la reconstrucción de mapas 2D se pretende conseguir la transformación que mejor responda al movimiento del robot entre el instante de tiempo actual y el anterior. Un algoritmo común de coincidencia de escaneo láser encuentra la transformación óptima de cuerpo rígido $T$ que alinea el escaneo láser actual $S_t$ en el tiempo $t$ con el anterior $S_{t-1}$ en el tiempo $t-1$. Este método solo considera dos escaneos láser secuenciales, y cuando se aplican iterativamente para todos los escaneos láser uno por uno, el problema de deriva de pose se deterioraría debido a los errores de coincidencia acumulados, lo que afectará la precisión de la siguiente coincidencia. 
+
+Para abordar este inconveniente, en lugar de comparar los datos en el instante $t$ con el anterior, $t - 1$, se puede comparar dicha información actual con el mapa generado anteriormente, $M_{t-1}$, el cual es generado por todos los escaneos anteriores, de $1$ a $t-1$, y, en caso de ser un occupancy grid map, almacena el valor de probabilidad de cada celda de la cuadrícula en la región del espacio 2D. De acuerdo con las Reglas de Bayes, asumiendo la independencia de cada punto de $S_t$, el valor de probabilidad de la suma de $S_t$ respecto al mapa $M_{t-1}$ se calcula como
+\begin{equation}
+    p(S_t|M_{t-1}) = \sum_{x\epsilon S_t} p(x|M_{t-1})
+\end{equation}
+siendo $p(x|M_{t-1})$ la probabilidad de que un punto de escaneo $x \epsilon S_t$ coincida con uno perteneciente a $M_{t-1}$ en esa misma ubicación. Entonces, para buscar la transformación de $S_t$ que mejor se adapte al movimiento del robot respecto al mapa generado anteriormente $M_{t-1}$, llámese $T^*$, puede aplicarse el método de máxima verosimilitud
+\begin{equation}
+    T^* = argmax(p(T\propto S_t|M_{t-1})
+\end{equation}
+donde $T\propto S_t$ refiere a los datos del sensor en el instante actual $S_t$ transformados por $T$. A continuación, se presentan una serie de pasos a seguir para lograr el objetivo.
+
+\paragraph{Filtrado de los datos}
+Un ejemplo de los datos provenientes de un LIDAR 2D pueden verse en la Figura \ref{fig:lidar2dpoints}. Tal como en el caso de las nubes de puntos tridimensionales, para el caso del LIDAR 2D es necesario quedarse sólo con los datos de mayor relevancia. Por ejemplo, un punto en el espacio sin otros cercanos no aportará mucha información, mientras que una conglomeración de puntos puede resultar en una pared, por ejemplo.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Img/LIDAR2DPoints.png}
+    \caption{Puntos dados por un LIDAR 2D}
+    \label{fig:lidar2dpoints}
+\end{figure}
+
+Existen numerosas técnicas para obtener los distintos puntos de interés, ya sea filtrando en base a la distancia entre los puntos, como también la extracción de líneas en base a dichos puntos \textbf{(Gao, 2018)}.
+
+\paragraph{Estimación de la transformación óptima}
+En concreto, hay dos formas principales de encontrar la transformación de cuerpo rígido óptima: una es mediante métodos de búsqueda bruta y la otra es la que se basa en el ascenso en gradiente. El método de ascenso en gradiente puede atascarse en el mínimo local, mientras que el método de búsqueda bruta es una búsqueda global y es más robusto. Además, un mapa de múltiples resoluciones y una ventana de búsqueda estrecha pueden mejorar en gran medida la eficiencia de búsqueda del método de búsqueda bruta en una aplicación en tiempo real costosa en tiempo \textbf{(Olson, 2009)(Olson, 2015)}.
+
+\subsubsection{Generación de mapas con LIDAR 2D}
+Como los LIDAR en si no aportan información de colores, sino que para el caso de los bidimensionales la misma se trata de puntos en un plano, como se observa en la Figura \ref{fig:lidar2dpoints}, los mapas generados por dichos sensores suelen ser son los \textit{occupancy grid maps} vistos en la Sección \ref{sec:slam}, donde a partir de la ubicación de los puntos provistos por el sensor se determinan los lugares ocupados y libres, siendo las casillas libres las que se encuentran entre el sensor y cada punto y las ocupadas las correspondientes a la posición de los puntos en si, tal como se observa en la Figura \ref{fig:lidar2dmap}. Si bien existen los mapas binarios, en los que se tiene \textit{ocupado, vacio} o \textit{desconocido} solamente, al existir un margen de error en las mediciones, dichos mapas suelen ser probabilísticos, siendo 0.5 el valor por defecto de todas las celdas desconocidas.
+
+\begin{figure}[!ht]
+    \centering{{\includegraphics[width=0.75\textwidth]{Img/LIDAR2DMap.png}}}%
+    \caption{Mapa generado a partir de los datos del LIDAR 2D}
+    \label{fig:lidar2dmap}
+\end{figure}
+
+Para poder conseguir el mapa mencionado anteriormente, se tienen que seguir una serie de pasos y tener ciertas consideraciones, las cuales se desarrollan a continuación.
+
+\paragraph{Obtención de las distintas celdas}
+Como se trata de un mapa basado en grillas, se deben determinar no solo las celdas que se corresponden con cada punto, sino también aquellas que corresponden a las celdas libres entre los puntos y el sensor.
+
+En el primer caso, al tener la resolución del mapa y la cantidad de cuadros en el mismo, pueden determinarse sin problemas las posiciones de los puntos dados por los datos del LIDAR. 
+
+Para el segundo caso, en cambio, como se dispone a priori de la coordenada del punto y la ubicación del sensor, se podría trazar una recta entre dichos puntos. A partir de la misma, en base a la grilla utilizada, se necesita conocer cuáles celdas atraviesa dicha línea y cuáles no. Un método comúnmente utilizado en este tipo de problemas es el algoritmo de Bresenham \textbf{(Bresenham, 1965)}, permitiendo conseguir los resultados observados en la Figura \ref{fig:bresenhamlinealgorithm}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Img/BresenhamLineAlgorithm.png}
+    \caption{Ejemplo del algoritmo de Bresenham en base a una grilla dada. En negro se observa la línea de la cual se parte, y las celdas en gris son las que se obtienen a partir del algoritmo.}
+    \label{fig:bresenhamlinealgorithm}
+\end{figure}
+
+\paragraph{Ponderación de las celdas}
+Como se mencionaba anteriormente, los mapas suelen ser probabilísticos debido al ruido inherente de los sensores. Para poder determinar los valores que debe tomar cada celda (entre 0 y 1), suele ser recurrente el \textit{desenfoque Gaussiano} (del inglés \textit{Gaussian blur}), el cual se basa en desenfocar una imagen mediante una función Gaussiana. Si bien el mismo suele conocerse para una dimensión, puede extenderse a dos dimensiones sin mucho esfuerzo \textbf{(Haddad, 1991)}, ya que se trata del producto de dos Gaussianas, una en cada dimensión.
+
+\paragraph{Actualización del mapa}
+Una vez obtenido el mapa basado en la medición actual y, por ende, la transformación que describe el movimiento del robot, se procede a la actualización del mapa generado en los instantes de tiempo anteriores. Para poder realizar esto, una forma sería mediante la actualización de Bayes, vista en la Sección \ref{sec:regressionanalysis} y representada por la Expresión (\ref{eq:posteriorfull}). El problema de la misma es que, si se multiplican valores muy pequeños, el costo computacional aumenta. Una forma de mitigar este inconveniente es mediante el uso de la función \textit{logit}, la cual se basa en un número $p$ entre $0$ y $1$ que responde a la forma
+
+\begin{equation}
+    logit(p) = \log\left(\frac{p}{1-p}\right)
+\end{equation}
+obteniendo entonces valores entre $-\infty$ y $+\infty$, tal como se observa en la Figura .a. Para volver a la forma de probabilidad comúnmente utilizada, observada en la Figura .b, se utiliza la siguiente Expresión, la cual se consigue despejando la anterior
+\begin{equation}
+    p = \frac{e^{logit(p)}}{1+e^{logit(p)}}
+\end{equation}
+
+Partiendo entonces de la Expresión (\ref{eq:posteriorfull}), separando la medición actual de las anteriores y utilizando la suposición de Markov, la cual define que la medición actual es independiente de las mediciones anteriores si el estado actual es conocido, se llega a
+\begin{equation}
+    p(m_i|y_{1:t}) = \frac{p(y_t|m_i)p(m_i|y_{1:t-1})}{p(y_t|y_{1:t-1})}
+\end{equation}
+siendo 
+\begin{itemize}
+    \item $m_i$ la celda actual del mapa,
+    \item $y_{1:t}$ las mediciones del sensor en esa celda desde el tiempo $1$ al tiempo $t$, 
+    \item $p(y_t|m_i)$ la probabilidad de la medición actual dado el estado de la celda,
+    \item $p(m_i|y_{1:t-1})$ la probabilidad de que una celda esté ocupada dadas todas las mediciones anteriores, y
+    \item $p(y_t|y_{1:t-1})$ la probabilidad de tener una medición $y_t$ dadas todas las mediciones anteriores $y_{1:t-1}$.
+\end{itemize}
+
+
+Si se expande $p(y_t|m_i)$ mediante la regla de Bayes
+\begin{equation}
+    p(y_t|m_i) = \frac{p(m_i|y_t)p(y_t)}{p(m_i)}
+\end{equation}
+y se aplica a la Expresión anterior, se obtiene
+\begin{equation}
+    p(m_i|y_{1:t}) = \frac{p(m_i|y_t)p(y_t)p(m_i|y_{1:t-1})}{p(m_i)p(y_t|y_{1:t-1})}
+\end{equation}
+
+Luego, aplicando la fracción presente en la función \textit{logit}, se puede llegar a
+\begin{equation}
+    \frac{p(m_i|y_{1:t})}{1-p(m_i|y_{1:t})} = \frac{p(m_i|y_t)(1-p(m_i))p(m_i|y_{1:t-1})}{(1-p(m_i|y_t))p(m_i)(1-p(m_i|y_{1:t-1})}
+\end{equation}
+
+Finalmente, aplicando el logaritmo,
+\begin{equation}
+    logit(p(m_i|y_{1:t})) = logit(p(m_i|y_t)) + logit(p(m_i|y_{1:t-1})) - logit(p(m_i))
+    \label{eq:logitupdatemap}
+\end{equation}
+resultando entonces la actualización del mapa en la adición de tres funciones \textit{logit}, siendo el primer término el referido al valor de la celda en base a la medición actual, el segundo correspondiente al valor de la celda respecto a las mediciones anteriores, y el tercero corresponde al valor de la celda en el instante inicial (siendo desconocido, $m_i = 0.5$ generalmente).
+
+\subsection{Resumen}
+En esta Sección, se presentó el concepto de nube de puntos, a su vez de mencionar las características de la \textit{Point Cloud Library} en este tipo de aplicaciones, siendo una herramienta esencial para el desarrollo del trabajo presentado.
+
+A su vez, se presentaron los distintos métodos para la generación de mapas 2D, además de mencionar las técnicas utilizadas para la estimación del movimiento según los datos acutales y los anteriores.

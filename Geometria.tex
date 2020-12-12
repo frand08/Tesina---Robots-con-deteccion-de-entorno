@@ -1,7 +1,7 @@
 \section{Geometría tridimensional y marcos de referencia}
-En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y algunas de sus representaciones. Presta especial atención al establecimiento de marcos de referencia. \textbf{Sastry (1999)} es una referencia integral sobre el control de la robótica que incluye un trasfondo sobre geometría tridimensional. \textbf{Hughes (1986)} también proporciona una buena base de primeros principios.
+En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y traslación, junto con algunas de sus representaciones. Si se quiere profundizar en este tema, puede referirse a \textbf{(Barfoot, 2016)}.
 
-Los robots móviles generalmente son libres de trasladarse y rotar. Matemáticamente, tienen seis grados de libertad: tres en traslación y tres en rotación. Esta configuración geométrica de seis grados de libertad se conoce como la \textit{pose} (posición y orientación) del robot. Algunos robots pueden tener múltiples cuerpos conectados entre sí; en este caso cada cuerpo tiene su propia pose. Consideraremos solo el caso de un solo cuerpo aquí.
+Los robots móviles generalmente son libres de trasladarse y rotar. Matemáticamente, tienen seis grados de libertad: tres en traslación y tres en rotación. Esta configuración geométrica de seis grados de libertad se conoce como la \textit{pose} (posición y orientación) del robot. Algunos robots pueden tener múltiples cuerpos conectados entre sí; en este caso cada cuerpo tiene su propia pose. Consideraremos solo el caso de un solo cuerpo en el presente trabajo.
 
 \subsection{Rotaciones}
 El vector, $\undervec{r}$, es un objeto geométrico que tiene magnitud y dirección. Este vector puede ser expresado en un \textit{marco de referencia}, $\undervec{\bm{\mathcal{F}}}_a$, como
@@ -409,7 +409,7 @@ De las tres representaciones vistas, esto es, la \textit{matriz de rotación}, l
 \input{Tables/RotationRepresentations}
 
 \subsection{Poses}
-Como se ha hablado anteriormente a la rotación, ahora se presenta a la notación de \textit{traslación}. Juntos, la traslación y rotación de un cuerpo se denominan \textit{pose}. Los problemas de estimación de la pose a menudo tienen que ver con la transformación de las coordenadas de un punto, $P$, entre un marco de vehículo en movimiento (en traslación y rotación) y un marco estacionario, como se muestra en la Figura \ref{fig:pose}.
+Como se ha hablado anteriormente a la rotación, ahora se presenta a la notación de \textit{traslación}. Juntos, la traslación y rotación de un cuerpo se denomina \textit{pose}. Los problemas de estimación de la pose a menudo tienen que ver con la transformación de las coordenadas de un punto, $P$, entre un marco de vehículo en movimiento (en traslación y rotación) y un marco estacionario, como se muestra en la Figura \ref{fig:pose}.
 \begin{figure}[!b]
     \centering
     \includegraphics[width=\textwidth]{Img/Pose.png}
@@ -437,7 +437,7 @@ que indica cómo convertir las cordenadas de $P$ en $\undervec{\bm{\mathcal{F}}}
 \end{equation}
 
 \subsubsection{Matrices de transformación}
-La Expresión (\ref{eq:poseconvertion}) puede ser expresada como
+La Expresión (\ref{eq:poseconvertion}) puede reescribirse como
 \begin{align}
     \begin{bmatrix}
         \bm{r}_i^{pi} \\

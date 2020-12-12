@@ -252,13 +252,18 @@ En este caso, se obtienen dos archivos YAML, uno para cada cámara, como en el c
 \paragraph{Rectificación estéreo}
 Si los planos de ambas cámaras no se encuentran perfectamente alineados, la disparidad estéreo aumenta su complejidad. Para poder mitigar este problema, lo que se busca es reproyectar los planos de la imagen de ambas camaras para que residan en el mismo plano, conocido como \textit{rectificación estéreo}. Dentro de OpenCV, existen numerosas formas de obtenerlo, como pueden ser los algoritmos de Hartley o de Bouguet. El algoritmo de Hartley permite evitar la calibración de la cámara, en cambio para el segundo es necesaria.
 
-Una vez que se obtengan los términos de la calibración estéreo, se pueden calcular previamente los mapas de rectificación izquierda y derecha por separado utilizando para cada uno \texttt{cv::initUndistortRectifyMap()}. El proceso de rectificación estéreo que realiza dicha función puede observarse en la Figura \ref{fig:stereorectification}. Estos pueden luego ser aplicados a cada una de las imágenes mediante un \texttt{cv::remap()}.
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{Img/StereoRectification.png}
-    \caption{Rectificación estéreo: Para las cámaras izquierda y derecha, la imagen original (a) se remueven las distorsiones (b) y rectifica (c) y finalmente recortada (d) para enfocarse en áreas superpuestas entre las dos cámaras; el cálculo de rectificación funciona en realidad al revés, o sea, de (c) a (a).}
-    \label{fig:stereorectification}
-\end{figure}
+Una vez que se obtengan los términos de la calibración estéreo, se pueden calcular previamente los mapas de rectificación izquierda y derecha por separado utilizando para cada uno \texttt{cv::initUndistortRectifyMap()}. 
+
+% NO SE SI PONER O NO
+
+% El proceso de rectificación estéreo que realiza dicha función puede observarse en la Figura \ref{fig:stereorectification}. Estos pueden luego ser aplicados a cada una de las imágenes mediante un \texttt{cv::remap()}.
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\linewidth]{Img/StereoRectification.png}
+%     \caption{Rectificación estéreo: Para las cámaras izquierda y derecha, la imagen original (a) se remueven las distorsiones (b) y rectifica (c) y finalmente recortada (d) para enfocarse en áreas superpuestas entre las dos cámaras; el cálculo de rectificación funciona en realidad al revés, o sea, de (c) a (a).}
+%     \label{fig:stereorectification}
+% \end{figure}
+
 
 \subparagraph{Rectificación mediante ROS}
 En ROS, el paquete utilizado para dicha tarea es el denominado \texttt{stereo\_image\_proc}\footnote{\url{http://wiki.ros.org/stereo_image_proc}}, que permite obtener un mapa de profundidades.
@@ -276,6 +281,8 @@ Para el caso de ROS, dentro del paquete \texttt{stereo\_image\_proc} se encuentr
 
 \ifimagenes
 \else
+\subsubsection{Cámara RGB-D}
+Las cámaras RGB-D\cite{hogman2011} en lugar de poseer dos cámaras monoculares presentan una cámara monocular con la ayuda de sensores infrarrojos para determinar la ubicación de determinados píxeles, siendo un ejemplo conocido de las mismas es la Microsoft Kinect, la cual se observa en la Figura \ref{fig:camaras}.b. Para que el mismo pueda obtener la nube de puntos, primero el sensor de distancia proyecta un patrón de moteado infrarrojo. El patrón proyectado es luego capturado por una cámara de infrarrojos en el sensor y comparado parte por parte con patrones de referencia almacenados en el dispositivo. Estos patrones fueron capturados previamente a profundidades conocidas en el proceso de calibración de los mismos. A continuación, el sensor estima la profundidad por píxel en función de los patrones de referencia con los que el patrón proyectado coincide mejor. Los datos de profundidad proporcionados por el sensor de infrarrojos se correlacionan luego con una cámara RGB calibrada. Esto produce una imagen RGB con una profundidad asociada a cada píxel. Una representación unificada popular de estos datos es una nube de puntos: una colección de puntos en un espacio tridimensional, donde cada punto puede tener características adicionales asociadas. Con un sensor RGB-D, el color puede ser una de esas características. Además, las normales de superficie aproximadas también se almacenan a menudo con cada punto en la nube de puntos resultante.
 \subsection{Sensores Inerciales}
 El término sensor inercial se usa para denotar la combinación de un acelerómetro de tres ejes y un giroscopio de tres ejes. Los dispositivos que contienen estos sensores se denominan comúnmente unidades de medición inercial (IMU, por \textit{intertial measurement unit}), los cuales en muchos casos incluyen también un magnetómetro de tres ejes. Estas unidades sensoriales suelen ser usadas para determinar la orientación y posición de objetos a los cuales se encuentran integrados, permitiendo así la incorporación de los mismos en gran número de aplicaciones [7, 59, 109, 156] [DE KOK2017].
 
@@ -283,12 +290,13 @@ Hoy en día, muchos de estos sensores se basan en la tecnología de sistemas mic
 
 Un giroscopio mide la velocidad angular del sensor, es decir, la velocidad de cambio de la orientación del sensor. En cambio, un acelerómetro mide la fuerza específica externa que actúa sobre el sensor. La fuerza específica consiste tanto en la aceleración del sensor como en la gravedad de la Tierra. Por otro lado, los magnetómetros son los encargados de medir el campo magnético en el que el objeto se encuentra sumergido, obteniendo así información absoluta del ambiente y no referida únicamente al objeto en si. Todos estos sensores tienen el inconveniente de presentar un \textit{bias} variable en el tiempo que afecta su funcionamiento, errores de \textit{scaling} utilizados para convertir las salidas digitales de los sensores en cantidades físicas reales, desalineaciones entre ellos mismos en caso de que se trate de un circuito integrado incluyendo a dos o más de ellos, entre otros.
 
-\subsubsection{Calibración}
+% \subsubsection{Calibración}
 En una IMU ideal, los grupos triaxiales deben compartir los mismos ejes de sensibilidad ortogonal 3D que abarcan un espacio tridimensional, mientras que el factor de escala debe convertir la cantidad digital medida por cada sensor en la cantidad física real. Desafortunadamente, las IMU basadas en MEMS de bajo costo generalmente se ven afectadas por el escalado no preciso, las desalineaciones del eje del sensor, las sensibilidades de los ejes cruzados y los sesgos distintos de cero. La calibración de la IMU se refiere al proceso de identificación de estas cantidades.
 
 Sin embargo, las IMUs comerciales de costo elevado presentan también estos problemas (aunque en menor escala), con la diferencia de que el fabricante brinda los datos de la calibración, el cual es único para cada una de ellas, minimizando así los términos de incertidumbre. El factor de calibración de estas IMUs se suele realizar con métodos estándar, comparando los datos arrojados por la IMU con referencias conocidas, haciendo que el proceso sea lento y costoso debido al equipamiento necesario. A continuación se presentarán propuestas para resolver la calibración de los diferentes sensores
 
-\paragraph{Acelerómetro-Giróscopo}
+\subsubsection{Calibración del acelerómetro y del giróscopo}
+% \paragraph{Acelerómetro-Giróscopo}
 Para evitar el uso de equipamiento específico, en \textbf{[TEDALDI2014]} se propone utilizar solo el movimiento propio de la IMU y sus estados intermedios estáticos para calibrar tanto el giróscopo como el acelerómetro. Este procedimiento explota la idea básica del método de múltiples posiciones, presentado primero en [7] para la calibración de acelerómetros: en una posición estática, las normas de las aceleraciones medidas son iguales a las magnitudes de la gravedad más un multi-factor de error de origen (es decir, incluye \textit{bias}, desalineación, ruido, entre otros). Todas estas cantidades pueden estimarse a través de la minimización sobre un conjunto de actitudes estáticas. 
 
 Después de la calibración de la tríada del acelerómetro, es posible utilizar las posiciones del vector de gravedad medidas por los acelerómetros como referencia para calibrar la tríada del giroscopio. Es por esto que la exactitud de la calibración del giroscopo depende fuertemente de la exactitud de la calibración del acelerómetro. Al integrar las velocidades angulares entre dos posiciones estáticas consecutivas, se consigue estimar las posiciones de gravedad en la nueva orientación. La calibración de los giroscopios finalmente se obtiene minimizando los errores entre estas estimaciones y las referencias de gravedad dadas por los acelerómetros calibrados.
@@ -477,7 +485,8 @@ siendo $\bm{\Omega}(\bm{\omega}(t))$ la matriz de rotación en base a la velocid
     \end{bmatrix}
 \end{equation}
 
-\paragraph{Magnetómetro}
+\subsubsection{Calibración del magnetómetro}
+% \paragraph{Magnetómetro}
 Para la calibración del magnetómetro, en cambio, los enfoques tradicionales suponen que hay un sensor de referencia disponible que puede proporcionar información de rumbo precisa. Un ejemplo bien conocido de esto es el balanceo de la brújula [3]. Sin embargo, para permitir que cualquier usuario realice la calibración, se han desarrollado una gran cantidad de enfoques que eliminan la necesidad de una fuente de información de orientación. Una clase de estos algoritmos de calibración de magnetómetro se enfoca en minimizar la diferencia entre la magnitud del campo magnético medido y la del campo magnético local[4]. Este enfoque también se conoce como verificación escalar[5]. Otra clase formula el problema de calibración como un problema de ajuste de elipsoide, es decir, como el problema de mapear un elipsoide de datos a una esfera[6] - [8]. El beneficio de usar esta formulación es que existe una vasta literatura sobre cómo resolver problemas de ajuste de elipsoides,[9][10]. Fuera de estas dos clases, también está disponible un gran número de otros enfoques de calibración[11], donde se consideran diferentes formulaciones del problema de calibración en términos de un problema de máxima verosimilitud. La ventaja de estos métodos es que utilizan sólo la información provista por el magnetómetro.
 
 Sin embargo, si lo que se busca es calibrar un magnetómetro para mejorar la estimación del rumbo en combinación con sensores inerciales, la alineación de los ejes sensoriales de los sensores de inercia y el magnetómetro es crucial en este caso. Se puede ver que esta alineación determina la orientación de la esfera azul de los datos del magnetómetro calibrado en la Fig. 1. Los algoritmos que solo usan datos del magnetómetro pueden asignar el elipsoide rojo de los datos a una esfera, pero sin información adicional, la rotación de esta esfera permanece desconocido.
@@ -490,3 +499,6 @@ El objetivo de los encoders es medir las rotaciones relativas de la rueda a la q
 
 \subsection{GPS}
 El GPS es un sistema de navegación georreferenciado basado en satélites mediante los cuales estima la latitud, longitud y altitud del objeto en cuestión. Debido a esto, el mismo tiene su campo de aplicación principalmente en ambientes al aire libre, donde mediante la triangulación entre 4 o más satélites puede determinar la ubicación del objeto en cuestión. Debido a esto y a que, entre otros factores, su principio de funcionamiento se basa en medir el tiempo que tardó la señal disparada por un satélite en ser recibida por el propio sensor, el mismo cuenta con precisiones variables dependiendo de la posición de los satélites [162]. Estos sesgos y errores de grandes pasos hacen que la navegación robótica con GPS sea problemática, especialmente con grandes equipos de robots que operan en entornos urbanos y durante muchas horas \cite{carlson2010}.
+
+\subsection{Resumen}
+En esta Sección, se evaluaron distintos sensores utilizados comunmente a la hora de realizar tareas de SLAM, haciendo hincapié especialmente en los mas relevantes para este trabajo, como son la IMU, las cámaras y el LIDAR.

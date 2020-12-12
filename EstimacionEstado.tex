@@ -316,34 +316,38 @@ Como el filtro de Kalman (en cualquiera de sus versiones) es de gran utilidad a 
     \item \textit{robot\_localization}\footnote{\url{http://wiki.ros.org/robot_localization}}, el cual da la opción de calcular la pose mediante un Filtro de Kalman extendido o un Filtro de Kalman unscented. El mismo, a diferencia del robot\_pose\_ekf, permite cualquier número de odometrías y datos de unidades sensoriales distintas, además de contar con una mayor flexibilidad y personalización que el mencionado anteriormente.
 \end{itemize}
 
-\subsection{Filtro de partículas}
-\textbf{[QUE SE YO, MIRAR TULSYAN, 2016 Y VER QUE HACER O QUE NO, YA ME SUPERO]}
 
-A diferencia del filtro de Kalman, el filtro de partículas representa la distribución de probabilidad \textbf{(O CDF???? MIRAR [TULSYAN, 2016])}\footnote{Las PDF pueden tener valores mayores a 1, mientras que las CDF no} como un set de muestras (partículas)
-\begin{equation}
-    p(x) \simeq \frac{1}{N} \sum_i \delta_{x^{(i)}}(dx)
-\end{equation}
-donde $\delta_{x^{(i)}}(dx)$ es la función impulso centrada en $x^{(i)}$ evaluando un intervalo infinitesimal de longitud $dx$, como puede observarse en la Figura \ref{fig:probabilityinfinitesimal}. Mientras más densas sean las muestras $x^{(i)}$ en una región, mayor será la probabilidad de que el estado actual caiga dentro de esa región. Este método puede representar cualquier distribución arbitraria, ya que busca una buena aproximación de dicha distribución, en lugar de representarla de un modo simplificado, como es el caso de filtro de Kalman (Gaussiana).
-\begin{figure}
-    \centering
-    \includegraphics{Img/ProbabilityInfinitesimal.png}
-    \caption{Densidad de probabilidad seccionada}
-    \label{fig:probabilityinfinitesimal}
-\end{figure}{}
+% \begin{huge}
+% SACARLO AL FDP!
+% \end{huge}
+% \subsection{Filtro de partículas}
+% \textbf{[QUE SE YO, MIRAR TULSYAN, 2016 Y VER QUE HACER O QUE NO, YA ME SUPERO]}
 
-A continuación se presenta el denominado \textit{algoritmo de muestreo de importancia secuencial} (SIS) para el filtro de partículas, que incluye un paso de remuestreo en cada instante. 
+% A diferencia del filtro de Kalman, el filtro de partículas representa la distribución de probabilidad \textbf{(O CDF???? MIRAR [TULSYAN, 2016])}\footnote{Las PDF pueden tener valores mayores a 1, mientras que las CDF no} como un set de muestras (partículas)
+% \begin{equation}
+%     p(x) \simeq \frac{1}{N} \sum_i \delta_{x^{(i)}}(dx)
+% \end{equation}
+% donde $\delta_{x^{(i)}}(dx)$ es la función impulso centrada en $x^{(i)}$ evaluando un intervalo infinitesimal de longitud $dx$, como puede observarse en la Figura \ref{fig:probabilityinfinitesimal}. Mientras más densas sean las muestras $x^{(i)}$ en una región, mayor será la probabilidad de que el estado actual caiga dentro de esa región. Este método puede representar cualquier distribución arbitraria, ya que busca una buena aproximación de dicha distribución, en lugar de representarla de un modo simplificado, como es el caso de filtro de Kalman (Gaussiana).
+% \begin{figure}
+%     \centering
+%     \includegraphics{Img/ProbabilityInfinitesimal.png}
+%     \caption{Densidad de probabilidad seccionada}
+%     \label{fig:probabilityinfinitesimal}
+% \end{figure}{}
 
-El filtro de partículas, entonces, es un método de Monte Carlo secuencial\textbf{[REF O LO PONGO?]} que busca representar la probabilidad posterior $p(x_k|y_{1:k})$ por un set de partículas $x_k^i$ cada una con sus pesos asociados $w_k^i$, con $i=1,...,N_s$, siendo $N_s$ el número de partículas. Para lograr esto, se utiliza el denominado \textit{algoritmo de muestreo de importancia secuencial} (SIS) para el filtro de partículas
-\begin{equation}
-    p(x_k|y_{1:k}) \approx \sum_{i=1}^{N_s}w_k^{(i)}\delta_{x_k^{(i)}}(dx_k)
-\end{equation}
-siendo $w_k^{(i)}$ los \textit{pesos de importancia} asociados a $x_k^{(i)}$, estando los mismos normalizados para que $\sum_i w_k^i = 1$. Como no se tiene una representación explícita de la probabilidad posterior, el algoritmo SIS utiliza una \textit{densidad de importancia} para hallar las muestras, que es una densidad propuesta para representar otra que no puede calcularse exactamente. Luego, las muestras se extraen de la densidad de importancia en lugar de la densidad real. Para dicho propósito, suele utilizarse el prior $p(x)$, y luego de cada muestra muestreada se actualiza el \textit{peso de importancia}
-\begin{equation}
-    w = 
-\end{equation}
-basado en las observaciones realizadas.
+% A continuación se presenta el denominado \textit{algoritmo de muestreo de importancia secuencial} (SIS) para el filtro de partículas, que incluye un paso de remuestreo en cada instante. 
 
-Un problema común con el filtro de partículas SIS es el fenómeno de la degeneración, donde después de unos pocos estados, todas las partículas menos una tendrán un peso insignificante [1,4,8-18]. Esta degeneración implica que se dedica un gran esfuerzo computacional a actualizar las partículas cuya contribución a la aproximación de la función de densidad posterior es casi cero. Este problema se puede superar aumentando el número de partículas, o más eficientemente seleccionando adecuadamente la densidad de importancia como la densidad anterior. Además, se recomienda el uso de la técnica de remuestreo para evitar la degeneración de las partículas.
+% El filtro de partículas, entonces, es un método de Monte Carlo secuencial\textbf{[REF O LO PONGO?]} que busca representar la probabilidad posterior $p(x_k|y_{1:k})$ por un set de partículas $x_k^i$ cada una con sus pesos asociados $w_k^i$, con $i=1,...,N_s$, siendo $N_s$ el número de partículas. Para lograr esto, se utiliza el denominado \textit{algoritmo de muestreo de importancia secuencial} (SIS) para el filtro de partículas
+% \begin{equation}
+%     p(x_k|y_{1:k}) \approx \sum_{i=1}^{N_s}w_k^{(i)}\delta_{x_k^{(i)}}(dx_k)
+% \end{equation}
+% siendo $w_k^{(i)}$ los \textit{pesos de importancia} asociados a $x_k^{(i)}$, estando los mismos normalizados para que $\sum_i w_k^i = 1$. Como no se tiene una representación explícita de la probabilidad posterior, el algoritmo SIS utiliza una \textit{densidad de importancia} para hallar las muestras, que es una densidad propuesta para representar otra que no puede calcularse exactamente. Luego, las muestras se extraen de la densidad de importancia en lugar de la densidad real. Para dicho propósito, suele utilizarse el prior $p(x)$, y luego de cada muestra muestreada se actualiza el \textit{peso de importancia}
+% \begin{equation}
+%     w = 
+% \end{equation}
+% basado en las observaciones realizadas.
 
-\subsection{Filtro de Partículas en ROS}
-Los filtros de partículas (en sus distintas versiones) suelen utilizarse para aplicaciones de mapeo 2D, en el que involucran un LIDAR 2D y, en ciertos casos, sensores adicionales. Como ejemplos de esto pueden destacarse los paquetes \textit{amcl}\footnote{\url{http://wiki.ros.org/amcl}} y \textit{hector\_slam}\footnote{\url{http://wiki.ros.org/hector_slam}}.
+% Un problema común con el filtro de partículas SIS es el fenómeno de la degeneración, donde después de unos pocos estados, todas las partículas menos una tendrán un peso insignificante [1,4,8-18]. Esta degeneración implica que se dedica un gran esfuerzo computacional a actualizar las partículas cuya contribución a la aproximación de la función de densidad posterior es casi cero. Este problema se puede superar aumentando el número de partículas, o más eficientemente seleccionando adecuadamente la densidad de importancia como la densidad anterior. Además, se recomienda el uso de la técnica de remuestreo para evitar la degeneración de las partículas.
+
+% \subsection{Filtro de Partículas en ROS}
+% Los filtros de partículas (en sus distintas versiones) suelen utilizarse para aplicaciones de mapeo 2D, en el que involucran un LIDAR 2D y, en ciertos casos, sensores adicionales. Como ejemplos de esto pueden destacarse los paquetes \textit{amcl}\footnote{\url{http://wiki.ros.org/amcl}} y \textit{hector\_slam}\footnote{\url{http://wiki.ros.org/hector_slam}}.

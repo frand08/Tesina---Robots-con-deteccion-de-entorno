@@ -2,19 +2,21 @@
 \newif\ifimagenes
 %% Este, a su vez, es para ver si es el paper o no
 \newif\ifimagenespaper
-
+%% Este porque no se si agregar tanto de SLAM.
+\newif\ifslamext
 % \imagenestrue % comment out to hide imagenes
 % \imagenespapertrue
+% \slamexttrue
 
 \ifimagenes
-\ifimagenespaper
-\documentclass[conference]{IEEEtran}
-\IEEEoverridecommandlockouts
+    \ifimagenespaper
+        \documentclass[conference]{IEEEtran}
+        \IEEEoverridecommandlockouts
+    \else
+        \documentclass[a4paper,10pt]{article}
+    \fi
 \else
-\documentclass[a4paper,10pt]{article}
-\fi
-\else
-\documentclass[a4paper,10pt]{article}
+    \documentclass[a4paper,10pt]{article}
 \fi
 
 \usepackage{subfig} % en lugar de subcaption
@@ -63,15 +65,15 @@
 \usepackage{sidecap}
 
 \ifimagenes
-\ifimagenespaper
-\else
-% Para que paragraph sea subsubsub
-\setcounter{secnumdepth}{4}
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\fi
+    \ifimagenespaper
+    \else
+        % Para que paragraph sea subsubsub
+        \setcounter{secnumdepth}{4}
+        \titleformat{\paragraph}
+        {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+        \titlespacing*{\paragraph}
+        {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+    \fi
 \fi
 
 % Para poner codigo
@@ -115,38 +117,45 @@
 % Para bibliografia
 \usepackage[nottoc]{tocbibind}
 
-
+% Para los grados ° con \textdegree
+\usepackage{textcomp}
 
 \begin{document}
 
-\ifimagenes
 \ifimagenespaper
-\title{SLAM 3D basado en una cámara RGB-D y PCL}
-
-\author{{Francisco Domínguez}\\
-{\textit{Universidad Tecnológica Nacional}\\
-Buenos Aires, Argentina \\
-fdominguez@est.frba.utn.edu.ar}
-}
-\date{}
-\maketitle
-
-
-\input{abstract}
-\input{Introduccion}
-\input{Reconstruccion3D}
-\input{Resolucion}
-\input{Conclusiones}
-\bibliographystyle{unsrt}
-\bibliography{thebibliography}
 \else
-\begin{titlepage}
-\centering
-\begin{figure}[t]
-	\centering
-	\includegraphics[scale=0.15]{utn.jpg}
-    \vspace{0.5cm}
-\end{figure}%
+    \begin{titlepage}
+\fi
+\ifimagenes
+    \ifimagenespaper
+        \title{SLAM 3D basado en una cámara RGB-D y PCL}
+        
+        \author{{Francisco Domínguez}\\
+        {\textit{Universidad Tecnológica Nacional}\\
+        Buenos Aires, Argentina \\
+        fdominguez@est.frba.utn.edu.ar}
+        }
+        \date{}
+        \maketitle
+        
+        
+        \input{abstract}
+        \input{Introduccion}
+        \input{Reconstruccion3D}
+        \input{Resolucion}
+        \input{Conclusiones}
+        \bibliographystyle{unsrt}
+        \bibliography{thebibliography}
+    \else
+        \centering
+        \begin{figure}[t]
+        	\centering
+        	\includegraphics[scale=0.15]{utn.jpg}
+            \vspace{0.5cm}
+        \end{figure}%
+    \fi
+\fi
+
 \ifimagenes
 	{\LARGE Procesamiento digital de imágenes\par}
     {\LARGE 2020\par}
@@ -171,10 +180,10 @@ fdominguez@est.frba.utn.edu.ar}
 \listoffigures
 \ifimagenes
 \else
-\newpage
-\listoftables
-\newpage
-\input{objeto.tex}
+    \newpage
+    \listoftables
+    \newpage
+    \input{objeto.tex}
 \fi
 
 \newpage
@@ -188,27 +197,32 @@ fdominguez@est.frba.utn.edu.ar}
 
 \ifimagenes
 \else
-\newpage
-\input{Geometria}
-\newpage
-\input{Regresion}
-\newpage
-\input{EstimacionEstado}
-
-\newpage
-\input{Sensores}
+    \newpage
+    \input{Geometria}
+    \newpage
+    \input{Regresion}
+    % LO PONGO O NO LO PONGO?!?!?!??!?!
+% \ifslamext
+    \newpage
+    \input{EstimacionEstado}
+% \fi
+    \newpage
+    \input{Sensores}
 \fi
 
+\ifimagenes
+\else
+    \newpage
+    \input{SLAM.tex}
+\fi
 \newpage
 \input{Reconstruccion3D}
 
 
 \ifimagenes
 \else
-\newpage
-\input{SLAM.tex}
-\newpage
-\input{Plataformas.tex}
+    \newpage
+    \input{Plataformas.tex}
 \fi
 
 \newpage
@@ -225,10 +239,8 @@ fdominguez@est.frba.utn.edu.ar}
 \ifimagenes
 % \input{Sensores}
 \else
-\newpage
-\input{Apendice}
-\fi
-
+    \newpage
+    \input{Apendice}
 \fi
 
 \end{document}

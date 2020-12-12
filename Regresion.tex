@@ -308,8 +308,10 @@ Sin embargo, una consideración importante a tener en cuenta con el método de c
 \subsubsection{Método de máximo a posteriori (MAP)}
 En lugar de buscar las mediciones más probables como en el método de máxima verosimilitud, puede buscarse el \textit{posterior}, el cual está asociado a la probabilidad condicional que es asignada luego de tomar en cuenta la medición, esto es, $p(x|\bm{y})$. Mediante el uso de la regla de Bayes, el posterior puede expresarse como
 \begin{align}
-    p(x|\bm{y}) &= \frac{p(\bm{y}|x)p(x)}{p(\bm{y})} \\
+    p(x|\bm{y}) &= \frac{p(\bm{y}|x)p(x)}{p(\bm{y})} 
+    \label{eq:posteriorfull}\\
     &\propto p(\bm{y}|x)p(x)
+    \label{eq:posterior}
 \end{align}
 
 Reemplazando en la Expresión (\ref{eq:maxlikelihood}) por el posterior, entonces
@@ -319,7 +321,7 @@ Reemplazando en la Expresión (\ref{eq:maxlikelihood}) por el posterior, entonce
 \end{align}
 se obtiene la \textit{expresión del máximo a posteriori}. A diferencia del método de máxima verosimilitud, en el máximo a posteriori se incluye a la probabilidad previa (o \textit{prior}) $p(x)$. Lo que significa es que, la probabilidad ahora está ponderada con algo de peso proveniente del prior.
 
-Puede entonces decirse que el método de máxima verosimilitud es un caso especial del máximo a posteriori, donde la probabilidad previa es uniforme.
+Puede entonces decirse que el método de máxima verosimilitud es un caso especial del máximo a posteriori, donde la probabilidad prior es uniforme.
 
 \subsection{Regresión no lineal}
 
