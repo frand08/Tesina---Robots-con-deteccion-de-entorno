@@ -1,5 +1,6 @@
 \section{Conclusiones}
 \label{sec:5_concl}
+\ifimagenes
 En el trabajo presentado se logró en primera instancia realizar las comprobaciones prácticas en una cámara estereo para luego realizar un algoritmo de SLAM en base a los datos de una cámara RGB-D, con la capacidad de poder reconstruir un mapa símil al real, y obteniendo las poses relativas de cada iteración. Si bien es cierto que se realizaron las mediciones en base a simulaciones, el hecho de haber incorporado ROS permite que el código pueda adaptarse fácilmente no solo a un entorno real, sino también a cualquier robot, permitiendo entonces una gran flexibilidad a la hora de utilizarlo. 
 
 Respecto a los tiempos de procesamiento del algoritmo, los mismos son suficientes para el movimiento de robots en velocidades moderadas, en cambio si se pretende utilizar al mismo a una gran velocidad es posible que no pueda obtener los resultados esperados, debido a que el algoritmo espera que la nube de puntos anterior no esté muy alejada de la nueva nube de puntos. 
@@ -8,3 +9,17 @@ Respecto a los tiempos de procesamiento del algoritmo, los mismos son suficiente
 Este trabajo forma parte de un trabajo final de carrera en desarrollo, el cual pretende realizar un SLAM 2D y 3D aprovechando otros sensores para obtener el mapa final, en particular, una IMU y un LIDAR 2D. Por dicha razón es que el documente presentado es adecuado para dicha tarea ya que, por ejemplo, con los datos de un LIDAR 2D a la hora de correr el algoritmo en tiempo real, la pose anterior será la estimada por el LIDAR, haciendo que el punto de partida no esté muy lejos del resultado final, evitando así errores por no encontrar el mínimo global.
 
 Como este proyecto se engloba dentro de un problema de SLAM con fusión sensorial entre la cámara, LIDAR 2D e IMU, se pretende que el algoritmo mejore considerablemente a la hora de realizar dicha fusión.
+\else
+En el trabajo presentado se logró, en primera instancia, el desarrollo de una plataforma versátil para aplicaciones robóticas en general. 
+
+Luego, se realizaron distintas calibraciones de sensores de interés en las distintas áreas de la robótica, tal como la IMU y las cámaras.
+
+A continuación, se realizaron las comprobaciones prácticas en una cámara estéreo para luego realizar un algoritmo de SLAM 3D en base a los datos de una cámara RGB-D, con la capacidad de poder reconstruir un mapa símil al real, y obteniendo las poses relativas de cada iteración. 
+
+A su vez, con el uso de un LIDAR 2D ayudado por los datos de una IMU se consiguió resolver el problema de SLAM 2D, con tiempos considerables como para que el mismo pueda implementarse en tiempo real.
+
+Si bien es cierto que se realizaron las mediciones en base a simulaciones, el hecho de haber incorporado ROS permite que el código pueda adaptarse fácilmente no solo a un entorno real, sino también a cualquier robot, permitiendo entonces una gran flexibilidad a la hora de utilizarlo. 
+
+%Respecto a los tiempos de procesamiento del algoritmo, los mismos son suficientes para el movimiento de robots en velocidades moderadas, en cambio si se pretende utilizar al mismo a una gran velocidad es posible que no pueda obtener los resultados esperados, debido a que el algoritmo espera que la nube de puntos anterior no esté muy alejada de la nueva nube de puntos. 
+
+\fi

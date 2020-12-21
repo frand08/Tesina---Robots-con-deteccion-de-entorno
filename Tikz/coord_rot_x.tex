@@ -1,0 +1,23 @@
+\tdplotsetmaincoords{50}{140}
+\begin{tikzpicture}[scale=2,tdplot_main_coords]
+    \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
+    \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+    \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+    
+    \pgfmathsetmacro{\ax}{-.75}
+    \pgfmathsetmacro{\ay}{2.5}
+    \pgfmathsetmacro{\az}{0}
+    
+    \tdplotsetrotatedcoords{20}{40}{00}
+    
+    \draw[thick,color=red,tdplot_rotated_coords,->] (0,0,0) -- (.7,0,0) node[anchor=east]{$x’$};
+    \draw[thick,color=green!50!black,tdplot_rotated_coords,->] (0,0,0) -- (0,.7,0) node[anchor=west]{$y’$};
+    \draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) -- (0,0,.7) node[anchor=south]{$z’$};
+    
+    \tdplottransformrotmain{\ax}{\ay}{\az}
+    
+    \draw[tdplot_main_coords,->,blue!50] (0,0,0) -- (\tdplotresx,\tdplotresy,\tdplotresz);
+    \node[tdplot_rotated_coords,anchor=north] at (\ax,\ay,\az){Rotated coords: (\ax, \ay, \az)};
+    \node[tdplot_main_coords,anchor=south] at (\tdplotresx,\tdplotresy,\tdplotresz){Main coords: (\tdplotresx, \tdplotresy, \tdplotresz)};
+
+\end{tikzpicture}

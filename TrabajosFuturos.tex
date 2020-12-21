@@ -1,0 +1,9 @@
+\section{Trabajos futuros}
+\label{sec:futureworks}
+A pesar de haber conseguido buenos resultados tanto para mapas 3D como 2D, uno de los pasos siguientes es realizar el cierre de ciclo para los algoritmos de SLAM, con tal de reducir el error acumulado en el tiempo respecto a la pose del robot.
+
+A su vez, como próximo paso se pretende realizar la fusión sensorial de la IMU, el LIDAR y la cámara en un Filtro de Kalman, utilizando el paquete \textit{robot\_localization} de ROS, el cual está pensado para integrar varias mediciones de cualquier número de sensores y conseguir así la pose más exacta.
+
+Luego, se pretende realizar las calibraciones necesarias para el magnetómetro, basándose en las calibraciones realizadas del acelerómetro y el giróscopo. Una vez con estos datos, se pretende implementar un algoritmo para el cálculo de la orientación del robot en base a estos sensores calibrados.
+
+Finalmente, cuando se hayan refinado todos los pasos anteriores, se pretende poner a punto el robot descripto anteriormente, con el fin de llevar a cabo las pruebas reales recurrentes, y comparar los distintos resultados con las simulaciones realizadas.

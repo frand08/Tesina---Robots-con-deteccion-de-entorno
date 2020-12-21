@@ -4,7 +4,7 @@ A continuación, se presentan los experimentos realizados en base a los datos de
 \else
 \section{Resolución}
 \subsection{Plataforma de Hardware base desarrollada}
-A partir del relevamiento realizado en la Sección \ref{sec:platforms}, se desarrolló la plataforma observada en la Figura \ref{fig:baseboardv2_1}, con el propósito de que la misma pueda utilizarse no sólo para la realización del trabajo, sino también para un gran número de aplicaciones dentro del area de la robótica. En el Apéndice \textbf{(MONGO)} puede encontrarse el esquemático completo del mismo.
+A partir del relevamiento realizado en la Sección \ref{sec:platforms}, se desarrolló la plataforma observada en la Figura \ref{fig:baseboardv2_1}, con el propósito de que la misma pueda utilizarse no sólo para la realización del trabajo, sino también para un gran número de aplicaciones dentro del area de la robótica. En la Sección \ref{sec:apendix} puede encontrarse el esquemático completo del mismo.
 
 \begin{figure}[!ht]
     \centering
@@ -34,7 +34,7 @@ Como se anticipó anteriormente, el mismo cuenta con el estándar de Hardware PC
 \subsubsection{Sensores integrados}
 Como existe una gran cantidad de sensores distintos dentro de las aplicaciones robóticas, en la placa base se montaron los más utilizados en las plataformas estudiadas en la Sección \ref{sec:platforms}.
 \paragraph{Unidad de medición inercial (IMU)}
-Siendo la IMU el sensor más utilizado dentro de la robótica aérea para el control del mismo, este sensor puede ser utilizado para un gran número de aplicaciones distintas, como por ejemplo para la corrección de la señal de GPS para calcular la posición del robot \textbf{(REF GPS IMU)}. Si bien existe una gran cantidad de IMUs distinta, tanto sea a nivel precio como en base a la cantidad de sensores que tengan (acelerómetro-giróscopo, acelerómetro-giróscopo-magnetómetro), dentro de la placa se dispone de una MPU9250\footnote{\url{https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf}}, la cual cuenta con nueve grados de libertad (9 \textit{degrees of freedom - DOF}), ya que posee un juego de acelerómetro, giróscopo y magnetómetro de tres ejes cada uno. Este integrado es una mejora del MPU6050, el cual se trata de un un giróscopo y un acelerómetro (6 DOF), resultando entonces en un \textit{multi-chip module} (MCM) de dos obleas, una correspondiente a un acelerómetro y un giróscopo, y la otra corresponde al magnetómetro AK8963. En concreto, las orientaciones de referencia de ambas obleas difieren, como puede verse en la Figura \ref{fig:mpu9250orientations}. Como se trata de un sensor de bajo costo, el mismo no suele tener todos sus sensores alineados correctamente.
+Siendo la IMU el sensor más utilizado dentro de la robótica aérea para el control del mismo, este sensor puede ser utilizado para un gran número de aplicaciones distintas, como por ejemplo para la corrección de la señal de GPS para calcular la posición del robot \cite{kok2017}. Si bien existe una gran cantidad de IMUs distinta, tanto sea a nivel precio como en base a la cantidad de sensores que tengan (acelerómetro-giróscopo, acelerómetro-giróscopo-magnetómetro), dentro de la placa se dispone de una MPU9250\footnote{\url{https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf}}, la cual cuenta con nueve grados de libertad (9 \textit{degrees of freedom - DOF}), ya que posee un juego de acelerómetro, giróscopo y magnetómetro de tres ejes cada uno. Este integrado es una mejora del MPU6050, el cual se trata de un un giróscopo y un acelerómetro (6 DOF), resultando entonces en un \textit{multi-chip module} (MCM) de dos obleas, una correspondiente a un acelerómetro y un giróscopo, y la otra corresponde al magnetómetro AK8963. En concreto, las orientaciones de referencia de ambas obleas difieren, como puede verse en la Figura \ref{fig:mpu9250orientations}. Como se trata de un sensor de bajo costo, el mismo no suele tener todos sus sensores alineados correctamente.
 \begin{figure}
     \centering
     \subfloat[Orientación de la oblea correspondiente al giróscopo  y el acelerómetro]{{\includegraphics[width=0.45\textwidth]{Img/MPU9250GyroAccel.png}}}%
@@ -47,7 +47,7 @@ Siendo la IMU el sensor más utilizado dentro de la robótica aérea para el con
 Generalmente, es recomendable que la IMU se encuentre en el centro de masa del robot. Sin embargo, debido a que la placa puede personalizarse con el agregado de módulos externos, se eligió el centro de coordenadas de la placa para la ubicación de la IMU.
 
 \paragraph{Barómetro}
-Si bien para el trabajo presentado puede no ser de utilidad, los barómetros son muy utilizados en los vehículos aéreos, ya que debido a las alturas elevadas que pueden alcanzar, el uso de un ultrasonido para medir la distancia al suelo sirve sólo para una corta distancia, mientras que los barómetros económicos son útiles a considerables alturas, siendo ambos métodos utilizados para tal fin. Al igual que el magnetómetro, la medición del barómetro respecta a una magnitud externa al robot, la presión atmosférica, y los datos del mismo suelen utilizarse en combinación con una IMU para conseguir una mejor estimación de la altitud\textbf{(Tanigawa, 2008)}, así como también para corregir la estimación de altitud del GPS\textbf{(Zaliva, 2014)}.
+Si bien para el trabajo presentado puede no ser de utilidad, los barómetros son muy utilizados en los vehículos aéreos, ya que debido a las alturas elevadas que pueden alcanzar, el uso de un ultrasonido para medir la distancia al suelo sirve sólo para una corta distancia, mientras que los barómetros económicos son útiles a considerables alturas, siendo ambos métodos utilizados para tal fin. Al igual que el magnetómetro, la medición del barómetro respecta a una magnitud externa al robot, la presión atmosférica, y los datos del mismo suelen utilizarse en combinación con una IMU para conseguir una mejor estimación de la altitud \cite{tanigawa2008}, así como también para corregir la estimación de altitud del GPS \cite{zaliva2014}.
 
 En concreto, para la placa se optó por el uso del barómetro BMP280\footnote{\url{https://cdn-shop.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf}}, el cual es una mejora de su predecesor, el BMP180, aunque ambos tienen una precisión de aproximadamente un metro.
 
@@ -105,7 +105,7 @@ Como es necesario poder controlar los motores, se incluyó un puente H para prov
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{Img/LiPo3S.jpg}
+    \includegraphics[width=0.4\textwidth]{Img/LiPo3S.jpg}
     \caption{Batería LiPo comercial utilizada en diferentes robots}
     \label{fig:lipobattery}
 \end{figure}
@@ -113,9 +113,9 @@ Como es necesario poder controlar los motores, se incluyó un puente H para prov
 Siendo que tanto los sensores como la placa son relativamente voluminosos, es necesario que la estructura del robot permita ubicarlos a todos ellos sin estorbarse entre sí. Además de esto, al disponer de una batería LiPo de 3 celdas (Figura \ref{fig:lipobattery}), la misma debe tener un espacio dedicado no sólo para poder ubicarla, sino también que ofrezca algún tipo de resguardo, para evitar daños debido a efectos indeseados y corriendo el riesgo de que la misma pueda deteriorarse. Por estos motivo, se optó por el uso del chasis Auto Robot Smart Car 4WD, el cual cuenta con cuatro ruedas y motores, como se observa en la Figura \ref{fig:developedrobot}.a.
 \begin{figure}
     \centering
-    \subfloat[Chasis elegido para el robot terrestre]{\includegraphics[width=0.45\textwidth]{Img/AutoRobotSmartCar4WD.jpeg}}
+    \subfloat[Chasis elegido para el robot terrestre]{\includegraphics[width=0.4\textwidth]{Img/AutoRobotSmartCar4WD.jpeg}}
     \qquad
-    \subfloat[Robot con piezas 3D montadas]{\includegraphics[width=0.45\textwidth]{Img/3DRobot.png}}
+    \subfloat[Robot con piezas 3D montadas]{\includegraphics[width=0.4\textwidth]{Img/3DRobot.png}}
     \caption{Robot desarrollado}
     \label{fig:developedrobot}
 \end{figure}
@@ -139,14 +139,14 @@ Para la calibración de la unidad inercial presente en el robot, esto es, el MPU
 Tal como se desarrolló en la Sección \ref{sec:sensors}, la calibración del giróscopo se encuentra ligada a la calibración del acelerómetro, por lo que una mala calibración del acelerómetro hará llevará a una calibración inexacta del giróscopo. Además, como se pretende utilizar el mismo dataset para calibrar a ambos sensores, es necesario poder estimar todas las variables previas necesarias para tal fin.
 
 \subsubsection{Varianza de Allan para el cálculo del tiempo inicial}
-Para poder conocer el tamaño adecuado que permita obtener el \textit{bias} del giróscopo en el instante inicial, se utiliza la \textit{varianza de Allan}[20][8] $\sigma_{Allan}$, la cual mide la varianza de la diferencia entre promedios de intervalos consecutivos, siendo entonces
+Para poder conocer el tamaño adecuado que permita obtener el \textit{bias} del giróscopo en el instante inicial, se utiliza la \textit{varianza de Allan} \cite{sabatini2006}\cite{fong2008} $\sigma_{Allan}$, la cual mide la varianza de la diferencia entre promedios de intervalos consecutivos, siendo entonces
 \begin{align}
     \sigma_{Allan} &= \frac{1}{2} E[(x(\tilde{t},k) - x(\tilde{t},k-1))^2] \\
     &= \frac{1}{2K}\sum_{k=1}^K(x(\tilde{t},k) - x(\tilde{t},k-1))^2
 \end{align}
 donde $x(\tilde{t},k)$ es el \textit{k-ésimo} intervalo promedio que abarca $\tilde{t}$ segundos, y K es el número de intervalos en que se segmenta el tiempo total considerado. Se computa la varianza de Allan para los tres ejes del giróscopo, y en el intervalo de tiempo en el que los tres convergen a un valor pequeño representa una buena elección para elegir el período de inicialización, $T_{init}$.
 
-Para el banco de ensayos presentado anteriormente, se tomaron mediciones de la unidad sin movimiento alguno pro un largo período de tiempo, obteniendo con la varianza de Allan las curvas de la Figura \ref{fig:imugyrovariance}. En la misma, puede observarse que un valor en el cual convergen las tres mediciones es alrededor de
+Para el banco de ensayos presentado anteriormente, se tomaron mediciones de la unidad sin movimiento alguno por un largo período de tiempo, obteniendo con la varianza de Allan las curvas de la Figura \ref{fig:imugyrovariance}. En la misma, puede observarse que un valor en el cual convergen las tres mediciones es alrededor de
 \begin{equation}
     T_{init} = 8 s
 \end{equation}
@@ -159,7 +159,7 @@ siendo este entonces el elegido.
 \end{figure}
 
 \subsubsection{Detector estático}
-Como lo que se busca es promediar los datos del acelerómetro cuando el mismo permanece estático, es necesario poder entonces determinar en que momento el banco de pruebas se encuentra inmóvil. Tal como en \textbf{(Tedaldi, 2014)}, se propone el uso de un detector estático basado en la varianza de la aceleración, promediando cada un cierto tiempo $t_p$
+Como lo que se busca es promediar los datos del acelerómetro cuando el mismo permanece estático, es necesario poder entonces determinar en que momento el banco de pruebas se encuentra inmóvil. Tal como en \cite{tedaldi2014}, se propone el uso de un detector estático basado en la varianza de la aceleración, promediando cada un cierto tiempo $t_p$
 \begin{equation}
     \xi(t) = \sqrt{(var_{t_p}\ a_x(t))^2 + (var_{t_p}\ a_y(t))^2 + (var_{t_p}\ a_z(t))^2}
 \end{equation}
@@ -169,7 +169,7 @@ y luego compararlo con un cierto umbral para verificar de que se trate de un int
 \end{equation}
 el intervalo corresponderá a un estático, caso contrario se tratará de uno en movimiento. El parámetro $k$ se trata de un ajuste empírico para lograr mejores resultados.
 
-Si bien el tiempo estático en que puede estar el banco para la calibración del acelerómetro puede ser extenso\footnote{Mientras más muestras se tengan, mejor será el promediado, aunque produce que se requiera más tiempo de procesamiento}, para el giróscopo es importante de que no alcance un tiempo mayor al expresado por la varianza de Allan, ya que indicaría que el mismo se encontraría en estado estacionario. Por ello, como se busca que el $T_init$ pueda ser expresado en base a los $t_p$ se adopta a este último con
+Si bien el tiempo estático en que puede estar el banco para la calibración del acelerómetro puede ser extenso\footnote{Mientras más muestras se tengan, mejor será el promediado, aunque produce que se requiera más tiempo de procesamiento}, para el giróscopo es importante de que no alcance un tiempo mayor al expresado por la varianza de Allan, ya que indicaría que el mismo se encontraría en estado estacionario. Por ello, como se busca que el $T_{init}$ pueda ser expresado en base a los $t_p$ se adopta a este último con
 \begin{equation}
     t_p = 1 s
 \end{equation}
@@ -217,7 +217,7 @@ minimizándola mediante el algoritmo de Levenbeg-Marquandt, en base a los interv
 
 \subsubsection{Integración de la velocidad angular}
 Como se desarrolló en la Sección \ref{sec:sensors}, la integración de la velocidad angular utilizando cuaterniones no es una tarea sencilla.
-Esta función, en concreto, requiere de una integración de la velocidad angular en un tiempo discreto. Si bien existen diferentes métodos de integración numérica, es necesario que el mismo sea robusto y estable para mejorar la exactitud de la calibración. Por eso, el \textit{Runge-Kutta} $4^{th}$ \textit{order normalized method} (RK4n)\textbf{(Vojtesek, 2014)} es el elegido, aunque existen otros métodos que pueden utilizarse para este fin \textbf{(Andrle, 2013)}.
+Esta función, en concreto, requiere de una integración de la velocidad angular en un tiempo discreto. Si bien existen diferentes métodos de integración numérica, es necesario que el mismo sea robusto y estable para mejorar la exactitud de la calibración. Por eso, el \textit{Runge-Kutta} $4^{th}$ \textit{order normalized method} (RK4n) \cite{suli2014} es el elegido, aunque existen otros métodos que pueden utilizarse para este fin \cite{andrle2013}.
 
 Si la ecuación diferencial que describe a la cinemática del cuaternión se define como
 \begin{equation}
@@ -253,7 +253,7 @@ Finalmente, en cada paso, es necesario normalizar el cuaternión \textit{(k+1)-�
 \end{equation}
 
 \subsubsection{Calibración del giróscopo}
-\textbf{REVISAR LOS k y k+1!!!!!!!!}
+%\textbf{REVISAR LOS k y k+1!!!!!!!!}
 Una vez calibrado el acelerómetro, se procede a la calibración del giróscopo utilizando el mismo dataset. Para ello, en primer lugar se obtiene el bias de giróscopo mediante el promedio de cada eje en el instante inicial $T_{init}$, obteniendo entonces
 \begin{equation}
     \bm{b}_g =
@@ -461,27 +461,30 @@ Finalmente, con la tranformación calculada se aplica la misma a la nube de punt
 \subsection{SLAM 2D}
 Como se mencionaba en la Sección \ref{sec:marcoteorico}, una vez obtenidos los datos del LIDAR luego hay que filtrarlos. Para ello, poniendo un umbral del doble de la resolución del mapa se extraen los distintos puntos de interés.
 
-Luego, para poder estimar la transformación, una forma de hacerlo es mediante fuerza bruta en un mapa que cuente con una buena resolución como para discernir entre los distintos puntos. Como mientras más denso es el mapa, mayor es el costo computacional que requiere, para agilizar la búsqueda de la transformación que mejor se adapte al movimiento se plantea un mapa multi resolución \textbf{(Olson,2015)}, donde primero se determina la mejor transformación obtenida mediante fuerza bruta para el mapa de menor resolución, y a partir de dicha transformación obtenida se busca la que mejor responda al mapa siguiente en resolución. Esto se hace hasta llegar al último mapa, o sea, al de mayor resolución, consiguiendo así reducir los tiempos del algoritmo y a su vez conseguir un resultado robusto.
+Luego, para poder estimar la transformación, una forma de hacerlo es mediante fuerza bruta en un mapa que cuente con una buena resolución como para discernir entre los distintos puntos. Como mientras más denso es el mapa, mayor es el costo computacional que requiere, para agilizar la búsqueda de la transformación que mejor se adapte al movimiento se plantea un mapa multi resolución \cite{olson2015}, donde primero se determina la mejor transformación obtenida mediante fuerza bruta para el mapa de menor resolución, y a partir de dicha transformación obtenida se busca la que mejor responda al mapa siguiente en resolución. Esto se hace hasta llegar al último mapa, o sea, al de mayor resolución, consiguiendo así reducir los tiempos del algoritmo y a su vez conseguir un resultado robusto.
+
+%\textbf{PONER LO DE LA IMU!!!!!!!!!}
+A su vez, para conseguir mejores resultados, se toma como transformación inical a la diferencia entre la transformación anterior y los datos provistos por la IMU (basados en orientación), consiguiendo entonces un estado inicial más próximo al comportamiento realizado por del robot.
 
 Una vez obtenida la transformación óptima, se procede a la actualización del mapa mediante la Expresión \ref{eq:logitupdatemap}.
 
-\subsection{Resultados}
+\subsection{Resultados de los algoritmos SLAM}
+Debido a los problemas mencionados de la cámara Minoru y de la escasez de puntos del LIDAR para generar los mapas, sumado a que no se dispone del dato real de la trayectoria del robot para poder contrastarla con el algoritmo desarrollado, se cambió el enfoque del trabajo y se optó por obtener los datos en base a un entorno de simulación que, como se mencionó anteriormente, fue Gazebo el elegido. 
 
-\subsubsection{SLAM 3D}
-Debido a los problemas mencionados de la cámara Minoru para generar los mapas, sumado a que no se dispone del dato real de la trayectoria del robot para poder contrastarla con el algoritmo desarrollado, se cambió el enfoque del trabajo y se optó por obtener los datos en base a un entorno de simulación que, como se mencionó anteriormente, fue Gazebo el elegido. 
-
-Dentro de los modelos que se encuentran disponibles, se tomó el modelo del robot terrestre  \textit{Rosbot 3.0}\footnote{https://github.com/husarion/rosbot\_description} para realizar las simulaciones, el cual cuenta con una Microsoft Kinect, además de contar con un LIDAR 2D, IMU y encoders. A su vez, el mismo fabricante proporciona mapas simulados para la realización de pruebas, y con el agregado de los mapas presentes en el robot \textit{Turtlebot3}\footnote{https://github.com/ROBOTIS-GIT/turtlebot3} se consiguen una suficiente cantidad de entornos para ensayar el algoritmo descripto. A continuación, se detallan los resultados en base a uno de los mapas y el \textit{Rosbot 3.0}.
-
-Para el caso, se evaluó el mapa \textit{turtlebot3 world}, que se observa en la Figura \ref{fig:turtlebotworldoriginalmap}, además de observarse también el modelo simulado del Rosbot 3.0. A partir de dicha simulación, se movió al robot sin un patrón específico, tratando de que pueda mapearse todo el lugar, guardando los tópicos de interés en un contenedor de ROS (\textit{rosbag}) para luego poder procesar y evaluar la misma información con el fin de poder ajustar el algoritmo. En base a esto, se fue construyendo el mapa con cada una de las nubes de puntos entrantes, comparado a cada una con la nube de puntos anterior y sumando entonces la nueva nube transformada al mapa generado, mediante el \textit{registration pipeline} descrito anteriormente. En base a esto, se consiguieron los resultados que se observan en la Figura \ref{fig:turtlebotworldestimatedmap}, donde la traza roja representa a la trayectoria real del robot (dato proporcionado por la simulación), mientras que la trayectoria azul se trata de la trayectoria estimada por el algoritmo realizado.
 \begin{figure}[!ht]
     \centering
-    {\includegraphics[width=\linewidth]{Img/TurtleBotWorldMap3D.png}}
+    {\includegraphics[width=0.9\linewidth]{Img/TurtleBotWorldMap3D.png}}
     \caption{Entorno simulado \textit{turtlebot3 world}}
     \label{fig:turtlebotworldoriginalmap}
 \end{figure}
+Como se mencionaba anteriormente, dentro de los modelos que se encuentran disponibles, se tomó el modelo del robot terrestre \textit{Rosbot 2.0}\footnote{https://github.com/husarion/rosbot\_description} para realizar las simulaciones, el cual cuenta con una Microsoft Kinect, además de contar con un LIDAR 2D, IMU y encoders. A su vez, el mismo fabricante proporciona mapas simulados para la realización de pruebas, y con el agregado de los mapas presentes en el robot \textit{Turtlebot3}\footnote{https://github.com/ROBOTIS-GIT/turtlebot3} se consiguen una suficiente cantidad de entornos para ensayar el algoritmo descripto. A continuación, se detallan los resultados en base a uno de los mapas y el \textit{Rosbot 2.0}.
+
+\subsubsection{SLAM 3D}
+Para el caso del SLAM 3D, se evaluó el mapa \textit{turtlebot3 world}, que se observa en la Figura \ref{fig:turtlebotworldoriginalmap}, además de observarse también el modelo simulado del Rosbot 2.0. A partir de dicha simulación, se movió al robot sin un patrón específico, tratando de que pueda mapearse todo el lugar, guardando los tópicos de interés en un contenedor de ROS (\textit{rosbag}) para luego poder procesar y evaluar la misma información con el fin de poder ajustar el algoritmo. En base a esto, se fue construyendo el mapa con cada una de las nubes de puntos entrantes, comparado a cada una con la nube de puntos anterior y sumando entonces la nueva nube transformada al mapa generado, mediante el \textit{registration pipeline} descrito anteriormente. En base a esto, se consiguieron los resultados que se observan en la Figura \ref{fig:turtlebotworldestimatedmap}, donde la traza roja representa a la trayectoria real del robot (dato proporcionado por la simulación), mientras que la trayectoria azul se trata de la trayectoria estimada por el algoritmo realizado.
+
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\linewidth]{Img/TurtleBotWorldMap3DEstimated.png}%
+    \includegraphics[width=0.9\linewidth]{Img/TurtleBotWorldMap3DEstimated.png}%
     \caption{Mapa reconstruido en base a la cámara RGB-D del entorno simulado, junto a la trayectoria real y estimada por el algoritmo}
     \label{fig:turtlebotworldestimatedmap}
 \end{figure}
@@ -491,20 +494,24 @@ Como el tiempo de procesamiento en una computadora de 4 núcleos (2.0 GHz) ronda
 Como se pretende realizar luego una fusión sensorial, combinando un LIDAR 2D y una IMU, una opción para que pueda llevarse al tiempo real es procesando cada cierto tiempo las nubes, ignorando entonces parte de ellas. Como el LIDAR 2D da información respecto a la pose del vehículo, se conseguirían entonces resultados aproximados, ya que para cada paso del algoritmo se partiría de la última transformación estimada, ya sea de la cámara, del LIDAR o de un algoritmo externo, como puede ser el filtro de Kalman.
 \fi
 
-\subsubsection{SLAM 2D}
-Utilizando un mapa tipo laberinto, el cual puede observarse en la Figura \ref{fig:lidar2dmaporiginal}, se lograron los resultados que se ven en la Figura \ref{fig:lidar2dmapgenerated}, donde al igual que en el SLAM3D, se observa que hay un corrimiento de la pose estimada (azul) respecto al ground truth (rojo), el cual puede mitigarse con el agregado del cierre de ciclo.
-
 \begin{figure}[!ht]
     \centering
-    {\includegraphics[width=\linewidth]{Img/LIDAR2DMapOriginal.png}}
+    {\includegraphics[width=0.9\linewidth]{Img/LIDAR2DMapOriginal.png}}
     \caption{Entorno simulado \textit{turtlebot3 maze}}
     \label{fig:lidar2dmaporiginal}
 \end{figure}
+\subsubsection{SLAM 2D}
+Para el caso del SLAM 2D, aprovechando los espacios de interiores con paredes pronunciadas, se eligió un mapa tipo laberinto, el \textit{turtlebot3 maze}, el cual puede observarse en la Figura \ref{fig:lidar2dmaporiginal}. Al igual que en el caso del SLAM 3D, se navegó con el robot por dicho mapa, almacenando los datos mediante el uso de \textit{rosbag}. A partir de dicha tarea, se lograron los resultados que se ven en la Figura \ref{fig:lidar2dmapgenerated}, donde al igual que en el SLAM3D, se observa que hay un corrimiento de la pose estimada (azul) respecto al ground truth (rojo) a lo largo del tiempo.
+
+A diferencia del SLAM 3D, en este caso el tiempo de procesamiento, si bien va a depender del mapa, fue menor al tiempo entre cada set de datos otorgados por el LIDAR (alrededor de $120ms$ contra los $250ms$ que se tienen entre los datos), permitiendo entonces que el mismo pueda ser implementado en un sistema de tiempo real.
 
 
 \begin{figure}[!ht]
     \centering
-    {\includegraphics[width=\linewidth]{Img/LIDAR2DMapGenerated.png}}
+    {\includegraphics[width=0.9\linewidth]{Img/LIDAR2DMapGenerated.png}}
     \caption{Mapa obtenido en base al entorno simulado \textit{turtlebot3 maze}, mediante el uso del LIDAR 2D}
     \label{fig:lidar2dmapgenerated}
 \end{figure}
+
+\subsection{Resumen}
+En esta Sección se desarrollaron los distintos enfoques realizados en el trabajo presentado, detallando las distintas técnicas utilizadas para cada uno de los casos. A su vez, se presentaron los resultados obtenidos para cada uno de ellos.

@@ -17,7 +17,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
 
 \subsection{Plataformas basadas en ARM MCUs}
 \begin{itemize}
-    \item \textbf{Pixhawk:} consiste en un controlador PX4-Flight Management Unit (FMU) y una PX4-IO integrada en una misma placa con IO adicionales, memoria y otras características (Fig. \ref{fig:pixhawks}.a). Se encuentra dentro del proyecto DroneCode [REF DRONECODE].
+    \item \textbf{Pixhawk:} consiste en un controlador PX4-Flight Management Unit (FMU) y una PX4-IO integrada en una misma placa con IO adicionales, memoria y otras características (Fig. \ref{fig:pixhawks}.a). Se encuentra dentro del proyecto DroneCode\footnote{https://www.dronecode.org/}.
     \item \textbf{Pixhawk 2:} Es un cubo pequeño que cuenta con tres IMUs redundantes y hasta tres módulos GPS (Fig. \ref{fig:pixhawks}.b) (Ardupilot). Toda la conección IO del cubo se encuentra en un conector DF17. Su placa portadora posee una interfaz con Intel Edison.
     
     \begin{figure}[!ht]
@@ -28,7 +28,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
     \end{figure}
     
     \item \textbf{FlightCtrl:} Desarrollada por MikroKopter, su última versíon introducida al mercado, la V3.0 (Fig. \ref{fig:flypaparazzi}.a), cuenta con un microcontrolador avanzado, sistema de telemetría, GPS, entre otros, además de ofrecer sistemas con placas de control de vuelo duplicadas que mantienen el helicóptero estable incluso si hay una falla en la placa primaria de control de vuelo.
-    \item \textbf{Paparazzi:} Es el primer proyecto de software y hardware open-source para drones [Brisset]. En marzo de 2017 salió el nuevo autopilot del mismo llamado Chimera (Fig. \ref{fig:flypaparazzi}.b) el cual está basado en el microcontrolador STM32F7.
+    \item \textbf{Paparazzi:} Es el primer proyecto de software y hardware open-source para drones. En marzo de 2017 salió el nuevo autopilot del mismo llamado Chimera (Fig. \ref{fig:flypaparazzi}.b) el cual está basado en el microcontrolador STM32F7.
     \item \textbf{FlyMaple:} basada en el Maple Project, el cual es un procesador Arduino ARM, consiste en una placa controladora para cuadricópteros (Fig. \ref{fig:flypaparazzi}.c). La misma cuenta como aplicaciones típícas las de robots balancines, plataformas móbiles, helicópteros y cuadricópteros que requieren IMUs y controladores en tiempo real de alto rendimiento.
     
     \begin{figure}[!ht]
@@ -52,7 +52,7 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
 
 \subsection{Plataformas basadas en Raspberry Pi}
 \begin{itemize}
-    \item \textbf{Erle-Brain 3:} Consiste en un open pilot para drones basado en Linux desarrollado por Erle Robotics (Fig. \ref{fig:raspi}.a) (Erle-Robotics). Combina una Raspberry Pi junto a PXFmini, contando esta última con sensores, IO y alimentación. Está diseñado sobre el proyecto DroneCode.
+    \item \textbf{Erle-Brain 3:} Consiste en un open pilot para drones basado en Linux desarrollado por Erle Robotics (Fig. \ref{fig:raspi}.a). Combina una Raspberry Pi junto a PXFmini, contando esta última con sensores, IO y alimentación. Está diseñado sobre el proyecto DroneCode.
     \item \textbf{NAVIO2 Autopilot:} Es una integración de sensores, GPS y alimentación apareado con una Raspberry Pi. Cuenta con doble IMU para mejorar el desempeño y conseguir redundancia (Fig. \ref{fig:raspi}.b).
     
     \begin{figure}[!ht]
@@ -77,15 +77,12 @@ En esta sección se evaluarán principalmente diferentes plataformas de hardware
 \subsection{Comparación entre plataformas existentes}
 
 
-En el Cuadro \ref{tab:plataformas} (Yang, 2016)(Raj, 2016) se resumen las características principales. En la misma, se observa que la principal diferencia entre ellas es la unidad de procesamiento, además de que no todas ellas presentan redundancia de sensores críticos.
+En el Cuadro \ref{tab:plataformas} \cite{yang2016}\cite{raj2016} se resumen las características principales. En la misma, se observa que la principal diferencia entre ellas es la unidad de procesamiento, además de que no todas ellas presentan redundancia de sensores críticos.
 
 \input{platforms_table.tex}
 
-En muchas de las plataformas analizadas, puede observase la presencia de sensores duplicados, tal como es el caso de giroscopos y acelerómetros. Dicha \textit{redundancia} permite al sistema aumentar su \textit{confiabilidad}, logrando así reducir las posibles fallas del sistema, sobre todo en los sensores más críticos.
-\begin{large}
-[PONER DE $https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6165073/$]
-[$https://link.springer.com/chapter/10.1007/978-1-4612-3148-6_8$]
-\end{large}
+En muchas de las plataformas analizadas, puede observase la presencia de sensores duplicados, tal como es el caso de giroscopos y acelerómetros. Dicha \textit{redundancia} permite al sistema aumentar su \textit{confiabilidad}, logrando así reducir las posibles fallas del sistema, sobre todo en los sensores más críticos \cite{petritoli2018}\cite{dhillon1991}.
+
 \subsection{Estándar de Hardware}
 
 A partir del relevamiento realizado, se puede establecer que los métodos de conexión que presentan las plataformas existentes en el mercado no cuentan con un estándar de hardware definido, sino que cada una tiene su interfaz de conexión propia. Esto trae como inconveniente que, si se requiere expandir su funcionalidad agregando, por ejemplo, más sensores, en base a la plataforma que se tenga dependerá el hardware asociado a realizarse.

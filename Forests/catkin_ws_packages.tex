@@ -1,0 +1,24 @@
+\begin{figure}[!ht]
+    \centering
+    \begin{forest}
+    for tree={
+      parent anchor=south,
+      child anchor=north,
+      node options={inner sep=11pt},
+      l sep=50pt,
+      s sep=80pt,
+    } 
+    [\myfolder{catkin\_ws}
+      [\myfolder{src}
+          [\myfolder{paquete1}]
+          [\myfolder{paquete2}]
+          [\myfolder{carpeta}
+            [\myfolder{paquete3}]
+            [\myfolder{paquete4}]
+          ]
+      ]
+    ]
+    \end{forest}
+    \caption{Ejemplo de varios paquetes dentro de un catkin workspace}
+    \label{fig:catkinworkspacewithpackages}
+\end{figure}

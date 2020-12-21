@@ -1,7 +1,7 @@
 % Regression analysis o state estimation?
 \section{Análisis de regresión}
 \label{sec:regressionanalysis}
-El análisis de regresión es un análisis estadístico para predecir el valor de una variable cuantitativa continua. Basándose en un conjunto de variables independientes, se busca estimar la relación de las mismas con una variable dependiente, mediante la obtención de una curva que mejor se ajuste a los datos disponibles, sin que necesariamente pase por todos ellos. En concreto, el modelo de regresión puede representarse como
+El análisis de regresión es un análisis estadístico para predecir el valor de una variable cuantitativa continua. Basándose en un conjunto de variables independientes, se busca estimar la relación de las mismas con una variable dependiente, mediante la obtención de una curva que mejor se ajuste a los datos disponibles, sin que necesariamente pase por todos ellos. En concreto, el modelo de regresión puede representarse como \cite{montgomery2012}
 \begin{equation}
     y_i = f(\bm{x}_i; \bm{\beta}) + v_i,
     \label{eq:regressionmodel}
@@ -24,7 +24,7 @@ En regresión lineal, la variable $y$ \textit{es una combinación lineal} de los
 \end{align}
 
 \subsubsection{Método de cuadrados mínimos ordinario (OLS)}
-Con el fin de hallar los parámetros desconocidos, uno de los métodos más utilizados corresponde al \textit{método de cuadrados mínimos}, el cual plantea que el valor más probable de dichos parámetros será aquel que minimiza la suma de los errores cuadráticos entre lo que se observa y lo que se espera. Este método es una variante especial del problema más general, en el que dada una función $f:\mathbb{R}^n\rightarrow\mathbb{R}$ se busca un argumento de $f$ que de el mínimo valor de la llamada \textit{función de coste}
+Con el fin de hallar los parámetros desconocidos, uno de los métodos más utilizados corresponde al \textit{método de cuadrados mínimos}, el cual plantea que el valor más probable de dichos parámetros será aquel que minimiza la suma de los errores cuadráticos entre lo que se observa y lo que se espera. Este método es una variante especial del problema más general, en el que dada una función $f:\mathbb{R}^n\rightarrow\mathbb{R}$ se busca un argumento de $f$ que de el mínimo valor de la llamada \textit{función de coste} \cite{kariya2004}
 \begin{equation}
     \hat{x} = argmin_x f(x)
     \label{eq:globalminimizer}
@@ -228,7 +228,7 @@ En lugar de escribir una pérdida tal como se realiza en cuadrados mínimos, pue
     \label{eq:maxlikelihood}
 \end{equation}
 
-Volviendo al ejemplo de la bolsa de naranjas, si se tienen cuatro posibles valores de dicho peso, como se observa en la Figura \ref{fig:mostlikelyproba}, el valor que maximiza la verosimilitud condicional dada la medición $y_{med}$ corresponde a $x_b$, ya que es la densidad de probabilidad mayor en la ubicación medida.
+Para la bolsa de naranjas, si se tienen cuatro posibles valores de dicho peso, como se observa en la Figura \ref{fig:mostlikelyproba}, el valor que maximiza la verosimilitud condicional dada la medición $y_{med}$ corresponde a $x_b$, ya que es la densidad de probabilidad mayor en la ubicación medida.
 \begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{Img/MostLikelyProba.png}
@@ -325,7 +325,7 @@ Puede entonces decirse que el método de máxima verosimilitud es un caso especi
 
 \subsection{Regresión no lineal}
 
-La regresión lineal es un método muy utilizado para analizar los datos descriptos por modelos que son lineales en los parámetros. Sin embargo, muchas veces las formas de las curvas que mejor ajustan a los datos obtenidos son no lineales en los parámetros. En estos casos, el modelo de regresión sigue siendo de la misma forma que el de la Expresión (\ref{eq:regressionmodel}), a diferencia de que al menos una de las derivadas de la función de expectativa con respecto a los parámetros depende de al menos uno de los parámetros\footnote{Por ejemplo, si derivo $\theta_1 \theta_2 x_1$ respecto a cualquiera de esos dos parámetros, dicha derivada parcial dependerá del parámetro no derivado}.
+La regresión lineal es un método muy utilizado para analizar los datos descriptos por modelos que son lineales en los parámetros. Sin embargo, muchas veces las formas de las curvas que mejor ajustan a los datos obtenidos son no lineales en los parámetros. En estos casos, el modelo de regresión sigue siendo de la misma forma que el de la Expresión (\ref{eq:regressionmodel}), a diferencia de que al menos una de las derivadas de la función de expectativa con respecto a los parámetros depende de al menos uno de los parámetros\footnote{Por ejemplo, si derivo $\theta_1 \theta_2 x_1$ respecto a cualquiera de esos dos parámetros, dicha derivada parcial dependerá del parámetro no derivado} \cite{madsen2004}\cite{nguk2017}.
 
 Para diferenciar entre modelos lineales y no lineales, los parámetros para este último caso se definen con $\bm{\theta}$,
 \begin{equation}

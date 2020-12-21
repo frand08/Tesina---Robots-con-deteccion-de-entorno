@@ -79,7 +79,7 @@ adecuado, como los presentados por la librería OpenCV \cite{kaehler2017}.
 
 Una vez obtenidas las nubes de puntos de profundidad, una de las formas de calcular la posición y orientación del robot (conocido como la \textit{pose} del robot) a lo largo del tiempo es mediante la comparación entre dos nubes de puntos contiguas (una con los datos recientes y otra con los datos de la nube de puntos anterior), buscando en definitiva la transformación necesaria para que la nube de puntos actual pueda alinearse (o sea, que coincida lo mejor posible) con la nube de puntos anterior. Este proceso se lo conoce como el \textit{registro de la nube de puntos}, y suele llevar una serie de pasos, lo cual se desarrollará más adelante. Para poder facilitar el uso de nubes de puntos, existen librerías específicas para trabajar con dicha información, siendo algunas de ellas la \textit{Point Cloud Library} y \textit{Open3D}, las cuales implementan no sólo distintos algoritmos, sino también estructuras para facilitar el manejo de las nubes de puntos.
 
-Si bien hay muchos robots móviles hoy en día en el mercado, gran parte de ellos son costosos, y sobre todo los que se encuentran equipados para realizar SLAM 3D. Para poder evaluar los algoritmos necesarios sin tener que ponerse en gasto, existen entornos de simulación pensados, entre otras cosas, para robots, consiguiendo resultados símiles a la realidad. Unos de los más conocidos en el ámbito son \textit{V-REP} y \textit{Gazebo}, siendo este último el elegido para realizar el trabajo.
+Si bien hay muchos robots móviles hoy en día en el mercado, gran parte de ellos son costosos, y sobre todo los que se encuentran equipados para realizar SLAM 3D. Para poder evaluar los algoritmos necesarios sin tener que ponerse en gasto, existen entornos de simulación pensados, entre otras cosas, para robots, consiguiendo resultados comparables con los reales. Unos de los más conocidos en el ámbito son \textit{V-REP} y \textit{Gazebo}, siendo este último el elegido para realizar el trabajo.
 
 \subsection{Contribuciones}
 En el presente trabajo, 
@@ -139,3 +139,6 @@ y apéndices
         \fi
     \fi
 \end{itemize}
+
+\subsection{Resumen}
+En esta Sección se dio una introducción respecto a los temas que va a abordar el trabajo realizado, a su vez de mencionar las contribuciones por el mismo y, finalmente, mencionar las distintas secciones que se incluyen.

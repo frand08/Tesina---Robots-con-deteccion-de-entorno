@@ -1,5 +1,5 @@
 \section{Geometría tridimensional y marcos de referencia}
-En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y traslación, junto con algunas de sus representaciones. Si se quiere profundizar en este tema, puede referirse a \textbf{(Barfoot, 2016)}.
+En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y traslación, junto con algunas de sus representaciones. Si se quiere profundizar en este tema, puede referirse a \cite{barfoot2020}.%\textbf{(Barfoot, 2016)}.
 
 Los robots móviles generalmente son libres de trasladarse y rotar. Matemáticamente, tienen seis grados de libertad: tres en traslación y tres en rotación. Esta configuración geométrica de seis grados de libertad se conoce como la \textit{pose} (posición y orientación) del robot. Algunos robots pueden tener múltiples cuerpos conectados entre sí; en este caso cada cuerpo tiene su propia pose. Consideraremos solo el caso de un solo cuerpo en el presente trabajo.
 
@@ -124,7 +124,7 @@ Finalmente, la rotación en $1$ vista en la Figura \ref{fig:rotations}.c
 
 
 \subsubsection{Ángulos de Euler}
-La orientación de un marco de referencia respecto a otro puede, también, ser especificada como una secuencia de tres rotaciones principales. Dependiendo el orden con el que se hagan dichas rotaciones, se conseguirán resultados distintos. Esto es debido a que las rotaciones en tres dimensiones no pertenecen a un espacio vectorial (y, por lo tanto,no pueden ser representadas por una), y suele considerárselas como un \textit{grupo}, el cual es una abstracción matemática. Existen dentro de la literatura numerosos textos que tratan el tema, como pueden ser \textbf{PONER COSAS QUE HABLEN DE SO(3) SU(2) ETC ETC}.
+La orientación de un marco de referencia respecto a otro puede, también, ser especificada como una secuencia de tres rotaciones principales. Dependiendo el orden con el que se hagan dichas rotaciones, se conseguirán resultados distintos. Esto es debido a que las rotaciones en tres dimensiones no pertenecen a un espacio vectorial (y, por lo tanto, no pueden ser representadas por una), y suele considerárselas como un \textit{grupo}, el cual es una abstracción matemática. %Existen dentro de la literatura numerosos textos que tratan el tema, como pueden ser \textbf{PONER COSAS QUE HABLEN DE SO(3) SU(2) ETC ETC}.
 
 En concreto, una secuencia muy utilizada en aplicaciones aeroespaciales realiza
 \begin{enumerate}
@@ -233,14 +233,14 @@ y al ser de interés en este trabajo los cuaterniones para expresar rotaciones, 
     ||\bm{q}(\hat{\bm{u}},\phi)|| &= 1
 \end{align}
 
-\textbf{PONER O NO ESTO?????}
-En otras palabras, dicho cuaternión parametriza una rotación sobre un eje definido por el vector $\hat{\bm{u}}$, y un ángulo $\phi$ sobre ese vector, como puede verse en la Figura \ref{fig:quaternions}.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{Img/Quaternions.png}
-    \caption{Rotación sobre un eje definido?}
-    \label{fig:quaternions}
-\end{figure}
+% \textbf{PONER O NO ESTO?????}
+% En otras palabras, dicho cuaternión parametriza una rotación sobre un eje definido por el vector $\hat{\bm{u}}$, y un ángulo $\phi$ sobre ese vector, como puede verse en la Figura \ref{fig:quaternions}.
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\textwidth]{Img/Quaternions.png}
+%     \caption{Rotación sobre un eje definido?}
+%     \label{fig:quaternions}
+% \end{figure}
 
 \paragraph{Propiedades de los cuaterniones}
 A continuación, se evaluarán algunas de las propiedades de los cuaterniones.
@@ -402,7 +402,7 @@ De forma análoga, puede convertirse un cuaternión a una matriz de rotación ut
 \end{align}
 
 \subsubsection{Resumen}
-El punto principal para darse cuenta de las diferentes representaciones de las rotaciones es que siempre hay solo tres grados de libertad. Aquellas que tienen más de tres parámetros deben tener restricciones asociadas para limitar el número de grados de libertad a tres. Las representaciones que tienen exactamente tres parámetros tienen singularidades asociadas. No existe una representación perfecta que sea mínima (es decir, que tenga solo tres parámetros) y que también esté libre de singularidades \textbf{[Stuelpnagel, 1964]}.
+El punto principal para darse cuenta de las diferentes representaciones de las rotaciones es que siempre hay solo tres grados de libertad. Aquellas que tienen más de tres parámetros deben tener restricciones asociadas para limitar el número de grados de libertad a tres. Las representaciones que tienen exactamente tres parámetros tienen singularidades asociadas. No existe una representación perfecta que sea mínima (es decir, que tenga solo tres parámetros) y que también esté libre de singularidades\cite{stuelpnagle1964}.% \textbf{[Stuelpnagel, 1964]}.
 
 De las tres representaciones vistas, esto es, la \textit{matriz de rotación}, los \textit{ángulos de Euler} y los \textit{cuaterniones}, cada una tiene ventajas como desventajas, reflejadas en la Tabla (\ref{tab:rotationrepresentations}).
 

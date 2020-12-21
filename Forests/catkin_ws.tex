@@ -1,0 +1,19 @@
+\begin{figure}[!ht]
+    \centering
+    \begin{forest}
+    for tree={
+      parent anchor=south,
+      child anchor=north,
+      node options={inner sep=11pt},
+      l sep=50pt,
+      s sep=80pt,
+    } 
+    [\myfolder{catkin\_ws}
+      [\myfolder{src}]
+      [\myfolder{build}]
+      [\myfolder{devel}]
+    ]
+    \end{forest}
+    \caption{catkin workspace típico de ROS}
+    \label{fig:catkinworkspace}
+\end{figure}

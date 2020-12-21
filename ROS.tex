@@ -34,12 +34,13 @@ Antes de comenzar a escribir código ROS, es necesario generar un \textit{worksp
     \item \textit{build}: donde CMake se invoca para construir los paquetes catkin en el espacio src.
     \item \textit{devel}: donde los paquetes construidos se colocan antes de ser instalados.
 \end{itemize}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{Img/CatkinWorkspace.jpeg}
-    \caption{catkin workspace típico de ROS}
-    \label{fig:catkinworkspace}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%     \includegraphics[width=\linewidth]{Img/CatkinWorkspace.jpeg}
+%     \caption{catkin workspace típico de ROS}
+%     \label{fig:catkinworkspace}
+% \end{figure}
+\input{Forests/catkin_ws}
 
 Una forma estándar de crear un catkin workspace es mediante el uso de \lstinline[language=bash]{catkin_make} en un directorio con la carpeta \textit{src} presente. Esta acción, además de crear las carpetas \textit{build} y \textit{devel}, proporcionará el \textit{CMakeLists.txt} correspondiente al workspace.
 \begin{lstlisting}[language=bash]
@@ -50,12 +51,13 @@ $ catkin_make
 
 \paragraph{Paquetes}
 El software de ROS está organizado en \textit{paquetes}, los cuales pueden contener dentro de ellos nodos, librerías independientes, archivos de configuración, entre otros. Estos paquetes son, entonces, una colección de recursos que se construyen y distribuyen conjuntamente, con el objetivo de proporcionar la funcionalidad requerida de una manera sencilla para que el software pueda reutilizarse fácilmente. En general, los paquetes ROS cuentan con suficiente funcionalidad para ser útil, pero no demasiado para que el paquete sea pesado y difícil de usar desde otro software. Como se mencionó anteriormente, los mismos suelen residir en la carpeta \textit{src} del \textit{catkin workspace}, pudiendo estar en un árbol de subcarpetas, como por ejemplo en la Figura \ref{fig:catkinworkspacewithpackages}.
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{Img/CatkinWorkspaceWithPackages.jpeg}
-    \caption{Ejemplo de varios paquetes dentro de un catkin workspace}
-    \label{fig:catkinworkspacewithpackages}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%     \includegraphics[width=\linewidth]{Img/CatkinWorkspaceWithPackages.jpeg}
+%     \caption{Ejemplo de varios paquetes dentro de un catkin workspace}
+%     \label{fig:catkinworkspacewithpackages}
+% \end{figure}
+\input{Forests/catkin_ws_packages}
 
 \subparagraph{rosrun}
 Como los paquetes pueden contener una gran cantidad de ejecutables (los nodos en sí), para evitar el uso de rutas largas dentro del \textit{filesystem} para correrlos, ROS provee una utilidad a la línea de comandos denominada \texttt{rosrun}, el cual busca un programa propio de un paquete específico, además de poder proveerle parámetros. Por lo tanto, teniendo en una terminal el \texttt{roscore} ejecutándose, es posible correr un ejecutable de un paquete ROS mediante

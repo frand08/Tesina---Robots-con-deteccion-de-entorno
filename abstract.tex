@@ -22,6 +22,8 @@ RGB-D, PCL, SLAM3D, SLAM, Gazebo
 
 En los últimos años, los robots han recibido una mayor atención de la comunidad de investigación, en especial debido a la aparición de los vehículos aéreos no tripulados.
 
-El presente trabajo describe el desarrollo de una plataforma de control de robots. Dicha plataforma cuenta con la posibilidad de expandir sus funcionalidades gracias al estándar de hardware PC/104 presente en la industria, logrando así poder desarrollar a partir de la misma tanto vehículos aéreos no tripulados (UAV) como robots terrestres, entre otros. En base a la misma, se desarrollará un robot capaz de estimar tanto su posición como el contorno del mapa en el cual se encuentra.
+El presente trabajo describe el desarrollo de una plataforma de control de robots. Dicha plataforma cuenta con la posibilidad de expandir sus funcionalidades gracias al estándar de hardware PC/104 presente en la industria, logrando así poder desarrollar a partir de la misma tanto vehículos aéreos no tripulados (UAV) como robots terrestres, entre otros. En base a la misma, se desarrollará un robot capaz de estimar tanto su posición como el contorno del mapa en el cual se encuentra, problema conocido como el de localización y mapeo simultáneos. 
+
+Como se utilizan en el mismo distintos sensores, en primera instancia se realiza la calibración de gran parte de los mismos, para luego utilizarlos en la generación de dos mapas: uno en dos dimensiones, basado en la IMU y el LIDAR; y el otro tridimensional, basado en la cámara RGB-D.
 \fi
 

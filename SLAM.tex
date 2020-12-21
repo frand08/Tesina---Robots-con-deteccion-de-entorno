@@ -1,6 +1,6 @@
 \section{Simultaneous Localization And Mapping}
 \label{sec:slam}
-Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores. Si se quiere profundizar más en el tema se recomienda consultar \textbf{(Suenderhauf, 2012)(Reid, 2016)}.
+Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores. Si se quiere profundizar más en el tema se recomienda consultar \cite{suenderhauf2012}\cite{reid2016}.
 
 \subsection{Introducción al SLAM}
 El problema de localización y mapeo simultáneos (SLAM) se basa en el proceso de un robot que construye un mapa de su entorno desconocido (\textit{mapping}) mientras este lo explora conociendo su ubicación en el mismo (\textit{localization}). Dicho problema puede ser expresado como el dilema del huevo o la gallina, ya que para conocer la ubicación del robot, es necesario determinar el mapa que lo rodea, sin embargo, para que el mismo pueda estimar el mapa en el cual se encuentra, necesita primero conocer su ubicación dentro de ese entorno. 
@@ -8,7 +8,7 @@ El problema de localización y mapeo simultáneos (SLAM) se basa en el proceso d
 A partir de la detección y seguimiento de marcas naturales del ambiente (\textit{landmarks}), las técnicas de SLAM  estiman  tanto  la  posición  del  robot  como  la  ubicación  de las marcas en el entorno. El mapa se construye con las estimaciones de las posiciones  de  dichas  marcas,  las  cuales  van  siendo ajustadas  a  medida  que  son observadas desde distintas posiciones. Es necesario que la localización sea precisa, ya que si la misma es inexacta generará problemas a la hora de reconstruir el mapa. Es por esto que el mapeo y la localización dependen uno del otro, y se ejecutan \textit{simultáneamente} de forma entrelazada.
 
 El SLAM es un problema difícil ya que, debido al ruido de los sensores utilizados, ninguna de las mediciones es perfecta. Esto significa que ni el movimiento del robot ni la estructura del entorno se conocen de manera absolutamente precisa, sino solo hasta cierto grado de incertidumbre. Con el fin de hacer frente a estas incertidumbres, el SLAM generalmente se entiende y se aborda mediante técnicas y modelos probabilísticos. Las diferentes formas en que se representan las funciones de densidad probabilística constituyen las diferencias en cada enfoque. 
-\textbf{MIRAR LO COMENTADO}
+%?\textbf{MIRAR LO COMENTADO}
 % Muchas de ellas utilizan filtros de Bayes, tal como lo es el Filtro de Kalman Extendido (EKF) 
 % \begin{large}
 % [DURRANT-WHYTE2006]
@@ -17,7 +17,7 @@ El SLAM es un problema difícil ya que, debido al ruido de los sensores utilizad
 % \begin{large}
 % [PONER FASTSLAM BIEN]
 % \end{large}. 
-Sin embargo, el uso de enfoques de estimación de estado para describir el problema de SLAM implica resolver una serie de inconvenientes que se generan a partir del mismo, siendo de los más destacados la \textit{asociación de datos}\textbf{[ref 103 y 104 de reid2016]} y el \textit{cierre de ciclo}.
+Sin embargo, el uso de enfoques de estimación de estado para describir el problema de SLAM implica resolver una serie de inconvenientes que se generan a partir del mismo, siendo de los más destacados la \textit{asociación de datos} \cite{duarrant2006a}\cite{duarrant2006b} y el \textit{cierre de ciclo}.
 
 \subsubsection{Asociación de datos}
 Uno de los problemas comunes dentro del SLAM corresponde a la asociación de datos (\textit{data asociation}), el cual es el proceso de asociar los datos de los sensores utilizados con las características del ambiente, generando de esta forma los landmarks. En otras palabras, se busca asociar la medición del sensor con alguno de los \textit{n} landmarks ya extraídos y, en caso de que no pertenezca a ninguno de ellos, se generará un landmark nuevo \textit{n+1}. Es importante poder discernir de cuál landmark se trata o si es en efecto uno nuevo, ya que debido al ruido inherente de los sensores puede que caiga entre dos de ellos, como puede observarse en la Figura \ref{fig:dataassociation}, haciendo que pueda tender equívocamente al incorrecto, o creer que no se tiene dicho landmark cuando en realidad era uno ya medido.
@@ -38,7 +38,7 @@ Los mapas SLAM se construyen a partir de millones de lecturas de sensores, que s
 \end{equation}
 siendo $\bm{p}$ la pose, $\bm{m}$ el mapa, $\bm{y}$ las mediciones y $\bm{u}$ las variables de control.
 
-En cambio, la evaluación y la reevaluación de estas asociaciones de datos, al mismo tiempo que se calcula y actualiza \textit{todo el historial} de poses del robot, describe el problema de \textit{full SLAM} \textbf{[ref 6 de reid2016]}
+En cambio, la evaluación y la reevaluación de estas asociaciones de datos, al mismo tiempo que se calcula y actualiza \textit{todo el historial} de poses del robot, describe el problema de \textit{full SLAM} \cite{dissanayake2001}
 \begin{equation}
     p(\bm{p}_{0:t},\bm{m}|\bm{y}_{0:t},\bm{u}_{0:t})
 \end{equation}
@@ -46,7 +46,7 @@ En cambio, la evaluación y la reevaluación de estas asociaciones de datos, al 
 Si bien este último no puede resolverse para entornos no triviales, los enfoques descritos en la literatura a menudo producen resultados útiles en entornos del mundo real. En concreto, con el fin de reducir la complejidad del algoritmo se toman como supuestos comunes que el \textit{entorno es estático}, es decir, que el mapa no varía con el tiempo, y por segundo que las trayectorias de los robots \textit{pueden predecirse}, logrando así que los modelos de movimiento puedan predecir dónde es probable que esté un robot, permitiendo que la búsqueda de asociaciones de datos comience cerca del óptimo global.
 
 \subsubsection{Cierre de ciclo}
-\textbf{[REFS DE REID Y VER CASTRO]}
+%\textbf{[REFS DE REID Y VER CASTRO]}
 Si bien lo que se busca es evitar errores principalmente de localización, debido al ruido inherente de los sensores utilizados como se mencionó anteriormente, los algoritmos de SLAM no pueden estimar exactamente tanto la ubicación del robot como el mapa que lo rodea, sino hasta con cierto grado de incertidumbre. Como se ejecuta el algoritmo de manera secuencial, el error se irá acumulando a través del tiempo, resultando en una pésima estimación luego de varias corridas. Una forma de poder mitigar en parte estos errores es mediante el reconocimiento de una posición en la que el robot ya estuvo anteriormente. Tomar conocimiento de que se ha efectuado un ciclo en la trayectoria permite calcular el error cometido en la estimación de la posición y da origen a una serie de procesos que permiten corregir tanto la localización actual del robot como el mapa hasta ese momento construido. Este reconocimiento se lo conoce como \textit{cierre de ciclo} (\textit{loop closure}), el cual puede verse en la Figura \ref{fig:poseloopclcorr}.
 
 
@@ -59,8 +59,8 @@ Si bien lo que se busca es evitar errores principalmente de localización, debid
 
 % \ifslamext
 \subsection{Mapas}
-\textbf{DE Suenderhauf 2012}
-En base a los sensores extereoceptivos utilizados además del entorno en el que se encuentran los robots y tareas que tengan que realizar, los mapas creados pueden variar considerablemente. \textbf{THRUN 2002, SICILIANO 2008, THRUN 2005} A continuación, se presentan dos tipos de mapas que pueden encontrarse en la literatura.
+%\textbf{DE Suenderhauf 2012}
+En base a los sensores extereoceptivos utilizados además del entorno en el que se encuentran los robots y tareas que tengan que realizar, los mapas creados pueden variar considerablemente \cite{thrun2002}\cite{siciliano2008}\cite{thrun2005}. A continuación, se presentan dos tipos de mapas que pueden encontrarse en la literatura.
 
 \subsubsection{Occupancy Grid Maps}
 El concepto de esta técnica es la de discretizar el ambiente a mapear, utilizando pequeñas celdas o regiones discretas $m_i$, como puede observarse en la Figura \ref{fig:occupancygridmaps}.a. A cada una de estas celdas se le asocia un valor que expresa la probabilidad
@@ -82,7 +82,9 @@ de que dicha celda esté ocupada por un obstáculo, dados todos los datos de los
 Un ejemplo de un mapa generado por un LIDAR 2D puede observarse en la Figura \ref{fig:occupancygridmaps}.b, donde los cuadros blancos corresponden a celdas libres, los negros a las ocupadas y, las grises, a las que no se tiene información alguna. A su vez, estos mapas pueden llevarse a la espacio tridimensional para representar datos provenientes de, por ejemplo, LIDAR 3D o cámaras.
 
 \subsubsection{Mapas de características}
-A diferencia de los Occupancy Grid Maps, los cuales generan un mapa denso del ambiente, los \textit{mapas de características} contienen sólo la posición de distintos landmarks o características del ambiente, resultando en un mapa disperso. Un ejemplo del mismo puede verse en la Figura \ref{fig:dataassociation} \textbf{O PONGO OTRA IMG?}. Dependiendo del principio de medición del sensor que recolecta estos landmarks, existen diferentes tipos de ellos
+A diferencia de los Occupancy Grid Maps, los cuales generan un mapa denso del ambiente, los \textit{mapas de características} contienen sólo la posición de distintos landmarks o características del ambiente, resultando en un mapa disperso. Un ejemplo del mismo puede verse en la Figura \ref{fig:dataassociation}.
+%\textbf{O PONGO OTRA IMG?}
+Dependiendo del principio de medición del sensor que recolecta estos landmarks, existen diferentes tipos de ellos
 \begin{itemize}
     \item \textit{El Rango y el rumbo} se conocen, tal como es el caso de las cámaras estéreo o las cámaras RGB-D, en el que la ubicación del landmark respecto al sensor se encuentra bien definida, resultando ser el más sencillo de los tres tipos. En la Figura \ref{fig:landmarktypes}.a puede observarse al mismo.
     \item \textit{Sólo el rango} es conocido, como se observa en la Figura \ref{fig:landmarktypes}.b, haciendo que sea necesario triangular, por ejemplo, para la señal de WiFi, entre la fuerza de la señal recibida de diferentes routers y así conseguir la ubicación del robot en base a estos.
@@ -133,10 +135,9 @@ Al considerar un mapa estático, el único factor variante en el tiempo es el mo
         \bm{\mathcal{M}}
     \end{bmatrix}
 \end{equation}
-donde $\bm{p}$ corresponde a la pose del robot\footnote{Por lo general se suele incorporar la velocidad, ya que se utilizan las ecuaciones de la física clásica. Para la orientación puede utilizarse la forma de cuaterniones mediante la Expresión (\ref{eq:edoquaternion}).} y $\bm{\mathcal{M}}=(\mathcal{L}_1,...,\mathcal{L}_n)$ corresponde a los estados de los landmarks, siendo $n$ la cantidad de ellos detectados. En base a este, el resto de los parámetros del filtro de Kalman Extendido se modificarán respecto al visto en la Sección \ref{sec:stateestimation}\textbf{[SOLA 2014]}. Puede verse que a medida que el mapa aumenta, el costo computacional se incrementará, ya que se tendrán cada vez más landmarks.
+donde $\bm{p}$ corresponde a la pose del robot\footnote{Por lo general se suele incorporar la velocidad, ya que se utilizan las ecuaciones de la física clásica. Para la orientación puede utilizarse la forma de cuaterniones mediante la Expresión (\ref{eq:edoquaternion}).} y $\bm{\mathcal{M}}=(\mathcal{L}_1,...,\mathcal{L}_n)$ corresponde a los estados de los landmarks, siendo $n$ la cantidad de ellos detectados. En base a este, el resto de los parámetros del filtro de Kalman Extendido se modificarán respecto al visto en la Sección \ref{sec:stateestimation} \cite{sola2014}. Puede verse que a medida que el mapa aumenta, el costo computacional se incrementará, ya que se tendrán cada vez más landmarks.
 
-Además de la complejidad cuadrática, este filtro cuando se aplica al problema SLAM tiene como desventaja sustancial \textbf{[Csorba 1997 DE SU - FAST-SLAM]}
-la sensibilidad a fallas que presenta en las asociaciones de datos. Este problema con el EKF se aplica en situaciones en las que se desconocen las asociaciones de datos. El EKF mantiene una única hipótesis de asociación de datos por observación, típicamente elegida usando una heurística de máxima verosimilitud. Si la asociación de datos elegida por esta heurística es incorrecta, el efecto de incorporar esta observación en el EKF nunca se puede eliminar.
+Además de la complejidad cuadrática, este filtro cuando se aplica al problema SLAM tiene como desventaja sustancial \cite{csorba1997} la sensibilidad a fallas que presenta en las asociaciones de datos. Este problema con el EKF se aplica en situaciones en las que se desconocen las asociaciones de datos. El EKF mantiene una única hipótesis de asociación de datos por observación, típicamente elegida usando una heurística de máxima verosimilitud. Si la asociación de datos elegida por esta heurística es incorrecta, el efecto de incorporar esta observación en el EKF nunca se puede eliminar.
 
 % \subsubsection{FastSLAM}
 
