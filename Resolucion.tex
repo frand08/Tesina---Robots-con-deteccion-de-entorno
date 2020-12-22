@@ -427,20 +427,20 @@ Una vez con las nubes de puntos de profundidad provenientes de la cámara, el pr
 \end{figure}
 
 \subsubsection{Etapa de selección de datos}
-Debido a que se utiliza una resolución de 640x480, hay una gran cantidad de puntos, haciendo que el costo computacional sea muy alto por cada corrida del algoritmo. Para ello, lo primero que se hace es un filtrado de dichos datos. Tal como se menciona en \cite{holz2015}, es importante conservar los bordes, por lo que el filtro bilateral es una buena opción. En PCL es implementado mediante \lstinline{pcl::FastBilateralFilter}.
+Debido a que se utiliza una resolución de 640x480, hay una gran cantidad de puntos, haciendo que el costo computacional sea muy alto por cada corrida del algoritmo. Para ello, lo primero que se hace es un filtrado de dichos datos. Tal como se menciona en \cite{holz2015}, es importante conservar los bordes, por lo que el filtro bilateral es una buena opción. En PCL es implementado mediante \inline{pcl::FastBilateralFilter}.
 
-Como vimos en la Sección \ref{sec:marcoteorico}, las normales de los puntos ayudan no solo en la etapa de rechazo de correspondencias, sino también puede ser útil en la etapa de filtrado, como es el caso de \textit{normal space sampling}. Debido a que los datos originales son del tipo \lstinline{pcl::PointXYZRGB}, es necesario calcular dichas normales. Un método rápido para hacer esto es mediante el uso de imágenes integrales \cite{holzer2012}. La ventaja de este método es que solo requiere una etapa de preprocesamiento lineal al tiempo que permite calcular los vectores medios y las normas dentro de un área rectangular de la imagen en tiempo constante. Por lo tanto, en primera instancia mediante la implementación de PCL \lstinline{pcl::IntegralImageNormalEstimation} se calculan las normales, para luego realizar el \textit{normal space sampling}.
+Como vimos en la Sección \ref{sec:marcoteorico}, las normales de los puntos ayudan no solo en la etapa de rechazo de correspondencias, sino también puede ser útil en la etapa de filtrado, como es el caso de \textit{normal space sampling}. Debido a que los datos originales son del tipo \inline{pcl::PointXYZRGB}, es necesario calcular dichas normales. Un método rápido para hacer esto es mediante el uso de imágenes integrales \cite{holzer2012}. La ventaja de este método es que solo requiere una etapa de preprocesamiento lineal al tiempo que permite calcular los vectores medios y las normas dentro de un área rectangular de la imagen en tiempo constante. Por lo tanto, en primera instancia mediante la implementación de PCL \inline{pcl::IntegralImageNormalEstimation} se calculan las normales, para luego realizar el \textit{normal space sampling}.
 
-Como el algoritmo de \textit{normal space sampling} requiere de una nube de puntos ordenada, luego de este proceso se procede a la remoción de los datos inválidos de las nubes de puntos, mediante la implementación de PCL \lstinline{pcl::removeNaNFromPointCloud}.
+Como el algoritmo de \textit{normal space sampling} requiere de una nube de puntos ordenada, luego de este proceso se procede a la remoción de los datos inválidos de las nubes de puntos, mediante la implementación de PCL \inline{pcl::removeNaNFromPointCloud}.
 
 \subsubsection{Estimación de correspondencias}
-Una vez obtenidos los puntos filtrados y con sus respectivas normales (dando lugar entonces a puntos del tipo \lstinline{pcl::PointXYZRGBNormal}), se procede al cálculo de las correspondencias entre las nubes de puntos.
+Una vez obtenidos los puntos filtrados y con sus respectivas normales (dando lugar entonces a puntos del tipo \inline{pcl::PointXYZRGBNormal}), se procede al cálculo de las correspondencias entre las nubes de puntos.
 
 \subsubsection{Rechazo de correspondencias}
 Como se tienen tanto los datos de la posición como de la normal de cada punto, se emplean dos filtros de correspondencias
 \begin{itemize}
-    \item uno para filtrar la distancia mediante el uso de la mediana, dando lugar al \lstinline{pcl::registration::CorrespondenceRejectorMedianDistance}, y
-    \item  un segundo filtro en base a las superficies normales, esto es, \lstinline{pcl::registration::CorrespondenceRejectorSurfaceNormal}, asignando un peso a las correspondencias en base al error que presentan las cámaras RGB-D \cite{nguyen2012}, el cual puede generalizarse al modelo presente en la Ecuación \ref{eq:weightcorrespondences}, considerando dos puntos $\bm{p}$ y $\bm{q}$
+    \item uno para filtrar la distancia mediante el uso de la mediana, dando lugar al \inline{pcl::registration::CorrespondenceRejectorMedianDistance}, y
+    \item  un segundo filtro en base a las superficies normales, esto es, \inline{pcl::registration::CorrespondenceRejectorSurfaceNormal}, asignando un peso a las correspondencias en base al error que presentan las cámaras RGB-D \cite{nguyen2012}, el cual puede generalizarse al modelo presente en la Ecuación \ref{eq:weightcorrespondences}, considerando dos puntos $\bm{p}$ y $\bm{q}$
     \begin{align}
         w(\bm{p},\bm{q}) &= max(\sigma_z({\bm{p}_z}), \sigma_z(\bm{q}_z))
         \label{eq:weightcorrespondences} \\
@@ -451,7 +451,7 @@ Como se tienen tanto los datos de la posición como de la normal de cada punto, 
 En concreto, primero se realiza el filtro de mediana, y luego el filtro en base a la información de las normales.
 
 \subsubsection{Alineación}
-Finalmente, con las correspondencias restantes se procede al cálculo de la transformación que responde a las dos nubes de puntos. Para ello, se utiliza el principio de punto a plano, debido a su rápida convergencia y buena precisión comparado con el método de punto a punto. Por ello, utilizando la función de PCL \lstinline{pcl::registration::TransformationEstimationPointToPlaneWeighted} se llega a la transformación que describe en una primera instancia el movimiento realizado por el robot.
+Finalmente, con las correspondencias restantes se procede al cálculo de la transformación que responde a las dos nubes de puntos. Para ello, se utiliza el principio de punto a plano, debido a su rápida convergencia y buena precisión comparado con el método de punto a punto. Por ello, utilizando la función de PCL \inline{pcl::registration::TransformationEstimationPointToPlaneWeighted} se llega a la transformación que describe en una primera instancia el movimiento realizado por el robot.
 
 \subsubsection{Refinamiento y actualización}
 Debido a los posibles mínimos locales encontrados en lugar del mínimo global, para poder encontrar la transformación adecuada, se itera en los pasos de estimación de correspondencias, el rechazo de las mismas y el cálculo de la transformada, realizando la transformación de la nube de puntos fuente (filtrada y con sus respectivas normales) en base al resultado anterior, para luego calcular dichos valores nuevamente.

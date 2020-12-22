@@ -1,0 +1,25 @@
+\tdplotsetmaincoords{60}{110}
+\begin{tikzpicture}[scale=4,baseline,tdplot_main_coords]
+    \draw[thick,->] (0,0,0) -- (.7,0,0) node[anchor=north east]{$\undervec{\bm{\mathcal{F}}}_i$};
+    \draw[thick,->] (0,0,0) -- (0,.7,0);
+    \draw[thick,->] (0,0,0) -- (0,0,.7);
+    
+    \coordinate (Shift) at (1,1.5,1);
+    \coordinate (Point) at (2,2.4,3);
+    \draw[thick,->,blue] (0,0,0) -- (Shift) node[midway,anchor=north west]{$\undervec{\bm{r}}^{vi}$};
+    
+    
+    \draw[thick,->,blue] (0,0,0) -- (Point) node[midway,anchor=south east]{$\undervec{\bm{r}}^{pi}$};
+    
+    \draw[thick,->,blue] (Shift) -- (Point) node[midway,anchor=north west]{$\undervec{\bm{r}}^{pv}$};
+    
+    \draw[fill=black] (Point) circle (0.03) node[above right] {$p$};
+    \tdplotsetrotatedcoords{20}{-10}{10}
+    
+    \tdplotsetrotatedcoordsorigin{(Shift)}
+    
+    \draw[thick,color=red,tdplot_rotated_coords,->] (0,0,0)-- (1,0,0) node[anchor=north east]{$\undervec{\bm{\mathcal{F}}}_v$};
+    \draw[thick,color=red,tdplot_rotated_coords,->] (0,0,0)-- (0,.7,0);
+    \draw[thick,color=red,tdplot_rotated_coords,->] (0,0,0)-- (0,0,.7);
+    
+\end{tikzpicture}

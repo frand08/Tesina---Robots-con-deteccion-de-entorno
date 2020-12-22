@@ -1,0 +1,16 @@
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}[tdplot_main_coords,line cap=round,>=stealth,scale=0.75]
+ \begin{scope}[roll=10,canvas is xy plane at z=0] 
+  \foreach \X in {1,...,5}
+   {\draw[dotted] circle[radius=\X*1cm];}
+  \draw[thick] circle[radius=6cm];
+  \draw[-{Latex[bend]},thick] (90:6) arc[start angle=90,end angle=180,radius=6cm];
+  \draw[-{Latex[bend]},thick] (270:6) arc[start angle=270,end angle=360,radius=6cm];
+  \path (45:6) node[circle,fill,inner sep=1.5pt,label=below:$m$] (m){};
+  \draw[-Latex,thick] (0,0) -- (m);
+  \draw[-Latex,thick]  (m) -- ++ (135:6) node[near end,below]{$v$};
+  \draw[->] (0,0,0) coordinate (O) -- (4,0) node[pos=1.1] {$x$};
+  \draw[->] (O) -- (0,4) node[pos=1.1] {$y$};
+ \end{scope} 
+ \draw[-Latex,thick] (O) -- (0,0,4) node[pos=1.1] {$L$};
+\end{tikzpicture}

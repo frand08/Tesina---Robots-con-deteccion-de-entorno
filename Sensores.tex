@@ -186,7 +186,7 @@ Para calibrar cámaras monoculares mediante ROS, se encuentra el paquete disponi
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Img/MonocularCameraCalibration.png}
-    \caption{Menú de calibración ROS para cámras monoculares}
+    \caption{Menú de calibración provisto de ROS para cámras monoculares}
     \label{fig:monocularcameracalibration}
 \end{figure}
 
@@ -299,7 +299,7 @@ Sin embargo, las IMUs comerciales de costo elevado presentan también estos prob
 
 \subsubsection{Calibración del acelerómetro y del giróscopo}
 % \paragraph{Acelerómetro-Giróscopo}
-Para evitar el uso de equipamiento específico, en \cite{tedaldi2014} se propone utilizar solo el movimiento propio de la IMU y sus estados intermedios estáticos para calibrar tanto el giróscopo como el acelerómetro. Este procedimiento explota la idea básica del método de múltiples posiciones, presentado primero en \cite{lotters1998} para la calibración de acelerómetros: en una posición estática, las normas de las aceleraciones medidas son iguales a las magnitudes de la gravedad más un multi-factor de error de origen (es decir, incluye \textit{bias}, desalineación, ruido, entre otros). Todas estas cantidades pueden estimarse a través de la minimización sobre un conjunto de actitudes estáticas. 
+Para evitar el uso de equipamiento específico, en Tedaldi \cite{tedaldi2014} se propone utilizar solo el movimiento propio de la IMU y sus estados intermedios estáticos para calibrar tanto el giróscopo como el acelerómetro. Este procedimiento explota la idea básica del método de múltiples posiciones, presentado primero en \cite{lotters1998} para la calibración de acelerómetros: en una posición estática, las normas de las aceleraciones medidas son iguales a las magnitudes de la gravedad más un multi-factor de error de origen (es decir, incluye \textit{bias}, desalineación, ruido, entre otros). Todas estas cantidades pueden estimarse a través de la minimización sobre un conjunto de actitudes estáticas. 
 
 Después de la calibración de la tríada del acelerómetro, es posible utilizar las posiciones del vector de gravedad medidas por los acelerómetros como referencia para calibrar la tríada del giroscopio. Es por esto que la exactitud de la calibración del giroscopo depende fuertemente de la exactitud de la calibración del acelerómetro. Al integrar las velocidades angulares entre dos posiciones estáticas consecutivas, se consigue estimar las posiciones de gravedad en la nueva orientación. La calibración de los giroscopios finalmente se obtiene minimizando los errores entre estas estimaciones y las referencias de gravedad dadas por los acelerómetros calibrados.
 

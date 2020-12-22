@@ -10,15 +10,21 @@ Este trabajo forma parte de un trabajo final de carrera en desarrollo, el cual p
 
 Como este proyecto se engloba dentro de un problema de SLAM con fusión sensorial entre la cámara, LIDAR 2D e IMU, se pretende que el algoritmo mejore considerablemente a la hora de realizar dicha fusión.
 \else
-En el trabajo presentado se logró, en primera instancia, el desarrollo de una plataforma versátil para aplicaciones robóticas en general. 
+En el trabajo presentado se logró, en primera instancia, diseñar una plataforma versátil para aplicaciones robóticas en general, ya sea para robots terrestres como para robots aéreos en primera instancia, gracias a los sensores que presenta la misma por defecto. A su vez, si se pretende extender a la misma a otras aplicaciones (incluso si se quiere agregar redundancia de sensores, por ejemplo), la misma cuenta con el factor de forma PC104, permitiendo así extender sus funcionalidades en caso de que sea necesario bajo un estándar conocido en la industria.
 
-Luego, se realizaron distintas calibraciones de sensores de interés en las distintas áreas de la robótica, tal como la IMU y las cámaras.
+Luego, en base a los sensores seleccionados anteriormente, se realizaron distintas calibraciones de los mismos. Cabe destacar que, si bien los datos provistos de la calibración de la IMU no parece ser en primera instancia numéricamente significativa, el hecho de que se integre dos veces el valor de la aceleración por cada muestra del sensor hace que, si el dato no es lo mas próximo a la realidad, hará que aumente el error de dicha estimación de posición y, en consecuente, diverja al poco tiempo. Si bien el hecho de realizar la estimación de la posición en base a los datos de la IMU únicamente es una tarea muy compleja, la correcta calibración de la misma permitiría una mejor estimación de la pose en una futura fusión sensorial.
 
-A continuación, se realizaron las comprobaciones prácticas en una cámara estéreo para luego realizar un algoritmo de SLAM 3D en base a los datos de una cámara RGB-D, con la capacidad de poder reconstruir un mapa símil al real, y obteniendo las poses relativas de cada iteración. 
+A continuación, se realizaron las comprobaciones prácticas en una cámara estéreo, desde la adquisición de los datos hasta la obtención de la nube de puntos arrojada por la misma.
+
+Como no se dispuso de una forma de corroborar las poses obtenidas en cada instante mediante los datos reales, se optó por el uso de simulaciones mediante Gazebo, utilizando el modelo del robot ROSbot 2.0, ya que cuenta con una cámara RGB-D, un LIDAR 2D y una IMU, entre otros sensores.
+
+Luego, se realizó un algoritmo de SLAM 3D en base a los datos de la cámara RGB-D y, utilizando los datos obtenidos de las simulaciones, se pudo reconstruir un mapa símil al real, obteniendo las poses relativas de cada iteración.
 
 A su vez, con el uso de un LIDAR 2D ayudado por los datos de una IMU se consiguió resolver el problema de SLAM 2D, con tiempos considerables como para que el mismo pueda implementarse en tiempo real.
 
-Si bien es cierto que se realizaron las mediciones en base a simulaciones, el hecho de haber incorporado ROS permite que el código pueda adaptarse fácilmente no solo a un entorno real, sino también a cualquier robot, permitiendo entonces una gran flexibilidad a la hora de utilizarlo. 
+Si bien es cierto que se realizaron las mediciones en base a simulaciones, el hecho de haber incorporado ROS permite que el código pueda adaptarse fácilmente no solo a un entorno real, sino también a cualquier robot, permitiendo entonces una gran flexibilidad a la hora de utilizarlo.
+
+Si bien este trabajo pretende realizar mejoras, las cuales se tratarán en la Sección \ref{sec:futureworks}, el código fuente realizado se encuentra disponible en el repositorio \textit{ramon\_slam}\footnote{\url{https://github.com/frand08/ramon_slam}} a todo aquel que pretenda incursionar ya sea con SLAM, calibraciones, simulaciones o la implementación de ROS en microcontroladores, entre otras características realizadas. En el mismo también se encuentra una guía de instalación de los distintos módulos a todo aquel que quiera utilizar el código.
 
 %Respecto a los tiempos de procesamiento del algoritmo, los mismos son suficientes para el movimiento de robots en velocidades moderadas, en cambio si se pretende utilizar al mismo a una gran velocidad es posible que no pueda obtener los resultados esperados, debido a que el algoritmo espera que la nube de puntos anterior no esté muy alejada de la nueva nube de puntos. 
 

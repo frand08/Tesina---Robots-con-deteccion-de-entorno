@@ -1,6 +1,6 @@
 \section{Simultaneous Localization And Mapping}
 \label{sec:slam}
-Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores. Si se quiere profundizar más en el tema se recomienda consultar \cite{suenderhauf2012}\cite{reid2016}.
+Esta sección describe los conocimientos básicos respecto a la Localización y Mapeo Simultáneos (SLAM), a la vez de introducir parte de los algoritmos y sensores mencionados en secciones anteriores. Si se quiere profundizar más en el tema se recomienda consultar Sünderhauf \cite{suenderhauf2012} y Reid \cite{reid2016}.
 
 \subsection{Introducción al SLAM}
 El problema de localización y mapeo simultáneos (SLAM) se basa en el proceso de un robot que construye un mapa de su entorno desconocido (\textit{mapping}) mientras este lo explora conociendo su ubicación en el mismo (\textit{localization}). Dicho problema puede ser expresado como el dilema del huevo o la gallina, ya que para conocer la ubicación del robot, es necesario determinar el mapa que lo rodea, sin embargo, para que el mismo pueda estimar el mapa en el cual se encuentra, necesita primero conocer su ubicación dentro de ese entorno. 
@@ -20,14 +20,16 @@ El SLAM es un problema difícil ya que, debido al ruido de los sensores utilizad
 Sin embargo, el uso de enfoques de estimación de estado para describir el problema de SLAM implica resolver una serie de inconvenientes que se generan a partir del mismo, siendo de los más destacados la \textit{asociación de datos} \cite{duarrant2006a}\cite{duarrant2006b} y el \textit{cierre de ciclo}.
 
 \subsubsection{Asociación de datos}
-Uno de los problemas comunes dentro del SLAM corresponde a la asociación de datos (\textit{data asociation}), el cual es el proceso de asociar los datos de los sensores utilizados con las características del ambiente, generando de esta forma los landmarks. En otras palabras, se busca asociar la medición del sensor con alguno de los \textit{n} landmarks ya extraídos y, en caso de que no pertenezca a ninguno de ellos, se generará un landmark nuevo \textit{n+1}. Es importante poder discernir de cuál landmark se trata o si es en efecto uno nuevo, ya que debido al ruido inherente de los sensores puede que caiga entre dos de ellos, como puede observarse en la Figura \ref{fig:dataassociation}, haciendo que pueda tender equívocamente al incorrecto, o creer que no se tiene dicho landmark cuando en realidad era uno ya medido.
+Uno de los problemas comunes dentro del SLAM corresponde a la asociación de datos (\textit{data asociation}), el cual es el proceso de asociar los datos de los sensores utilizados con las características del ambiente, generando de esta forma los landmarks. En otras palabras, se busca asociar la medición del sensor con alguno de los \textit{n} landmarks ya extraídos y, en caso de que no pertenezca a ninguno de ellos, se generará un landmark nuevo \textit{n+1}. Es importante poder discernir de cuál landmark se trata o si es en efecto uno nuevo, ya que debido al ruido inherente de los sensores puede que caiga entre dos de ellos, 
+% como puede observarse en la Figura \ref{fig:dataassociation}, 
+haciendo que pueda tender equívocamente al incorrecto, o creer que no se tiene dicho landmark cuando en realidad era uno ya medido.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{Img/DataAssociation.png}
-    \caption{El problema de la asociación de datos: dificultad de discernir si el landmark detectado (rojo) corresponde a alguno de los ya existentes, o si en realidad es uno del que no se tuvo registro anteriormente}
-    \label{fig:dataassociation}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%     \includegraphics[width=\textwidth]{Img/DataAssociation.png}
+%     \caption{El problema de la asociación de datos: dificultad de discernir si el landmark detectado (rojo) corresponde a alguno de los ya existentes, o si en realidad es uno del que no se tuvo registro anteriormente}
+%     \label{fig:dataassociation}
+% \end{figure}
 
 \subsubsection{Online SLAM y full SLAM}
 Los mapas SLAM se construyen a partir de millones de lecturas de sensores, que se comparan entre sí en un paso de asociación de datos que depende completamente de las estimaciones de pose actuales. Para este caso, en el que tanto la pose como el mapa se expresan sólo en base a las mediciones del paso de tiempo actual, el problema se lo conoce como \textit{online SLAM} y se expresa mediante el posterior
@@ -82,24 +84,30 @@ de que dicha celda esté ocupada por un obstáculo, dados todos los datos de los
 Un ejemplo de un mapa generado por un LIDAR 2D puede observarse en la Figura \ref{fig:occupancygridmaps}.b, donde los cuadros blancos corresponden a celdas libres, los negros a las ocupadas y, las grises, a las que no se tiene información alguna. A su vez, estos mapas pueden llevarse a la espacio tridimensional para representar datos provenientes de, por ejemplo, LIDAR 3D o cámaras.
 
 \subsubsection{Mapas de características}
-A diferencia de los Occupancy Grid Maps, los cuales generan un mapa denso del ambiente, los \textit{mapas de características} contienen sólo la posición de distintos landmarks o características del ambiente, resultando en un mapa disperso. Un ejemplo del mismo puede verse en la Figura \ref{fig:dataassociation}.
+A diferencia de los Occupancy Grid Maps, los cuales generan un mapa denso del ambiente, los \textit{mapas de características} contienen sólo la posición de distintos landmarks o características del ambiente, resultando en un mapa disperso. 
+% Un ejemplo del mismo puede verse en la Figura \ref{fig:dataassociation}.
 %\textbf{O PONGO OTRA IMG?}
 Dependiendo del principio de medición del sensor que recolecta estos landmarks, existen diferentes tipos de ellos
 \begin{itemize}
-    \item \textit{El Rango y el rumbo} se conocen, tal como es el caso de las cámaras estéreo o las cámaras RGB-D, en el que la ubicación del landmark respecto al sensor se encuentra bien definida, resultando ser el más sencillo de los tres tipos. En la Figura \ref{fig:landmarktypes}.a puede observarse al mismo.
-    \item \textit{Sólo el rango} es conocido, como se observa en la Figura \ref{fig:landmarktypes}.b, haciendo que sea necesario triangular, por ejemplo, para la señal de WiFi, entre la fuerza de la señal recibida de diferentes routers y así conseguir la ubicación del robot en base a estos.
-    \item \textit{Sólo el rumbo} es conocido, observado en la Figura \ref{fig:landmarktypes}.c, como es el caso de las cámaras monoculares, haciendo difícil medir la profundidad de cada punto.
+    \item \textit{El Rango y el rumbo} se conocen, tal como es el caso de las cámaras estéreo o las cámaras RGB-D, en el que la ubicación del landmark respecto al sensor se encuentra bien definida, resultando ser el más sencillo de los tres tipos. 
+    % En la Figura \ref{fig:landmarktypes}.a puede observarse al mismo.
+    \item \textit{Sólo el rango} es conocido,
+    % como se observa en la Figura \ref{fig:landmarktypes}.b, 
+    haciendo que sea necesario triangular, por ejemplo, para la señal de WiFi, entre la fuerza de la señal recibida de diferentes routers y así conseguir la ubicación del robot en base a estos.
+    \item \textit{Sólo el rumbo} es conocido,
+    % observado en la Figura \ref{fig:landmarktypes}.c, 
+    como es el caso de las cámaras monoculares, haciendo difícil medir la profundidad de cada punto.
 \end{itemize}
 
-\begin{figure}[!ht]
-    \centering
-    \subfloat[Se tiene rango y rumbo]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkRangeBearing.png}}}%
-    \qquad
-    \subfloat[Se tiene sólo el rango]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkRange.png}}}%
-    \subfloat[Se tiene sólo el rumbo]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkBearing.png}}}%
-    \caption{Tipos de landmarks}
-    \label{fig:landmarktypes}
-\end{figure}
+% \begin{figure}[!ht]
+%     \centering
+%     \subfloat[Se tiene rango y rumbo]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkRangeBearing.png}}}%
+%     \qquad
+%     \subfloat[Se tiene sólo el rango]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkRange.png}}}%
+%     \subfloat[Se tiene sólo el rumbo]{{\includegraphics[width=0.3\textwidth]{Img/LandmarkBearing.png}}}%
+%     \caption{Tipos de landmarks}
+%     \label{fig:landmarktypes}
+% \end{figure}
 
 % \subsubsection{Grafos de pose}
 % Los grafos de pose representan la trayectoria del robot como una estructura grafos donde los nodos representan las poses del robot y los bordes entre los nodos representan las conexiones espaciales entre estas poses. Los bordes contienen, por ejemplo, información de odometría o expresan cierres de ciclo. En la Figura puede verse el esquema de un grafo de pose, donde la trayectoria del robot es representada por los grafos donde los nodos son las poses del robot en un punto concreto de tiempo.

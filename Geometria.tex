@@ -1,5 +1,5 @@
 \section{Geometría tridimensional y marcos de referencia}
-En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y traslación, junto con algunas de sus representaciones. Si se quiere profundizar en este tema, puede referirse a \cite{barfoot2020}.%\textbf{(Barfoot, 2016)}.
+En la presente sección se presentará la geometría tridimensional y específicamente el concepto de rotación y traslación, junto con algunas de sus representaciones. Si se quiere profundizar en este tema, puede referirse a Barfoot \cite{barfoot2020}.%\textbf{(Barfoot, 2016)}.
 
 Los robots móviles generalmente son libres de trasladarse y rotar. Matemáticamente, tienen seis grados de libertad: tres en traslación y tres en rotación. Esta configuración geométrica de seis grados de libertad se conoce como la \textit{pose} (posición y orientación) del robot. Algunos robots pueden tener múltiples cuerpos conectados entre sí; en este caso cada cuerpo tiene su propia pose. Consideraremos solo el caso de un solo cuerpo en el presente trabajo.
 
@@ -30,12 +30,20 @@ Si se quisiera expresar al vector $\undervec{r}$ para dos marcos de coordenadas 
     \undervec{\bm{\mathcal{F}}}_a &\rightarrow \bm{r}_a \\
     \undervec{\bm{\mathcal{F}}}_b &\rightarrow \bm{r}_b
 \end{align}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\textwidth]{Img/RotatedCoordinateFrames.png}
+%     \caption{Dos marcos de coordenadas con un vector en el espacio fijo}
+%     \label{fig:rotatedcoordinateframes_old}
+% \end{figure}
+
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{Img/RotatedCoordinateFrames.png}
+    \input{Tikz/coord_two_vecspace}
     \caption{Dos marcos de coordenadas con un vector en el espacio fijo}
     \label{fig:rotatedcoordinateframes}
 \end{figure}
+
 
 Ya que para este caso el origen de ambos marcos es el mismo, las coordenadas del vector están relacionadas mediante una \textit{matriz de rotación}
 \begin{equation}
@@ -80,38 +88,30 @@ La matriz de rotación describe la orientación tanto global como única. Esto r
 \subsubsection{Rotaciones principales}
 Antes de entrar en rotaciones más complejas, hay que tomar por caso las rotaciones elementales, o sea, las que se efectúan tomando un eje de coordenadas. La situación donde $\undervec{\bm{\mathcal{F}}}_b$ ha sido rotado de $\undervec{\bm{\mathcal{F}}}_a$ a través de una rotación sobre los tres ejes, lo que puede observarse en la Figura \ref{fig:rotations}.
 
-\begin{figure}[!h]
+% \begin{figure}[!h]
+%     \centering
+%     \subfloat[Rotación alrededor de $z$]{\includegraphics[width=.33\textwidth]{Img/RotationInX.png}}
+%     \hfill
+%     \subfloat[Rotación alrededor de $y$]{\includegraphics[width=.33\textwidth]{Img/RotationInY.png}}
+%     \hfill
+%     \subfloat[Rotación alrededor de $x$]{\includegraphics[width=.33\textwidth]{Img/RotationInZ.png}}
+%     \caption{Rotaciones principales}
+%     \label{fig:rotations_old}
+% \end{figure}
+
+\begin{figure}
     \centering
-    \subfloat[Rotación alrededor de $z$]{\includegraphics[width=.33\textwidth]{Img/RotationInX.png}}
-    \hfill
-    \subfloat[Rotación alrededor de $y$]{\includegraphics[width=.33\textwidth]{Img/RotationInY.png}}
-    \hfill
-    \subfloat[Rotación alrededor de $x$]{\includegraphics[width=.33\textwidth]{Img/RotationInZ.png}}
+    \subfloat[Rotación alrededor de $x$]{\input{Tikz/coord_rot_x}}
+    \quad
+    \subfloat[Rotación alrededor de $y$]{\input{Tikz/coord_rot_y}}
+    \quad
+    \subfloat[Rotación alrededor de $z$]{\input{Tikz/coord_rot_z}}
     \caption{Rotaciones principales}
+    \quad
     \label{fig:rotations}
 \end{figure}
 
-La matriz de rotación para el caso de la Figura \ref{fig:rotations}.a, el cual corresponde a una sobre el eje $3$, es
-\begin{equation}
-    \bm{C}_3 = 
-    \begin{bmatrix}
-        \cos \theta_3 & \sin \theta_3 & 0 \\
-        -\sin \theta_3 & \cos \theta_3 & 0 \\
-        0 & 0 & 1
-    \end{bmatrix}
-\end{equation}
-
-En cambio, la matriz de rotación para el eje $2$, como se aprecia en la Figura \ref{fig:rotations}.b,
-\begin{equation}
-    \bm{C}_2 = 
-    \begin{bmatrix}
-        \cos \theta_2 & 0 & - \sin \theta_2 \\
-        0 & 1 & 0 \\
-        \sin \theta_2 & 0 & \cos \theta_2
-    \end{bmatrix}
-\end{equation}
-
-Finalmente, la rotación en $1$ vista en la Figura \ref{fig:rotations}.c
+La matriz de rotación para el caso de la Figura \ref{fig:rotations}.a, el cual corresponde a una sobre el eje $x$, es
 \begin{equation}
     \bm{C}_1 = 
     \begin{bmatrix}
@@ -121,6 +121,26 @@ Finalmente, la rotación en $1$ vista en la Figura \ref{fig:rotations}.c
     \end{bmatrix}
 \end{equation}
 
+En cambio, la matriz de rotación para el eje $y$, como se aprecia en la Figura \ref{fig:rotations}.b,
+\begin{equation}
+    \bm{C}_2 = 
+    \begin{bmatrix}
+        \cos \theta_2 & 0 & - \sin \theta_2 \\
+        0 & 1 & 0 \\
+        \sin \theta_2 & 0 & \cos \theta_2
+    \end{bmatrix}
+\end{equation}
+
+Finalmente, la rotación en $z$ vista en la Figura \ref{fig:rotations}.c
+
+\begin{equation}
+    \bm{C}_3 = 
+    \begin{bmatrix}
+        \cos \theta_3 & \sin \theta_3 & 0 \\
+        -\sin \theta_3 & \cos \theta_3 & 0 \\
+        0 & 0 & 1
+    \end{bmatrix}
+\end{equation}
 
 
 \subsubsection{Ángulos de Euler}
@@ -410,9 +430,16 @@ De las tres representaciones vistas, esto es, la \textit{matriz de rotación}, l
 
 \subsection{Poses}
 Como se ha hablado anteriormente a la rotación, ahora se presenta a la notación de \textit{traslación}. Juntos, la traslación y rotación de un cuerpo se denomina \textit{pose}. Los problemas de estimación de la pose a menudo tienen que ver con la transformación de las coordenadas de un punto, $P$, entre un marco de vehículo en movimiento (en traslación y rotación) y un marco estacionario, como se muestra en la Figura \ref{fig:pose}.
-\begin{figure}[!b]
+% \begin{figure}[!b]
+%     \centering
+%     \includegraphics[width=\textwidth]{Img/Pose.png}
+%     \caption{Estimación de la pose de un vehículo}
+%     \label{fig:pose_old}
+% \end{figure}
+
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{Img/Pose.png}
+    \input{Tikz/coord_pose}
     \caption{Estimación de la pose de un vehículo}
     \label{fig:pose}
 \end{figure}
@@ -513,14 +540,14 @@ Hay muchas formas de administrar marcos de coordenadas y transformaciones entre 
 
 \subsection{Marcos de referencia}
 
-\begin{figure}
-    \centering
-    \subfloat[El marco \textit{e} en una cierta ubicación de la Tierra, el marco \textit{e} rotando con la Tierra, y el marco \textit{i}]{{\includegraphics[width=0.47\textwidth]{Img/CoordinateFramesnei.png}}}%
-    \qquad
-    \subfloat[El marco \textit{s} del LIDAR dentro del robot móvil, y el marco \textit{b} en el centro de masa del mismo]{{\includegraphics[width=0.47\textwidth]{Img/CoordinateFramesbs.png}}}%
-    \caption{Marcos de referencia presentados}
-    \label{fig:coordinateframes}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \subfloat[El marco \textit{e} en una cierta ubicación de la Tierra, el marco \textit{e} rotando con la Tierra, y el marco \textit{i}]{{\includegraphics[width=0.47\textwidth]{Img/CoordinateFramesnei.png}}}%
+%     \qquad
+%     \subfloat[El marco \textit{s} del LIDAR dentro del robot móvil, y el marco \textit{b} en el centro de masa del mismo]{{\includegraphics[width=0.47\textwidth]{Img/CoordinateFramesbs.png}}}%
+%     \caption{Marcos de referencia presentados}
+%     \label{fig:coordinateframes}
+% \end{figure}
 Con el fin de poder combinar todos los sensores a utilizar con sus respectivas referencias para formar la estimación de estado y el mapa, es necesario introducir una serie de marcos de coordenadas:
 \begin{itemize}
     \item \textbf{Marco del vehículo (vehicle frame)$\undervec{\bm{\mathcal{F}}}_v$ o marco del cuerpo (body frame)} $\undervec{\bm{\mathcal{F}}}_b$: Es el marco de coordenadas del robot en movimiento. Su origen suele encontrarse en el centro de masa.
@@ -530,4 +557,4 @@ Con el fin de poder combinar todos los sensores a utilizar con sus respectivas r
     \item \textbf{Marco de la Tierra (Earth frame)} $\undervec{\bm{\mathcal{F}}}_e$: Coincide con el marco $\undervec{\bm{\mathcal{F}}}_i$, pero gira con la Tierra. Es decir, tiene su origen en el centro de la Tierra y los ejes que se fijan con respecto a la Tierra. En particular, el eje $x$ se alinea con el Ecuador, el eje $y$ está asociado a la regla de la mano derecha, y el eje $z$ apunta al Norte verdadero.
 \end{itemize}
 
-Las coordenadas correspondientes a los marcos de la Tierra, de navegación e inercial pueden observarse en la Figura \ref{fig:coordinateframes}.a, mientras que las correspondientes al marco sensorial de, por ejemplo, un LIDAR, y al marco del vehículo se observan en la Figura \ref{fig:coordinateframes}.b. Estos serán de relevancia en las siguientes secciones.
+% Las coordenadas correspondientes a los marcos de la Tierra, de navegación e inercial pueden observarse en la Figura \ref{fig:coordinateframes}.a, mientras que las correspondientes al marco sensorial de, por ejemplo, un LIDAR, y al marco del vehículo se observan en la Figura \ref{fig:coordinateframes}.b. Estos serán de relevancia en las siguientes secciones.

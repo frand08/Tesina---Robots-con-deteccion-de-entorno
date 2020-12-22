@@ -1,0 +1,26 @@
+\tdplotsetmaincoords{50}{140}
+\begin{tikzpicture}[scale=4,baseline,tdplot_main_coords]
+    \coordinate (O) at (0,0,0);
+    
+    \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north west]{$\undervec{\bm{\mathcal{F}}}_a$};
+    \draw[thick,->] (0,0,0) -- (0,1,0);
+    \draw[thick,->] (0,0,0) -- (0,0,1);
+    
+    \draw[thick,->,blue] (0,0,0) -- (0,1,1) node[anchor=north west]{$\undervec{\bm{r}}$};
+    
+    \pgfmathsetmacro{\ax}{2}
+    \pgfmathsetmacro{\ay}{2}
+    \pgfmathsetmacro{\az}{1}
+    
+    \tdplotsetrotatedcoords{20}{20}{0}
+    
+    \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (.7,0,0) node[anchor=north west]{$\undervec{\bm{\mathcal{F}}}_b$};
+    \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (0,.8,0);
+    \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (0,0,1.2);
+    
+    \tdplotgetpolarcoords{\ax}{\ay}{\az}
+    
+    \tdplotsetthetaplanecoords{\tdplotresphi}
+    
+    
+\end{tikzpicture}

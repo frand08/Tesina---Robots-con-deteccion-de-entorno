@@ -2,7 +2,7 @@
 \begin{tikzpicture}[scale=4,baseline,tdplot_main_coords]
     \coordinate (O) at (0,0,0);
     
-    \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north west]{$x$};
+    \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
     \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
     \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=north west]{$z$};
     
@@ -12,9 +12,9 @@
     
     \tdplotsetrotatedcoords{20}{20}{0}
     
-    \draw[->,red] (0,0,0) -- (1,0,0) node[anchor=south]{$x'$};
+    \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (.7,0,0) node[anchor=north east]{$x'$};
     \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (0,.7,0) node[anchor=north west]{$y'$};
-    \draw[->,tdplot_rotated_coords,red] (0,0,0) -- (0,0,1) node[anchor=north east]{$z'$};
+    \draw[->,red] (0,0,0) -- (0,0,\az) node[anchor=north east]{$z'$};
     
     \tdplotgetpolarcoords{\ax}{\ay}{\az}
     
@@ -23,7 +23,7 @@
     % \tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{1}{0}%
     % % tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{1}{0}%
     % {\tdplotrestheta}{anchor=west}{$\theta = \tdplotrestheta$}
-    \tdplotdrawarc{(0,0,0)}{0.5}{230}{241}{anchor=south}{$\theta_1$}
-    \tdplotdrawarc{(0,0,0)}{0.5}{90}{110}{anchor=north west}{$\theta_1$}
+    \tdplotdrawarc{(0,0,0)}{0.5}{0}{30}{anchor=north}{$\theta_3$}
+    \tdplotdrawarc{(0,0,0)}{0.5}{90}{110}{anchor=north west}{$\theta_3$}
     
 \end{tikzpicture}

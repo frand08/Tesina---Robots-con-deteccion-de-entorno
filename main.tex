@@ -120,6 +120,13 @@
 % Para los grados ° con \textdegree
 \usepackage{textcomp}
 
+% Para poder poner codigo en el texto sin que se extienda de la hoja
+\def\inline#1{\lstinline[breaklines=true, basicstyle=\ttfamily]{#1}}
+
+% Para plotear con tikz en 3d
+\usepackage{tikz,ifthen,tikz-3dplot}
+\usetikzlibrary{babel,angles,arrows.meta,bending}
+
 % Para hacer estructura de carpetas
 \usepackage{forest}
 
@@ -160,8 +167,6 @@
 \makebox[0pt]{\raisebox{-3pt}{{\ttfamily\small #2}}}%
 }
 
-% Para plotear con tikz en 3d
-\usepackage{tikz-3dplot}
 
 \begin{document}
 
@@ -189,14 +194,14 @@
         \input{Conclusiones}
         \bibliographystyle{unsrt}
         \bibliography{thebibliography}
-    \else
-        \centering
-        \begin{figure}[t]
-        	\centering
-        	\includegraphics[scale=0.15]{utn.jpg}
-            \vspace{0.5cm}
-        \end{figure}%
     \fi
+\else
+    \centering
+    \begin{figure}[t]
+    	\centering
+    	\includegraphics[scale=0.15]{utn.jpg}
+        \vspace{0.5cm}
+    \end{figure}%
 \fi
 
 \ifimagenes
@@ -205,12 +210,12 @@
 	\vspace{1cm}
 	{\huge\bfseries SLAM 3D basado en cámara RGB-D y PCL\par}
 \else
-	{\LARGE Proyecto Final\par}
-    {\LARGE 2020\par}
-	\vspace{1cm}
 	{\huge\bfseries Robots con detección de entorno\par}
 	\vspace{1cm}
     {\LARGE Trabajo final de carrera\par}
+	\vspace{1cm}
+	{\LARGE Proyecto Final\par}
+    {\LARGE 2020\par}
 \fi
     \vspace{1cm}
 	{\Large\itshape Domínguez, Francisco\par}
